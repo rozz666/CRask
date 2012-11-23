@@ -5,7 +5,7 @@ Feature: Class instantiation
     Scenario: Class instantiation with no arguments
         Given a file named "classInstantiation.rask" with:
             """
-            [SomeClass new];
+            [SomeClass new]
             """
         When I translate "classInstantiation.rask" to C into "classInstantiation.c"
         Then file "classInstantiation.c" should contain:

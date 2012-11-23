@@ -6,7 +6,7 @@ Feature: Method call
         Given a file named "methodCall.rask" with:
             """
             object = nil
-            [object aMethod];
+            [object aMethod]
             """
         When I translate "methodCall.rask" to C into "methodCall.c"
         Then file "methodCall.c" should contain:

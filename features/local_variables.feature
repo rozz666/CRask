@@ -5,7 +5,7 @@ Feature: Local variables
     Scenario: Creating a new local variable by assignment
         Given a file named "local.rask" with:
             """
-            aVariable = nil;
+            aVariable = nil
             """
         When I translate "local.rask" to C into "local.c"
         Then file "local.c" should contain:
