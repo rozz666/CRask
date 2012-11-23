@@ -1,3 +1,3 @@
 #/bin/bash
-echo "int main() {" > $3
-echo "}" >> $3
+ruby `dirname $0`/../lib/craskc.rb $@
+
