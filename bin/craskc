@@ -1,3 +1,4 @@
-#/bin/bash
-ruby `dirname $0`/../lib/craskc.rb $@
+#!/usr/bin/env ruby
+$:.unshift(File.dirname(__FILE__) + '/../lib')
+require 'main'
 
