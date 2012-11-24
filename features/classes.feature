@@ -22,10 +22,10 @@ Feature: Class definitions
         Given a file named "classWithMethods.rask" with:
             """
             class ClassWithMethods {
-                def foo
-                end
-                def bar
-                end
+                def foo {
+                }
+                def bar {
+                }
             }
             """
         When I translate "classWithMethods.rask" to C into "classWithMethods.c"
