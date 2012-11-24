@@ -15,4 +15,4 @@ Feature: Class instantiation
             }
             
             """
-
+        And file "classInstantiation.c" should compile

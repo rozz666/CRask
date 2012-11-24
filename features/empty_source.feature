@@ -5,8 +5,9 @@ Feature: Empty source
         When I translate "empty.rask" to C into "empty.c"
         Then file "empty.c" should contain:
             """
+            #include <crask.h>
             int main() {
             }
             
             """
-
+        And file "empty.c" should compile

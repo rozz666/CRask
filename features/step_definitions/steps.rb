@@ -28,3 +28,8 @@ Then /^file "([^"]*)" should contain:$/ do |cfile, source|
     File.open(cfile).read.should == source
 end
 
+Then /^file "([^"]*)" should compile$/ do |cfile|
+    gccOutput = %x(gcc "#{cfile}" -Ilibcrask/include -o a.out 2>&1 && rm a.out)
+    $?.exitstatus.should be(0), gccOutput
+end
+

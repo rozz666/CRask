@@ -17,4 +17,4 @@ Feature: Method call
             }
             
             """
-
+        And file "methodCall.c" should compile

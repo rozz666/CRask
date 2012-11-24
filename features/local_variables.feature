@@ -15,4 +15,4 @@ Feature: Local variables
             }
             
             """
-
+        And file "local.c" should compile

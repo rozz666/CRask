@@ -16,6 +16,7 @@ Feature: Class definitions
             }
             
             """
+        And file "someClass.c" should compile
 
     @wip
     Scenario: A class with methods
@@ -42,4 +43,4 @@ Feature: Class definitions
             }
             
             """
-
+        And file "classWithMethods.c" should compile
