@@ -28,7 +28,8 @@ CRASK_OBJECT CRASK_NIL = 0;
 
 namespace {
 
-std::unordered_map<std::string, std::unique_ptr<CRASK_CLASS_> > g_classes;
+std::vector<std::unique_ptr<CRASK_CLASS_> > g_classes;
+std::unordered_map<std::string, CRASK_CLASS> g_namedClasses;
 std::unordered_map<std::string, std::unique_ptr<CRASK_METHOD_> > g_methods;
 
 }
@@ -42,14 +43,18 @@ extern "C" {
 
 CRASK_CLASS crask_registerClass(const char *className) {
     std::unique_ptr<CRASK_CLASS_> classInfo(new CRASK_CLASS_);
-    classInfo->self.cls = &*classInfo;
+    std::unique_ptr<CRASK_CLASS_> metaClassInfo(new CRASK_CLASS_);
+    classInfo->self.cls = &*metaClassInfo;
+    g_classes.push_back(std::move(metaClassInfo));
     CRASK_CLASS ptr = &*classInfo;
-    g_classes.insert({className, std::move(classInfo)});
+    g_classes.push_back(std::move(classInfo));
+    g_namedClasses.insert({className, ptr});
     return ptr;
 }
+
 CRASK_CLASS crask_getClass(const char *className) {
-    auto it = g_classes.find(className);
-    if (it == g_classes.end()) return CRASK_CLASS_NIL;
+    auto it = g_namedClasses.find(className);
+    if (it == g_namedClasses.end()) return CRASK_CLASS_NIL;
     return &*it->second;
 }
 

@@ -84,3 +84,15 @@ TEST_F(Classes, getMethodImplForObject_should_return_added_object_methods) {
     ASSERT_TRUE(methodImpl2 == dummyMethod2);
     crask_dispose(object);
 }
+
+TEST_F(Classes, classMethods_are_separate_from_methods) {
+    CRASK_OBJECT object = crask_createInstance(cls);
+    CRASK_METHOD method1 = crask_registerMethod("dummyMethod1");
+    crask_addClassMethodToClass(method1, dummyClassMethod1, cls);
+    crask_addMethodToClass(method1, dummyMethod1, cls);
+
+    ASSERT_TRUE(crask_getMethodImplForObject(method1, clsObj) == dummyClassMethod1);
+    ASSERT_TRUE(crask_getMethodImplForObject(method1, object) == dummyMethod1);
+
+    crask_dispose(object);
+}
