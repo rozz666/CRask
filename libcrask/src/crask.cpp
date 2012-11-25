@@ -68,4 +68,12 @@ CRASK_METHOD_IMPL crask_getMethodImplForObject(CRASK_METHOD method, CRASK_OBJECT
     return object->methods.find(method)->second;
 }
 
+CRASK_OBJECT crask_createInstance(CRASK_CLASS cls) {
+    return new CRASK_OBJECT_();
+}
+
+void crask_dispose(CRASK_OBJECT object) {
+    delete object;
+}
+
 }
