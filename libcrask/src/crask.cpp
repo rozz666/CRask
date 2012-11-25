@@ -32,24 +32,31 @@ std::vector<std::unique_ptr<CRASK_CLASS_> > g_classes;
 std::unordered_map<std::string, CRASK_CLASS> g_namedClasses;
 std::unordered_map<std::string, std::unique_ptr<CRASK_METHOD_> > g_methods;
 
+CRASK_CLASS allocClass(CRASK_CLASS metaClass) {
+    std::unique_ptr<CRASK_CLASS_> classInfo(new CRASK_CLASS_);
+    classInfo->self.cls = metaClass;
+    g_classes.push_back(std::move(classInfo));
+    return &*g_classes.back();
+}
+
 }
 
 void crask_reset() {
     g_classes.clear();
+    g_namedClasses.clear();
     g_methods.clear();
 }
 
 extern "C" {
 
 CRASK_CLASS crask_registerClass(const char *className) {
-    std::unique_ptr<CRASK_CLASS_> classInfo(new CRASK_CLASS_);
-    std::unique_ptr<CRASK_CLASS_> metaClassInfo(new CRASK_CLASS_);
-    classInfo->self.cls = &*metaClassInfo;
-    g_classes.push_back(std::move(metaClassInfo));
-    CRASK_CLASS ptr = &*classInfo;
-    g_classes.push_back(std::move(classInfo));
-    g_namedClasses.insert({className, ptr});
-    return ptr;
+    auto it = g_namedClasses.find(className);
+    if (it != g_namedClasses.end())
+        return it->second;
+    CRASK_CLASS metaClass = allocClass(CRASK_CLASS_NIL);
+    CRASK_CLASS classInfo = allocClass(metaClass);
+    g_namedClasses.insert({className, classInfo});
+    return classInfo;
 }
 
 CRASK_CLASS crask_getClass(const char *className) {

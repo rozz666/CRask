@@ -29,6 +29,12 @@ TEST_F(Classes, getClass_should_return_a_class_registered_with_registerClass) {
     ASSERT_TRUE(b == crask_getClass("BClass"));
 }
 
+TEST_F(Classes, registerClass_should_return_existing_class) {
+    CRASK_CLASS cls1 = crask_registerClass("abc");
+    CRASK_CLASS cls2 = crask_registerClass("abc");
+    ASSERT_TRUE(cls1 == cls2);
+}
+
 CRASK_OBJECT dummyClassMethod1(CRASK_OBJECT, ...) {
     return CRASK_NIL;
 }
