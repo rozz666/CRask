@@ -48,3 +48,9 @@ TEST_F(Classes, getMethodImplForObject_for_class_should_return_added_class_metho
     CRASK_METHOD_IMPL methodImpl2 = crask_getMethodImplForObject(method2, clsObj);
     ASSERT_TRUE(methodImpl2 == dummyClassMethod2);
 }
+
+TEST_F(Classes, registerMethod_should_return_existing_method) {
+    CRASK_METHOD method1 = crask_registerMethod("abc");
+    CRASK_METHOD method2 = crask_registerMethod("abc");
+    ASSERT_TRUE(method1 == method2);
+}

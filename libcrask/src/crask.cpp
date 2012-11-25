@@ -52,9 +52,8 @@ CRASK_CLASS crask_getClass(const char *className) {
 
 CRASK_METHOD crask_registerMethod(const char *methodName) {
     std::unique_ptr<CRASK_METHOD_> methodInfo(new CRASK_METHOD_(methodName));
-    CRASK_METHOD ptr = &*methodInfo;
-    g_methods.insert({methodName, std::move(methodInfo)});
-    return ptr;
+    auto it = g_methods.insert({methodName, std::move(methodInfo)});
+    return &*it.first->second;
 }
 
 void crask_addClassMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
