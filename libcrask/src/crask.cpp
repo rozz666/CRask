@@ -7,7 +7,7 @@ extern "C" {
 
 struct CRASK_CLASS_ { };
 
-CRASK_CLASS CRASK_NIL = 0;
+CRASK_CLASS CRASK_CLASS_NIL = 0;
 
 }
 
@@ -31,7 +31,7 @@ CRASK_CLASS crask_registerClass(const char *className) {
 }
 CRASK_CLASS crask_getClass(const char *className) {
     auto it = g_classes.find(className);
-    if (it == g_classes.end()) return CRASK_NIL;
+    if (it == g_classes.end()) return CRASK_CLASS_NIL;
     return &*it->second;
 }
 

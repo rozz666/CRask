@@ -8,7 +8,7 @@ extern "C" {
 struct CRASK_CLASS_;
 typedef struct CRASK_CLASS_ *CRASK_CLASS;
 
-extern CRASK_CLASS CRASK_NIL;
+extern CRASK_CLASS CRASK_CLASS_NIL;
 
 CRASK_CLASS crask_registerClass(const char *className);
 CRASK_CLASS crask_getClass(const char *className);
