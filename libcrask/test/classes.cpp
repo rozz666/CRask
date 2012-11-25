@@ -62,7 +62,15 @@ TEST_F(Classes, createInstance_should_return_a_new_instance) {
     crask_dispose(inst1);
     crask_dispose(inst2);
 }
-/*
+
+CRASK_OBJECT dummyMethod1(CRASK_OBJECT, ...) {
+    return CRASK_NIL;
+}
+
+CRASK_OBJECT dummyMethod2(CRASK_OBJECT, ...) {
+    return CRASK_NIL;
+}
+
 TEST_F(Classes, getMethodImplForObject_should_return_added_object_methods) {
     CRASK_OBJECT object = crask_createInstance(cls);
     CRASK_METHOD method1 = crask_registerMethod("dummyMethod1");
@@ -75,4 +83,4 @@ TEST_F(Classes, getMethodImplForObject_should_return_added_object_methods) {
     CRASK_METHOD_IMPL methodImpl2 = crask_getMethodImplForObject(method2, object);
     ASSERT_TRUE(methodImpl2 == dummyMethod2);
     crask_dispose(object);
-}*/
+}

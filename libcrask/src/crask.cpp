@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include <bits/stl_algo.h>
 
 extern "C" {
 
@@ -12,11 +13,12 @@ struct CRASK_METHOD_ {
 
 struct CRASK_OBJECT_ {
     CRASK_CLASS cls;
-    std::unordered_map<CRASK_METHOD, CRASK_METHOD_IMPL> methods;
+    CRASK_OBJECT_() : cls(0) { }
 };
 
 struct CRASK_CLASS_ {
     CRASK_OBJECT_ self;
+    std::unordered_map<CRASK_METHOD, CRASK_METHOD_IMPL> methods;
 };
 
 CRASK_CLASS CRASK_CLASS_NIL = 0;
@@ -40,6 +42,7 @@ extern "C" {
 
 CRASK_CLASS crask_registerClass(const char *className) {
     std::unique_ptr<CRASK_CLASS_> classInfo(new CRASK_CLASS_);
+    classInfo->self.cls = &*classInfo;
     CRASK_CLASS ptr = &*classInfo;
     g_classes.insert({className, std::move(classInfo)});
     return ptr;
@@ -57,7 +60,7 @@ CRASK_METHOD crask_registerMethod(const char *methodName) {
 }
 
 void crask_addClassMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
-    cls->self.methods.insert({method, methodImpl});
+    cls->self.cls->methods.insert({method, methodImpl});
 }
 
 CRASK_OBJECT crask_getClassObject(CRASK_CLASS cls) {
@@ -65,15 +68,21 @@ CRASK_OBJECT crask_getClassObject(CRASK_CLASS cls) {
 }
 
 CRASK_METHOD_IMPL crask_getMethodImplForObject(CRASK_METHOD method, CRASK_OBJECT object) {
-    return object->methods.find(method)->second;
+    return object->cls->methods.find(method)->second;
 }
 
 CRASK_OBJECT crask_createInstance(CRASK_CLASS cls) {
-    return new CRASK_OBJECT_();
+    auto object = new CRASK_OBJECT_;
+    object->cls = cls;
+    return object;
 }
 
 void crask_dispose(CRASK_OBJECT object) {
     delete object;
+}
+
+void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
+    cls->methods.insert({method, methodImpl});
 }
 
 }
