@@ -101,6 +101,14 @@ TEST_F(Classes, classMethods_are_separate_from_methods) {
     ASSERT_TRUE(crask_getMethodImplForObject(method1, object) == dummyMethod1);
 }
 
+TEST_F(Classes, getObjectClass_should_return_class_of_an_object) {
+    ASSERT_TRUE(crask_getObjectClassObject(object) == clsObj);
+}
+
+TEST_F(Classes, metaclasses_should_have_no_class_objects) {
+    ASSERT_TRUE(crask_getObjectClassObject(clsObj) == CRASK_NIL);
+}
+
 TEST_F(Classes, getVariableFromObject_should_return_NULL_when_variables_does_not_exist)
 {
     ASSERT_TRUE(crask_getVariableFromObject("dummy", object) == 0);
