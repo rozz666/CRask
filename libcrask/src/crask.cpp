@@ -6,10 +6,7 @@
 
 extern "C" {
 
-struct CRASK_METHOD_ {
-    std::string name;
-    CRASK_METHOD_(std::string&& name) : name(name) { }
-};
+struct CRASK_METHOD_ { };
 
 struct CRASK_OBJECT_ {
     CRASK_CLASS cls;
@@ -66,7 +63,7 @@ CRASK_CLASS crask_getClass(const char *className) {
 }
 
 CRASK_METHOD crask_registerMethod(const char *methodName) {
-    std::unique_ptr<CRASK_METHOD_> methodInfo(new CRASK_METHOD_(methodName));
+    std::unique_ptr<CRASK_METHOD_> methodInfo(new CRASK_METHOD_);
     auto it = g_methods.insert({methodName, std::move(methodInfo)});
     return &*it.first->second;
 }
