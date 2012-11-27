@@ -80,6 +80,11 @@ CRASK_OBJECT dummyMethod2(CRASK_OBJECT, ...) {
     return CRASK_NIL;
 }
 
+TEST_F(Classes, getMethodImplForObject_for_class_should_return_NULL_for_unknown_methods) {
+    CRASK_METHOD method1 = crask_registerMethod("dummyMethod1");
+    ASSERT_TRUE(crask_getMethodImplForObject(method1, object) == 0);
+}
+
 TEST_F(Classes, getMethodImplForObject_should_return_added_object_methods) {
     CRASK_METHOD method1 = crask_registerMethod("dummyMethod1");
     CRASK_METHOD method2 = crask_registerMethod("dummyMethod2");

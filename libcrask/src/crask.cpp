@@ -88,7 +88,10 @@ CRASK_OBJECT crask_getClassObject(CRASK_CLASS cls) {
 }
 
 CRASK_METHOD_IMPL crask_getMethodImplForObject(CRASK_METHOD method, CRASK_OBJECT object) {
-    return object->cls->methods.find(method)->second;
+    auto it = object->cls->methods.find(method);
+    if (it == object->cls->methods.end())
+        return 0;
+    return it->second;
 }
 
 CRASK_OBJECT crask_createInstance(CRASK_CLASS cls) {
