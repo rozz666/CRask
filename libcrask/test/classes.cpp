@@ -115,3 +115,9 @@ TEST_F(Classes, getVariableFromObject_should_return_added_variables) {
     ASSERT_TRUE(crask_getVariableFromObject("abc", object) == var1);
     ASSERT_TRUE(crask_getVariableFromObject("def", object) == var2);
 }
+
+TEST_F(Classes, variable_should_be_initialized_to_nil) {
+    CRASK_OBJECT *var = crask_addVariableToObject("dummy", object);
+    
+    ASSERT_TRUE(*var == CRASK_NIL);
+}

@@ -103,7 +103,7 @@ CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object)
 }
 
 CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object) {
-    std::unique_ptr<CRASK_OBJECT> varPtr(new CRASK_OBJECT);
+    std::unique_ptr<CRASK_OBJECT> varPtr(new CRASK_OBJECT(CRASK_NIL));
     return &*object->vars.insert({name, std::move(varPtr)}).first->second;
 }
 
