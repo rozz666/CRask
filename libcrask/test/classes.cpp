@@ -7,11 +7,14 @@ struct Classes : testing::Test {
 
     CRASK_CLASS cls;
     CRASK_OBJECT clsObj;
+    CRASK_OBJECT object;
 
     Classes()
-        : cls(crask_registerClass("SomeClass")), clsObj(crask_getClassObject(cls)) { }
-
+        : cls(crask_registerClass("SomeClass")), clsObj(crask_getClassObject(cls)),
+        object(crask_createInstance(cls)) { }
+       
     void TearDown() {
+        crask_dispose(object);
         crask_reset();
     }
 };
@@ -78,7 +81,6 @@ CRASK_OBJECT dummyMethod2(CRASK_OBJECT, ...) {
 }
 
 TEST_F(Classes, getMethodImplForObject_should_return_added_object_methods) {
-    CRASK_OBJECT object = crask_createInstance(cls);
     CRASK_METHOD method1 = crask_registerMethod("dummyMethod1");
     CRASK_METHOD method2 = crask_registerMethod("dummyMethod2");
     crask_addMethodToClass(method1, dummyMethod1, cls);
@@ -88,17 +90,28 @@ TEST_F(Classes, getMethodImplForObject_should_return_added_object_methods) {
     ASSERT_TRUE(methodImpl1 == dummyMethod1);
     CRASK_METHOD_IMPL methodImpl2 = crask_getMethodImplForObject(method2, object);
     ASSERT_TRUE(methodImpl2 == dummyMethod2);
-    crask_dispose(object);
 }
 
 TEST_F(Classes, classMethods_are_separate_from_methods) {
-    CRASK_OBJECT object = crask_createInstance(cls);
     CRASK_METHOD method1 = crask_registerMethod("dummyMethod1");
     crask_addClassMethodToClass(method1, dummyClassMethod1, cls);
     crask_addMethodToClass(method1, dummyMethod1, cls);
 
     ASSERT_TRUE(crask_getMethodImplForObject(method1, clsObj) == dummyClassMethod1);
     ASSERT_TRUE(crask_getMethodImplForObject(method1, object) == dummyMethod1);
+}
 
-    crask_dispose(object);
+TEST_F(Classes, getVariableFromObject_should_return_NULL_when_variables_does_not_exist)
+{
+    ASSERT_TRUE(crask_getVariableFromObject("dummy", object) == 0);
+}
+
+TEST_F(Classes, getVariableFromObject_should_return_added_variables) {
+    CRASK_OBJECT *var1 = crask_addVariableToObject("abc", object);
+    CRASK_OBJECT *var2 = crask_addVariableToObject("def", object);
+
+    ASSERT_TRUE(var1 != 0);
+    ASSERT_TRUE(var2 != 0);
+    ASSERT_TRUE(crask_getVariableFromObject("abc", object) == var1);
+    ASSERT_TRUE(crask_getVariableFromObject("def", object) == var2);
 }

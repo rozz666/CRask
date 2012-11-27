@@ -10,6 +10,7 @@ struct CRASK_METHOD_ { };
 
 struct CRASK_OBJECT_ {
     CRASK_CLASS cls;
+    std::unordered_map<std::string, std::unique_ptr<CRASK_OBJECT> > vars;
     CRASK_OBJECT_() : cls(0) { }
 };
 
@@ -92,6 +93,18 @@ void crask_dispose(CRASK_OBJECT object) {
 
 void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
     cls->methods.insert({method, methodImpl});
+}
+
+CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object) {
+    auto it = object->vars.find(name);
+    if (it == object->vars.end())
+        return 0;
+    return &*it->second;
+}
+
+CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object) {
+    std::unique_ptr<CRASK_OBJECT> varPtr(new CRASK_OBJECT);
+    return &*object->vars.insert({name, std::move(varPtr)}).first->second;
 }
 
 }
