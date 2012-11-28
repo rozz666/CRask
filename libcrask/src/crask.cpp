@@ -115,8 +115,12 @@ CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object)
 }
 
 CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object) {
+    auto& vars = object->vars;
+    auto it = vars.find(name);
+    if (it != vars.end())
+        return &*it->second;
     std::unique_ptr<CRASK_OBJECT> varPtr(new CRASK_OBJECT(CRASK_NIL));
-    return &*object->vars.insert({name, std::move(varPtr)}).first->second;
+    return &*vars.insert({name, std::move(varPtr)}).first->second;
 }
 
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object) {

@@ -135,6 +135,10 @@ TEST_F(Classes, variable_should_be_initialized_to_nil) {
     ASSERT_TRUE(*var == CRASK_NIL);
 }
 
+TEST_F(Classes, addVariableToObject_should_return_existing_variable) {
+    ASSERT_TRUE(crask_addVariableToObject("x", object) == crask_addVariableToObject("x", object));
+}
+
 TEST_F(Classes, object_should_provide_storage_for_one_pointer) {
     int dummy;
     void *ptr = &dummy;
