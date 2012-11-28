@@ -4,6 +4,26 @@
 #include <string.h>
 #include <stdio.h>
 
+CRASK_OBJECT sendMsg(CRASK_OBJECT object, CRASK_METHOD method)
+{
+    return crask_getMethodImplForObject(method, object)(object);
+}
+
+CRASK_OBJECT sendMsg1(CRASK_OBJECT object, CRASK_METHOD method, CRASK_OBJECT arg0)
+{
+    return crask_getMethodImplForObject(method, object)(object, arg0);
+}
+
+CRASK_OBJECT sendMsg1i(CRASK_OBJECT object, CRASK_METHOD method, int arg0)
+{
+    return crask_getMethodImplForObject(method, object)(object, arg0);
+}
+
+CRASK_OBJECT class_(CRASK_CLASS cls)
+{
+    return crask_getClassObject(cls);
+}
+
 CRASK_METHOD new_;
 CRASK_METHOD dealloc;
 CRASK_METHOD setA;
@@ -32,7 +52,7 @@ CRASK_OBJECT Rect_new(CRASK_OBJECT self, ...) {
 CRASK_OBJECT Rect_setA(CRASK_OBJECT self, ...) {
     va_list ap;
     va_start(ap, self);
-    *crask_getVariableFromObject("a", self) = va_arg(ap, CRASK_OBJECT);
+    *crask_addVariableToObject("a", self) = va_arg(ap, CRASK_OBJECT);
     va_end(ap);
     return self;
 }
@@ -40,9 +60,13 @@ CRASK_OBJECT Rect_setA(CRASK_OBJECT self, ...) {
 CRASK_OBJECT Rect_setB(CRASK_OBJECT self, ...) {
     va_list ap;
     va_start(ap, self);
-    *crask_getVariableFromObject("b", self) = va_arg(ap, CRASK_OBJECT);
+    *crask_addVariableToObject("b", self) = va_arg(ap, CRASK_OBJECT);
     va_end(ap);
     return self;
+}
+
+CRASK_OBJECT Rect_area(CRASK_OBJECT self, ...) {
+     return sendMsg1(*crask_getVariableFromObject("a", self), mult, *crask_getVariableFromObject("b", self));
 }
 
 CRASK_OBJECT int_new(CRASK_OBJECT self, ...) {
@@ -84,34 +108,22 @@ void initClasses() {
     crask_addClassMethodToClass(new_, Rect_new, rectClass);
     crask_addMethodToClass(setA, Rect_setA, rectClass);
     crask_addMethodToClass(setB, Rect_setB, rectClass);
-}
-
-CRASK_OBJECT sendMsg(CRASK_OBJECT object, CRASK_METHOD method)
-{
-    return crask_getMethodImplForObject(method, object)(object);
-}
-
-CRASK_OBJECT sendMsg1(CRASK_OBJECT object, CRASK_METHOD method, CRASK_OBJECT arg0)
-{
-    return crask_getMethodImplForObject(method, object)(object, arg0);
+    crask_addMethodToClass(area, Rect_area, rectClass);
 }
 
 int main() {
     initMethods();
     initClasses();
     
-    CRASK_OBJECT rectClassObject = crask_getClassObject(rectClass);
-    CRASK_OBJECT rect =  crask_getMethodImplForObject(new_, rectClassObject)(rectClassObject);
-    crask_addVariableToObject("a", rect);
-    crask_addVariableToObject("b", rect);
-    CRASK_OBJECT a = int_new(CRASK_NIL, 7);
-    CRASK_OBJECT b = int_new(CRASK_NIL, 3);
+    CRASK_OBJECT rect = sendMsg(class_(rectClass), new_);
+    CRASK_OBJECT a = sendMsg1i(class_(intClass), new_, 7);
+    CRASK_OBJECT b = sendMsg1i(class_(intClass), new_, 3);
     sendMsg1(rect, setA, a);
     sendMsg1(rect, setB, b);
 
     sendMsg(a, print);
     sendMsg(b, print);
-    CRASK_OBJECT res = sendMsg1(a, mult, b);
+    CRASK_OBJECT res = sendMsg(rect, area);
     sendMsg(res, print);
 
     crask_dispose(rect);
