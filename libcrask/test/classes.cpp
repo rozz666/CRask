@@ -134,3 +134,14 @@ TEST_F(Classes, variable_should_be_initialized_to_nil) {
     
     ASSERT_TRUE(*var == CRASK_NIL);
 }
+
+TEST_F(Classes, object_should_provide_storage_for_one_pointer) {
+    int dummy;
+    void *ptr = &dummy;
+    crask_setObjectData(object, ptr);
+    ASSERT_TRUE(crask_getObjectData(object) == ptr);
+}
+
+TEST_F(Classes, object_storage_should_be_initialized_with_NULL) {
+    ASSERT_TRUE(crask_getObjectData(object) == 0);
+}

@@ -11,7 +11,8 @@ struct CRASK_METHOD_ { };
 struct CRASK_OBJECT_ {
     CRASK_CLASS cls;
     std::unordered_map<std::string, std::unique_ptr<CRASK_OBJECT> > vars;
-    CRASK_OBJECT_(CRASK_CLASS cls) : cls(cls) { }
+    void *data;
+    CRASK_OBJECT_(CRASK_CLASS cls) : cls(cls), data(0) { }
 };
 
 struct CRASK_CLASS_ {
@@ -121,6 +122,14 @@ CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object) {
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object) {
     auto& classObject = object->cls->self;
     return classObject ? &*classObject : CRASK_NIL;
+}
+
+void crask_setObjectData(CRASK_OBJECT object, void *data) {
+    object->data = data;
+}
+
+void *crask_getObjectData(CRASK_OBJECT object) {
+    return object->data;
 }
 
 }

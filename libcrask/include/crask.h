@@ -31,6 +31,8 @@ void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, C
 CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object);
 CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object);
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object);
+void crask_setObjectData(CRASK_OBJECT object, void *data);
+void *crask_getObjectData(CRASK_OBJECT object);
 
 #ifdef __cplusplus
 }
