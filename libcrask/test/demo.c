@@ -31,6 +31,7 @@ CRASK_METHOD setB;
 CRASK_METHOD mult;
 CRASK_METHOD print;
 CRASK_METHOD area;
+CRASK_METHOD release;
 
 void initMethods() {
     new_ = crask_registerMethod("new");
@@ -40,10 +41,17 @@ void initMethods() {
     mult = crask_registerMethod("mult:");
     print = crask_registerMethod("print");
     area = crask_registerMethod("area");
+    release = crask_registerMethod("release");
 }
 
 CRASK_CLASS intClass;
 CRASK_CLASS rectClass;
+
+CRASK_OBJECT Object_release(CRASK_OBJECT self, ...) {
+    sendMsg(self, dealloc);
+    crask_dispose(self);
+    return CRASK_NIL;
+}
 
 CRASK_OBJECT Rect_new(CRASK_OBJECT self, ...) {
     return crask_createInstance(crask_getClass("Rect"));
@@ -67,6 +75,10 @@ CRASK_OBJECT Rect_setB(CRASK_OBJECT self, ...) {
 
 CRASK_OBJECT Rect_area(CRASK_OBJECT self, ...) {
      return sendMsg1(*crask_getVariableFromObject("a", self), mult, *crask_getVariableFromObject("b", self));
+}
+
+CRASK_OBJECT Rect_dealloc(CRASK_OBJECT self, ...) {
+     return CRASK_NIL;
 }
 
 CRASK_OBJECT int_new(CRASK_OBJECT self, ...) {
@@ -103,12 +115,15 @@ void initClasses() {
     crask_addMethodToClass(dealloc, int_dealloc, intClass);
     crask_addMethodToClass(mult, int_mult, intClass);
     crask_addMethodToClass(print, int_print, intClass);
+    crask_addMethodToClass(release, Object_release, intClass);
 
     rectClass = crask_registerClass("Rect");
     crask_addClassMethodToClass(new_, Rect_new, rectClass);
     crask_addMethodToClass(setA, Rect_setA, rectClass);
     crask_addMethodToClass(setB, Rect_setB, rectClass);
     crask_addMethodToClass(area, Rect_area, rectClass);
+    crask_addMethodToClass(dealloc, Rect_dealloc, rectClass);
+    crask_addMethodToClass(release, Object_release, rectClass);
 }
 
 int main() {
@@ -126,12 +141,9 @@ int main() {
     CRASK_OBJECT res = sendMsg(rect, area);
     sendMsg(res, print);
 
-    crask_dispose(rect);
-    sendMsg(a, dealloc);
-    crask_dispose(a);
-    sendMsg(b, dealloc);
-    crask_dispose(b);
-    sendMsg(res, dealloc);
-    crask_dispose(res);
+    sendMsg(rect, release);
+    sendMsg(a, release);
+    sendMsg(b, release);
+    sendMsg(res, release);
     return 0;
 }
