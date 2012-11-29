@@ -1,6 +1,5 @@
 @wip
 Feature: Class definitions
-
     @wip
     Scenario: An empty class definition
         Given a file named "someClass.rask" with:
@@ -11,10 +10,7 @@ Feature: Class definitions
         When I translate "someClass.rask" to C into "someClass.c"
         Then file "someClass.c" should contain:
             """
-            int main() {
-                CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
-            }
-            
+            CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
             """
         And file "someClass.c" should compile
 
@@ -32,9 +28,9 @@ Feature: Class definitions
         When I translate "classWithMethods.rask" to C into "classWithMethods.c"
         Then file "classWithMethods.c" should contain:
             """
-            CRASK_OBJECT class_ClassWithMethods_method_foo() {
+            CRASK_OBJECT class_ClassWithMethods_method_foo(CRASK_OBJECT self, ...) {
             }
-            CRASK_OBJECT class_ClassWithMethods_method_bar() {
+            CRASK_OBJECT class_ClassWithMethods_method_bar(CRASK_OBJECT self, ...) {
             }
             int main() {
                 CRASK_CLASS class_ClassWithMethods = crask_registerClass("ClassWithMethods");

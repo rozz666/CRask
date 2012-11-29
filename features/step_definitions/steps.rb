@@ -25,7 +25,7 @@ When /^I translate "([^"]*)" to C into "([^"]*)"$/ do |raskfile, cfile|
 end
 
 Then /^file "([^"]*)" should contain:$/ do |cfile, source|
-    File.open(cfile).read.should == source
+    File.open(cfile).read.should include(source)
 end
 
 Then /^file "([^"]*)" should compile$/ do |cfile|
