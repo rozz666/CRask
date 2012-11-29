@@ -14,7 +14,7 @@ struct Classes : testing::Test {
         object(crask_createInstance(cls)) { }
        
     void TearDown() {
-        crask_dispose(object);
+        crask_release(object);
         crask_reset();
     }
 };
@@ -68,8 +68,17 @@ TEST_F(Classes, createInstance_should_return_a_new_instance) {
     CRASK_OBJECT inst1 = crask_createInstance(cls);
     CRASK_OBJECT inst2 = crask_createInstance(cls);
     ASSERT_TRUE(inst1 != inst2);
-    crask_dispose(inst1);
-    crask_dispose(inst2);
+    crask_release(inst1);
+    crask_release(inst2);
+}
+
+TEST_F(Classes, retain_should_increase_number_of_releases_needed_to_delete_an_object) {
+    CRASK_OBJECT instance = crask_createInstance(cls);
+    crask_retain(instance);
+    crask_retain(instance);
+    crask_release(instance);
+    crask_release(instance);
+    crask_release(instance);
 }
 
 CRASK_OBJECT dummyMethod1(CRASK_OBJECT, ...) {

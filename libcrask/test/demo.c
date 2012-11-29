@@ -49,7 +49,7 @@ CRASK_CLASS rectClass;
 
 CRASK_OBJECT Object_release(CRASK_OBJECT self, ...) {
     sendMsg(self, dealloc);
-    crask_dispose(self);
+    crask_release(self);
     return CRASK_NIL;
 }
 

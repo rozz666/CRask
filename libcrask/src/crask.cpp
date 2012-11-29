@@ -12,7 +12,9 @@ struct CRASK_OBJECT_ {
     CRASK_CLASS cls;
     std::unordered_map<std::string, std::unique_ptr<CRASK_OBJECT> > vars;
     void *data;
-    CRASK_OBJECT_(CRASK_CLASS cls) : cls(cls), data(0) { }
+    int refCount;
+    CRASK_OBJECT_(CRASK_CLASS cls)
+        : cls(cls), data(0), refCount(1) { }
 };
 
 struct CRASK_CLASS_ {
@@ -99,8 +101,13 @@ CRASK_OBJECT crask_createInstance(CRASK_CLASS cls) {
     return new CRASK_OBJECT_(cls);
 }
 
-void crask_dispose(CRASK_OBJECT object) {
-    delete object;
+void crask_release(CRASK_OBJECT object) {
+    if (--object->refCount == 0)
+        delete object;
+}
+
+void crask_retain(CRASK_OBJECT object) {
+    ++object->refCount;
 }
 
 void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
