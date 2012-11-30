@@ -1,10 +1,14 @@
 require 'fileutils'
 require 'rspec'
 
+$LIBCRASK_PATH="libcrask"
+$LIBCRASK_INCLUDE_PATH="#{$LIBCRASK_PATH}/include"
+$LIBCRASK_BUILD_PATH="#{$LIBCRASK_PATH}/build"
+
 Before do
     $filesToRemove = []
     unless $libcraskIsBuilt
-        output = %x(cmake -E make_directory libcrask/build && cmake -E chdir libcrask/build cmake .. && cmake --build libcrask/build)
+        output = %x(cmake -E make_directory "#{$LIBCRASK_BUILD_PATH}" && cmake -E chdir "#{$LIBCRASK_BUILD_PATH}" cmake .. && cmake --build "#{$LIBCRASK_BUILD_PATH}")
         $?.exitstatus.should be(0), output
         $libcraskIsBuilt = true
     end
@@ -34,7 +38,7 @@ Then /^file "([^"]*)" should contain:$/ do |cfile, source|
 end
 
 Then /^file "([^"]*)" should compile$/ do |cfile|
-    gccOutput = %x(gcc "#{cfile}" -Ilibcrask/include -o a.out 2>&1 && rm a.out)
+    gccOutput = %x(gcc "#{cfile}" -I"#{$LIBCRASK_INCLUDE_PATH}" -L"#{$LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
     $?.exitstatus.should be(0), gccOutput
 end
 
