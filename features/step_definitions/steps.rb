@@ -3,6 +3,11 @@ require 'rspec'
 
 Before do
     $filesToRemove = []
+    unless $libcraskIsBuilt
+        output = %x(cmake -E make_directory libcrask/build && cmake -E chdir libcrask/build cmake .. && cmake --build libcrask/build)
+        $?.exitstatus.should be(0), output
+        $libcraskIsBuilt = true
+    end
 end
 
 After do
