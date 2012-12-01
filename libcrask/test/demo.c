@@ -74,11 +74,11 @@ CRASK_OBJECT Rect_setB(CRASK_OBJECT self, ...) {
 }
 
 CRASK_OBJECT Rect_area(CRASK_OBJECT self, ...) {
-     return sendMsg1(*crask_getVariableFromObject("a", self), mult, *crask_getVariableFromObject("b", self));
+    return sendMsg1(*crask_getVariableFromObject("a", self), mult, *crask_getVariableFromObject("b", self));
 }
 
 CRASK_OBJECT Rect_dealloc(CRASK_OBJECT self, ...) {
-     return CRASK_NIL;
+    return CRASK_NIL;
 }
 
 CRASK_OBJECT int_new(CRASK_OBJECT self, ...) {
@@ -89,10 +89,12 @@ CRASK_OBJECT int_new(CRASK_OBJECT self, ...) {
     void *valPtr = malloc(sizeof(val));
     memcpy(valPtr, &val, sizeof(val));
     crask_setObjectData(i, valPtr);
+    return i;
 }
 
 CRASK_OBJECT int_dealloc(CRASK_OBJECT self, ...) {
     free(crask_getObjectData(self));
+    return CRASK_NIL;
 }
 
 CRASK_OBJECT int_mult(CRASK_OBJECT self, ...) {
@@ -107,6 +109,7 @@ CRASK_OBJECT int_mult(CRASK_OBJECT self, ...) {
 CRASK_OBJECT int_print(CRASK_OBJECT self, ...) {
     int *val = crask_getObjectData(self);
     printf("%i\n", *val);
+    return CRASK_NIL;
 }
 
 void initClasses() {

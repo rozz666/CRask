@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-#include <bits/stl_algo.h>
+#include <vector>
 
 extern "C" {
 
@@ -78,7 +78,7 @@ CRASK_CLASS crask_getClass(const char *className) {
 
 CRASK_METHOD crask_registerMethod(const char *methodName) {
     std::unique_ptr<CRASK_METHOD_> methodInfo(new CRASK_METHOD_);
-    auto it = g_methods.insert({methodName, std::move(methodInfo)});
+    auto it = g_methods.emplace(methodName, std::move(methodInfo));
     return &*it.first->second;
 }
 
@@ -127,7 +127,7 @@ CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object) {
     if (it != vars.end())
         return &*it->second;
     std::unique_ptr<CRASK_OBJECT> varPtr(new CRASK_OBJECT(CRASK_NIL));
-    return &*vars.insert({name, std::move(varPtr)}).first->second;
+    return &*vars.emplace(name, std::move(varPtr)).first->second;
 }
 
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object) {
