@@ -66,7 +66,7 @@ CRASK_CLASS crask_registerClass(const char *className) {
         return it->second;
     CRASK_CLASS metaClass = allocClassWithoutMetaClass();
     CRASK_CLASS classInfo = allocClassWithMetaClass(metaClass);
-    g_namedClasses.emplace(className, classInfo);
+    g_namedClasses.insert({className, classInfo});
     return classInfo;
 }
 
@@ -77,13 +77,17 @@ CRASK_CLASS crask_getClass(const char *className) {
 }
 
 CRASK_METHOD crask_registerMethod(const char *methodName) {
+    auto it = g_methods.find(methodName);
+    if (it != g_methods.end())
+        return &*it->second;
     std::unique_ptr<CRASK_METHOD_> methodInfo(new CRASK_METHOD_);
-    auto it = g_methods.emplace(methodName, std::move(methodInfo));
-    return &*it.first->second;
+    auto& method = g_methods[methodName];
+    method.reset(new CRASK_METHOD_);
+    return &*method;
 }
 
 void crask_addClassMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
-    cls->self->cls->methods.emplace(method, methodImpl);
+    cls->self->cls->methods.insert({method, methodImpl});
 }
 
 CRASK_OBJECT crask_getClassObject(CRASK_CLASS cls) {
@@ -111,7 +115,7 @@ void crask_retain(CRASK_OBJECT object) {
 }
 
 void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
-    cls->methods.emplace(method, methodImpl);
+    cls->methods.insert({method, methodImpl});
 }
 
 CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object) {
@@ -126,8 +130,9 @@ CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object) {
     auto it = vars.find(name);
     if (it != vars.end())
         return &*it->second;
-    std::unique_ptr<CRASK_OBJECT> varPtr(new CRASK_OBJECT(CRASK_NIL));
-    return &*vars.emplace(name, std::move(varPtr)).first->second;
+    auto& var = vars[name];
+    var.reset(new CRASK_OBJECT(CRASK_NIL));
+    return &*var;
 }
 
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object) {
