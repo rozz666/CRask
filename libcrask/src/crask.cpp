@@ -66,7 +66,7 @@ CRASK_CLASS crask_registerClass(const char *className) {
         return it->second;
     CRASK_CLASS metaClass = allocClassWithoutMetaClass();
     CRASK_CLASS classInfo = allocClassWithMetaClass(metaClass);
-    g_namedClasses.insert({className, classInfo});
+    g_namedClasses.emplace(className, classInfo);
     return classInfo;
 }
 
@@ -83,7 +83,7 @@ CRASK_METHOD crask_registerMethod(const char *methodName) {
 }
 
 void crask_addClassMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
-    cls->self->cls->methods.insert({method, methodImpl});
+    cls->self->cls->methods.emplace(method, methodImpl);
 }
 
 CRASK_OBJECT crask_getClassObject(CRASK_CLASS cls) {
@@ -111,7 +111,7 @@ void crask_retain(CRASK_OBJECT object) {
 }
 
 void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
-    cls->methods.insert({method, methodImpl});
+    cls->methods.emplace(method, methodImpl);
 }
 
 CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object) {
