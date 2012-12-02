@@ -1,28 +1,34 @@
-require 'crask/parser'
+require 'crask/parser_helper'
 
 module CRask
-  parser = Parser.new
+  parser = ParserHelper.new
   describe Parser do
     it "should return empty AST for empty input" do
       ast = parser.parse("")
+
       ast.should be_a_kind_of(Ast::Ast)
       ast.stmts.should be_empty
     end
     it "should parse empty class definition" do
-      ast = parser.parse("class Abc {}")
-      ast.should have(1).stmts
-      ast.stmts[0].should be_a_kind_of(Ast::ClassDef)
-      ast.stmts[0].name.should eql("Abc")
+      stmts = parser.parse_stmts("class Abc {}")
+
+      stmts.should have(1).item
+      stmts[0].should be_a_kind_of(Ast::ClassDef)
+      stmts[0].name.should eql("Abc")
+      stmts[0].defs.should be_empty
     end
     it "should parse all class definitions" do
-      ast = parser.parse("class A {}\nclass B {}")
-      ast.should have(2).stmts
+      stmts = parser.parse_stmts("class A {}\nclass B {}")
+
+      stmts.should have(2).items
+      stmts.size.should eql(2)
     end
     it "should parse empty method definition" do
-      ast = parser.parse("class A {\n def foo {\n}\n}");
-      ast.stmts[0].should have(1).defs
-      ast.stmts[0].defs[0].should be_a_kind_of(Ast::MethodDef)
-      ast.stmts[0].defs[0].name.should eql("foo")
+      defs = parser.parse_class_defs("def foo {\n}");
+
+      defs.should have(1).item
+      defs[0].should be_a_kind_of(Ast::MethodDef)
+      defs[0].name.should eql("foo")
     end
   end
 end
