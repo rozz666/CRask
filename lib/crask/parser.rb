@@ -4,7 +4,11 @@ module CRask
   class Parser
     def parse source
       ast = Ast.new
-      ast.classes << ClassDefinition.new(source.split[1]) if source.length > 0
+      class_name_is_next = false
+      source.split.each { |id|
+        ast.classes << ClassDefinition.new(id) if class_name_is_next
+        class_name_is_next = id == "class"        
+      } 
       ast
     end
   end

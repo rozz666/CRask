@@ -10,10 +10,13 @@ module CRask
     end
     it "should parse empty class definition" do
       ast = parser.parse("class Abc {}")
-      ast.should be_a_kind_of(Ast)
       ast.should have(1).classes
       ast.classes[0].should be_a_kind_of(ClassDefinition)
       ast.classes[0].name.should eql("Abc")
+    end
+    it "should parse all class definitions" do
+      ast = parser.parse("class A {}\nclass B {}")
+      ast.should have(2).classes
     end
   end
 end

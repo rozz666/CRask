@@ -11,7 +11,7 @@ Feature: Class definitions
             CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
             """
         And file "someClass.c" should compile
-	@wip
+
     Scenario: Empty class definitions
         Given a file named "someClass.rask" with:
             """
