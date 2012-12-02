@@ -32,7 +32,7 @@ Then /^file "([^"]*)" should contain:$/ do |cfile, source|
 end
 
 Then /^file "([^"]*)" should compile$/ do |cfile|
-    gccOutput = %x(cc "#{cfile}" -I"#{$LIBCRASK_INCLUDE_PATH}" -L"#{$LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
+    gccOutput = %x(cc "#{cfile}" -I"#{LIBCRASK_INCLUDE_PATH}" -L"#{LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
     $?.exitstatus.should be(0), gccOutput
 end
 

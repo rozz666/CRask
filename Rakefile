@@ -8,7 +8,7 @@ GENERATED_RACC_PARSER='lib/crask/racc_parser.tab.rb'
 
 CLEAN.include(GENERATED_RACC_PARSER_REX)
 CLEAN.include(GENERATED_RACC_PARSER)
-CLOBBER.include($LIBCRASK_BUILD_PATH)
+CLOBBER.include(LIBCRASK_BUILD_PATH)
 
 
 task :default => :test
@@ -23,15 +23,15 @@ end
 
 desc "build libcrask"
 task :libcrask do
-  sh "cmake -E make_directory \"#{$LIBCRASK_BUILD_PATH}\""
-  sh "cmake -E chdir \"#{$LIBCRASK_BUILD_PATH}\" cmake .."
-  sh "cmake --build \"#{$LIBCRASK_BUILD_PATH}\" --target crask"
+  sh "cmake -E make_directory \"#{LIBCRASK_BUILD_PATH}\""
+  sh "cmake -E chdir \"#{LIBCRASK_BUILD_PATH}\" cmake .."
+  sh "cmake --build \"#{LIBCRASK_BUILD_PATH}\" --target crask"
 end
 
 desc "run libcrask tests"
 task :libcrask_ut => :libcrask do
-  sh "cmake --build \"#{$LIBCRASK_BUILD_PATH}\" --target crask_ut"
-  sh "#{$LIBCRASK_BUILD_PATH}/crask_ut"
+  sh "cmake --build \"#{LIBCRASK_BUILD_PATH}\" --target crask_ut"
+  sh "#{LIBCRASK_BUILD_PATH}/crask_ut"
 end
 
 desc "generate grammar parsers"
@@ -53,5 +53,5 @@ task :test => [:libcrask_ut, :spec, :features] do
 end
 
 task :clean do
-  sh "cmake --build \"#{$LIBCRASK_BUILD_PATH}\" --target clean" if File.exists?("#{$LIBCRASK_BUILD_PATH}")
+  sh "cmake --build \"#{LIBCRASK_BUILD_PATH}\" --target clean" if File.exists?("#{LIBCRASK_BUILD_PATH}")
 end
