@@ -1,17 +1,9 @@
 require 'fileutils'
 require 'rspec'
-
-$LIBCRASK_PATH="libcrask"
-$LIBCRASK_INCLUDE_PATH="#{$LIBCRASK_PATH}/include"
-$LIBCRASK_BUILD_PATH="#{$LIBCRASK_PATH}/build"
+require 'libcrask_paths'
 
 Before do
     $filesToRemove = []
-    unless $libcraskIsBuilt
-        output = %x(cmake -E make_directory "#{$LIBCRASK_BUILD_PATH}" && cmake -E chdir "#{$LIBCRASK_BUILD_PATH}" cmake .. && cmake --build "#{$LIBCRASK_BUILD_PATH}")
-        $?.exitstatus.should be(0), output
-        $libcraskIsBuilt = true
-    end
 end
 
 After do

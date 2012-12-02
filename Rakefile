@@ -1,15 +1,41 @@
+require 'libcrask_paths'
+require 'rake/clean'
+
+RACC_PARSER_REX='lib/crask/racc_parser.rex'
+GENERATED_RACC_PARSER_REX='lib/crask/racc_parser.rex.rb'
+RACC_PARSER='lib/crask/racc_parser.racc'
+GENERATED_RACC_PARSER='lib/crask/racc_parser.tab.rb'
+
+CLEAN.include(GENERATED_RACC_PARSER_REX)
+CLEAN.include(GENERATED_RACC_PARSER)
+CLOBBER.include($LIBCRASK_BUILD_PATH)
+
+
 task :default => :test
 
-file 'lib/crask/racc_parser.rex.rb' => 'lib/crask/racc_parser.rex' do
-  sh 'rex lib/crask/racc_parser.rex -o lib/crask/racc_parser.rex.rb'
+file GENERATED_RACC_PARSER_REX => RACC_PARSER_REX do
+  sh "rex #{RACC_PARSER_REX} -o #{GENERATED_RACC_PARSER_REX}"
 end
 
-file 'lib/crask/racc_parser.tab.rb' => 'lib/crask/racc_parser.racc' do
-  sh 'racc lib/crask/racc_parser.racc -o lib/crask/racc_parser.tab.rb'
+file GENERATED_RACC_PARSER => RACC_PARSER do
+  sh "racc #{RACC_PARSER} -o #{GENERATED_RACC_PARSER}"
+end
+
+desc "build libcrask"
+task :libcrask do
+  sh "cmake -E make_directory \"#{$LIBCRASK_BUILD_PATH}\""
+  sh "cmake -E chdir \"#{$LIBCRASK_BUILD_PATH}\" cmake .."
+  sh "cmake --build \"#{$LIBCRASK_BUILD_PATH}\" --target crask"
+end
+
+desc "run libcrask tests"
+task :libcrask_ut => :libcrask do
+  sh "cmake --build \"#{$LIBCRASK_BUILD_PATH}\" --target crask_ut"
+  sh "#{$LIBCRASK_BUILD_PATH}/crask_ut"
 end
 
 desc "generate grammar parsers"
-task :grammar => [ 'lib/crask/racc_parser.rex.rb', 'lib/crask/racc_parser.tab.rb' ] do
+task :grammar => [ GENERATED_RACC_PARSER_REX, GENERATED_RACC_PARSER ] do
 end
 
 desc "run spec examples"
@@ -18,16 +44,14 @@ task :spec => :grammar do
 end
 
 desc "run feature scenarios"
-task :features => :grammar do
+task :features => [:grammar, :libcrask] do
   sh 'cucumber -f progress'
 end
 
-desc "run all examples and scenarios"
-task :test => [:spec, :features] do
+desc "run all examples and scenarios (default)"
+task :test => [:libcrask_ut, :spec, :features] do
 end
 
-desc "clean"
 task :clean do
-  rm 'lib/crask/racc_parser.rex.rb'
-  rm 'lib/crask/racc_parser.tab.rb'
+  sh "cmake --build \"#{$LIBCRASK_BUILD_PATH}\" --target clean" if File.exists?("#{$LIBCRASK_BUILD_PATH}")
 end
