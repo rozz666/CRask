@@ -18,5 +18,11 @@ module CRask
       ast = parser.parse("class A {}\nclass B {}")
       ast.should have(2).classes
     end
+    it "should parse empty method definition" do
+      ast = parser.parse("class A {\n def foo {\n}\n}");
+      ast.classes[0].should have(1).method_defs
+      ast.classes[0].method_defs[0].should be_a_kind_of(MethodDefinition)
+      ast.classes[0].method_defs[0].name.should eql("foo")
+    end
   end
 end
