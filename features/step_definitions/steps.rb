@@ -24,7 +24,9 @@ Given /^an empty file named "([^"]*)"$/ do |raskfile|
 end
 
 Given /^a file named "([^"]*)" with:$/ do |raskfile, source|
-    File.new(raskfile, "w").write(source)
+    f = File.new(raskfile, "w")
+    f.write(source)
+    f.close
     $filesToRemove << raskfile
 end
 

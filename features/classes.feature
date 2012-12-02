@@ -1,6 +1,4 @@
-@wip
 Feature: Class definitions
-    @wip
     Scenario: An empty class definition
         Given a file named "someClass.rask" with:
             """

@@ -11,7 +11,7 @@ else(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_library(gmock gmock-1.6.0/fused-src/gmock-gtest-all.cc)
-add_library(crask src/crask.cpp)
+add_library(crask SHARED src/crask.cpp)
 add_executable(crask_ut test/main.cpp test/classes.cpp)
 add_executable(crask_demo test/demo.c)
 target_link_libraries(crask_ut crask gmock pthread)
