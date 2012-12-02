@@ -20,9 +20,9 @@ module CRask
     end
     it "should parse empty method definition" do
       ast = parser.parse("class A {\n def foo {\n}\n}");
-      ast.stmts[0].should have(1).method_defs
-      ast.stmts[0].method_defs[0].should be_a_kind_of(Ast::MethodDef)
-      ast.stmts[0].method_defs[0].name.should eql("foo")
+      ast.stmts[0].should have(1).defs
+      ast.stmts[0].defs[0].should be_a_kind_of(Ast::MethodDef)
+      ast.stmts[0].defs[0].name.should eql("foo")
     end
   end
 end
