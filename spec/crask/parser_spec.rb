@@ -30,5 +30,10 @@ module CRask
       defs[0].should be_a_kind_of(Ast::MethodDef)
       defs[0].name.should eql("foo")
     end
+    it "should parse all method definitions" do
+      defs = parser.parse_class_defs("def a {\n}\ndef b {\n}\n")
+      
+      defs.should have(2).items
+    end
   end
 end
