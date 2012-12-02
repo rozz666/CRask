@@ -7,8 +7,8 @@ module CRask
       class_name_is_next = false
       method_name_is_next = false
       source.split.each { |id|
-        ast.classes << Ast::ClassDef.new(id) if class_name_is_next
-        ast.classes[-1].method_defs << Ast::MethodDef.new(id) if method_name_is_next
+        ast.stmts << Ast::ClassDef.new(id) if class_name_is_next
+        ast.stmts[-1].method_defs << Ast::MethodDef.new(id) if method_name_is_next
         class_name_is_next = id == "class"
         method_name_is_next = id == "def"
       } 

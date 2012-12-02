@@ -4,9 +4,9 @@ require 'crask/ast/method_def'
 module CRask
   module Ast
     class Ast
-      attr_accessor :classes
+      attr_accessor :stmts
       def initialize
-        @classes = []
+        @stmts = []
       end
     end
   end

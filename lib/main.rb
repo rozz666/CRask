@@ -17,5 +17,5 @@ parser = CRask::Parser.new
 ast = parser.parse(source)
 output = File.new(ARGV[2], "w")
 genProlog output
-ast.classes.each { |c| genClassRegistration output, c.name }
+ast.stmts.each { |c| genClassRegistration output, c.name }
 genEpilog output
