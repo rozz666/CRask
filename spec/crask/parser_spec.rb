@@ -21,7 +21,6 @@ module CRask
       stmts = parser.parse_stmts("class A {}\nclass B {}")
 
       stmts.should have(2).items
-      stmts.size.should eql(2)
     end
     it "should parse empty method definition" do
       defs = parser.parse_class_defs("def foo {\n}");
