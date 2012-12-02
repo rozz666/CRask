@@ -1,6 +1,8 @@
+require 'crask/class_definition'
+
 module CRask
   class Ast
-    attr_reader :classes
+    attr_accessor :classes
     def initialize
       @classes = []
     end
