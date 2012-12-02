@@ -1,3 +1,5 @@
 *~
 .buildpath
 .project
+lib/crask/racc_parser.rex.rb
+lib/crask/racc_parser.tab.rb
