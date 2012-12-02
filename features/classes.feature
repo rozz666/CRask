@@ -11,6 +11,25 @@ Feature: Class definitions
             CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
             """
         And file "someClass.c" should compile
+	@wip
+    Scenario: Empty class definitions
+        Given a file named "someClass.rask" with:
+            """
+            class SomeClass {
+            }
+            class AnotherClass {
+            }
+            """
+        When I translate "someClass.rask" to C into "someClass.c"
+        Then file "someClass.c" should contain:
+            """
+            CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
+            """
+        And file "someClass.c" should contain:
+            """
+            CRASK_CLASS class_AnotherClass = crask_registerClass("AnotherClass");
+            """
+        And file "someClass.c" should compile
 
     @wip
     Scenario: A class with methods
