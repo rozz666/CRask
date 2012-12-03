@@ -30,7 +30,6 @@ Feature: Class definitions
             CRASK_CLASS class_AnotherClass = crask_registerClass("AnotherClass");
             """
         And file "someClass.c" should compile
-
     @wip
     Scenario: A class with methods
         Given a file named "classWithMethods.rask" with:
@@ -46,14 +45,21 @@ Feature: Class definitions
         Then file "classWithMethods.c" should contain:
             """
             CRASK_OBJECT class_ClassWithMethods_method_foo(CRASK_OBJECT self, ...) {
+                return CRASK_NIL;
             }
+            """
+        And file "classWithMethods.c" should contain:
+            """
             CRASK_OBJECT class_ClassWithMethods_method_bar(CRASK_OBJECT self, ...) {
+                return CRASK_NIL;
             }
-            int main() {
-                CRASK_CLASS class_ClassWithMethods = crask_registerClass("ClassWithMethods");
-                crask_addMethodToClass(&class_ClassWithMethods_method_foo, "foo", class_ClassWithMethods);
-                crask_addMethodToClass(&class_ClassWithMethods_method_bar, "bar", class_ClassWithMethods);
-            }
-            
+            """
+        And file "classWithMethods.c" should contain:
+            """
+            crask_addMethodToClass(&class_ClassWithMethods_method_foo, "foo", class_ClassWithMethods);
+            """
+        And file "classWithMethods.c" should contain:
+            """
+            crask_addMethodToClass(&class_ClassWithMethods_method_bar, "bar", class_ClassWithMethods);
             """
         And file "classWithMethods.c" should compile
