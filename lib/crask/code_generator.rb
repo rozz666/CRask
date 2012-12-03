@@ -15,5 +15,9 @@ module CRask
     def generateClassRegistrations ast
       ast.stmts.map { |s| s.registrationCode }.join
     end
+    
+    def generateMainBlockBeginning ast
+      "int main() {\n"
+    end
   end
 end

@@ -19,5 +19,10 @@ module CRask
         "CRASK_CLASS class_B = crask_registerClass(\"B\")\n")
       end
     end
+    context "generateMainBlockBeginning" do
+      it "should begin main()" do
+        @cg.generateMainBlockBeginning(@ast).should eql("int main() {\n")
+      end
+    end
   end
 end
