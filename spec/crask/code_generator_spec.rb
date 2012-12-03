@@ -15,8 +15,8 @@ module CRask
       it "should register classes and define its variables" do
         @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
         @cg.generateClassRegistrations(@ast).should eql(
-        "CRASK_CLASS class_A = crask_registerClass(\"A\")\n" +
-        "CRASK_CLASS class_B = crask_registerClass(\"B\")\n")
+        "CRASK_CLASS class_A = crask_registerClass(\"A\");\n" +
+        "CRASK_CLASS class_B = crask_registerClass(\"B\");\n")
       end
     end
     context "generateMainBlockBeginning" do
