@@ -1,7 +1,7 @@
 module CRask
   class CodeGenerator
-    def generate ast
-      "#include <crask.h>\nint main() {\n}\n"
+    def generateHeaders ast
+      "#include <crask.h>\n"
     end
   end
 end

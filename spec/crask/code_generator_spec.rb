@@ -5,9 +5,11 @@ module CRask
     before(:each) do
       @cg = CodeGenerator.new
     end
-    it "should generate main() and include crask.h" do
-      ast = Ast::Ast.new
-      @cg.generate(ast).should eql("#include <crask.h>\nint main() {\n}\n");
+    context "generateHeaders" do
+      it "should include crask.h" do
+        ast = Ast::Ast.new
+        @cg.generateHeaders(ast).should eql("#include <crask.h>\n");
+      end
     end
   end
 end
