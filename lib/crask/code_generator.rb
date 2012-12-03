@@ -19,5 +19,9 @@ module CRask
     def generateMainBlockBeginning ast
       "int main() {\n"
     end
+    
+    def generateMainBlockEnding ast
+      "}\n"
+    end
   end
 end
