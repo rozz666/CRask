@@ -16,9 +16,7 @@ Given /^an empty file named "([^"]*)"$/ do |raskfile|
 end
 
 Given /^a file named "([^"]*)" with:$/ do |raskfile, source|
-    f = File.new(raskfile, "w")
-    f.write(source)
-    f.close
+  File.open(raskfile, "w") { |f| f.write source }
     $filesToRemove << raskfile
 end
 
@@ -28,7 +26,7 @@ When /^I translate "([^"]*)" to C into "([^"]*)"$/ do |raskfile, cfile|
 end
 
 Then /^file "([^"]*)" should contain:$/ do |cfile, source|
-    File.open(cfile).read.should include(source)
+  File.open(cfile) { |f| f.read.should include(source) }
 end
 
 Then /^file "([^"]*)" should compile$/ do |cfile|

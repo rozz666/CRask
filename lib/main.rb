@@ -1,9 +1,8 @@
 require 'crask/parser'
 require 'crask/code_generator_generate'
 
-source = File.open(ARGV[1]).read
+source = File.open(ARGV[1]) { |f| f.read }
 parser = CRask::Parser.new
 ast = parser.parse(source)
-output = File.new(ARGV[2], "w")
 code_generator = CRask::CodeGenerator.new
-output.write code_generator.generate(ast)
+File.open(ARGV[2], "w") { |output| output.write code_generator.generate(ast) }
