@@ -18,6 +18,15 @@ module CRask
         "CRASK_CLASS class_A = crask_registerClass(\"A\");\n" +
         "CRASK_CLASS class_B = crask_registerClass(\"B\");\n")
       end
+      it "should register class methods" do
+        @ast.stmts = [ Ast::ClassDef.new("A") ]
+        @ast.stmts[0].defs = [ Ast::MethodDef.new("abc"), Ast::MethodDef.new("def") ]
+        @cg.generateClassRegistrations(@ast).should eql(
+        "CRASK_CLASS class_A = crask_registerClass(\"A\");\n" +
+        "crask_addMethodToClass(&class_A_method_abc, \"abc\", class_A);\n" +
+        "crask_addMethodToClass(&class_A_method_def, \"def\", class_A);\n"
+        )
+      end
     end
     context "generateMainBlockBeginning" do
       it "should begin main()" do

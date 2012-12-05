@@ -2,7 +2,8 @@ module CRask
   module Ast
     class ClassDef
       def registrationCode
-        "CRASK_CLASS class_#{@name} = crask_registerClass(\"#{@name}\");\n"
+        "CRASK_CLASS class_#{@name} = crask_registerClass(\"#{@name}\");\n" +
+        defs.map { |d| "crask_addMethodToClass(&class_#{@name}_method_#{d.name}, \"#{d.name}\", class_#{@name});\n" }.join
       end
     end
 

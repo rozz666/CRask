@@ -17,7 +17,6 @@ Feature: Class definitions
             CRASK_CLASS class_AnotherClass = crask_registerClass("AnotherClass");
             """
         And file "someClass.c" should compile
-    @wip
     Scenario: A class with methods
         Given a file named "classWithMethods.rask" with:
             """
