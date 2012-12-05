@@ -3,9 +3,9 @@ module CRask
     class ClassDef
       attr_reader :name
       attr_accessor :defs
-      def initialize name
+      def initialize name, defs = []
         @name = name
-        @defs = []
+        @defs = defs
       end
     end
   end
