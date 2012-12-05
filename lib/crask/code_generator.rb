@@ -23,5 +23,9 @@ module CRask
     def generateMainBlockEnding ast
       "}\n"
     end
+    
+    def generateMethodDefinitions ast
+      ""
+    end
   end
 end
