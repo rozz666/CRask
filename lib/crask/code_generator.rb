@@ -5,9 +5,10 @@ module CRask
         "CRASK_CLASS class_#{@name} = crask_registerClass(\"#{@name}\");\n"
       end
     end
+
     class MethodDef
       def definitionCode className
-        "CRASK_OBJECT class_#{className}_method_#{@name}(CRASK_OBJECT self, ...) {\n}\n"
+        "CRASK_OBJECT class_#{className}_method_#{@name}(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n"
       end
     end
   end
@@ -30,8 +31,10 @@ module CRask
     end
 
     def generateMethodDefinitions ast
-      ast.stmts[0].defs.map {
-        |d| d.definitionCode ast.stmts[0].name
+      ast.stmts.map {
+        |s| s.defs.map {
+          |d| d.definitionCode s.name
+        }.join
       }.join
     end
   end

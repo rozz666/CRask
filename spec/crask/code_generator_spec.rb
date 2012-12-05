@@ -30,6 +30,9 @@ module CRask
       end
     end
     context "generateMethodDefinitions" do
+      it "should generate nothing when there are no classes" do
+        @cg.generateMethodDefinitions(@ast).should eql("")
+      end
       it "should generate nothing when there are no methods" do
         @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
         @cg.generateMethodDefinitions(@ast).should eql("")
@@ -38,8 +41,16 @@ module CRask
         @ast.stmts = [ Ast::ClassDef.new("A") ]
         @ast.stmts[0].defs = [ Ast::MethodDef.new("abc"), Ast::MethodDef.new("def") ]
         @cg.generateMethodDefinitions(@ast).should eql(
-        "CRASK_OBJECT class_A_method_abc(CRASK_OBJECT self, ...) {\n}\n" +
-        "CRASK_OBJECT class_A_method_def(CRASK_OBJECT self, ...) {\n}\n")
+        "CRASK_OBJECT class_A_method_abc(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
+        "CRASK_OBJECT class_A_method_def(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
+      end
+      it "should generate a function for each class" do
+        @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
+        @ast.stmts[0].defs = [ Ast::MethodDef.new("abc") ]
+        @ast.stmts[1].defs = [ Ast::MethodDef.new("def") ]
+        @cg.generateMethodDefinitions(@ast).should eql(
+        "CRASK_OBJECT class_A_method_abc(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
+        "CRASK_OBJECT class_B_method_def(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
       end
     end
   end
