@@ -29,5 +29,11 @@ module CRask
         @cg.generateMainBlockEnding(@ast).should eql("}\n")
       end
     end
+    context "generateMethodDefinitions" do
+      it "should generate nothing when there are no methods" do
+        @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
+        @cg.generateMethodDefinitions(@ast).should eql("")
+      end
+    end
   end
 end
