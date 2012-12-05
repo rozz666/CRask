@@ -34,6 +34,13 @@ module CRask
         @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
         @cg.generateMethodDefinitions(@ast).should eql("")
       end
+      it "should generate a function for each method in a class" do
+        @ast.stmts = [ Ast::ClassDef.new("A") ]
+        @ast.stmts[0].defs = [ Ast::MethodDef.new("abc"), Ast::MethodDef.new("def") ]
+        @cg.generateMethodDefinitions(@ast).should eql(
+        "CRASK_OBJECT class_A_method_abc(CRASK_OBJECT self, ...) {\n}\n" +
+        "CRASK_OBJECT class_A_method_def(CRASK_OBJECT self, ...) {\n}\n")
+      end
     end
   end
 end

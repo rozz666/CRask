@@ -5,6 +5,11 @@ module CRask
         "CRASK_CLASS class_#{@name} = crask_registerClass(\"#{@name}\");\n"
       end
     end
+    class MethodDef
+      def definitionCode className
+        "CRASK_OBJECT class_#{className}_method_#{@name}(CRASK_OBJECT self, ...) {\n}\n"
+      end
+    end
   end
 
   class CodeGenerator
@@ -15,17 +20,19 @@ module CRask
     def generateClassRegistrations ast
       ast.stmts.map { |s| s.registrationCode }.join
     end
-    
+
     def generateMainBlockBeginning ast
       "int main() {\n"
     end
-    
+
     def generateMainBlockEnding ast
       "}\n"
     end
-    
+
     def generateMethodDefinitions ast
-      ""
+      ast.stmts[0].defs.map {
+        |d| d.definitionCode ast.stmts[0].name
+      }.join
     end
   end
 end
