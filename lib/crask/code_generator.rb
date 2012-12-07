@@ -4,11 +4,15 @@ module CRask
       def get_registration_code name_gen
         class_var_name = name_gen.get_class_name(self.name)
         "CRASK_CLASS #{class_var_name} = crask_registerClass(\"#{self.name}\");\n" +
-        defs.map { |d| "crask_addMethodToClass(&class_#{self.name}_method_#{d.name}, \"#{d.name}\", #{class_var_name});\n" }.join
+        defs.map { |d| d.get_registration_code self.name, class_var_name, name_gen }.join
       end
     end
 
     class MethodDef
+      def get_registration_code class_name, class_var_name, name_gen
+        "crask_addMethodToClass(&#{name_gen.get_method_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
+      end
+
       def definitionCode className
         "CRASK_OBJECT class_#{className}_method_#{@name}(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n"
       end
@@ -19,6 +23,7 @@ module CRask
     def initialize name_gen
       @name_gen = name_gen
     end
+
     def generateHeaders ast
       "#include <crask.h>\n"
     end

@@ -24,11 +24,13 @@ module CRask
       end
       it "should register class methods" do
         ast = Ast::Ast.with_class_with_two_methods("A", "abc", "def")
-        @name_gen.stub(:get_class_name).and_return("class_name")
+        @name_gen.stub(:get_class_name).and_return("className")
+        @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
+        @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
         @cg.generateClassRegistrations(ast).should eql(
-        "CRASK_CLASS class_name = crask_registerClass(\"A\");\n" +
-        "crask_addMethodToClass(&class_A_method_abc, \"abc\", class_name);\n" +
-        "crask_addMethodToClass(&class_A_method_def, \"def\", class_name);\n"
+        "CRASK_CLASS className = crask_registerClass(\"A\");\n" +
+        "crask_addMethodToClass(&methodName1, \"abc\", className);\n" +
+        "crask_addMethodToClass(&methodName2, \"def\", className);\n"
         )
       end
     end
