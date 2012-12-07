@@ -32,7 +32,7 @@ module CRask
       ast.stmts.map { |s| s.get_registration_code @name_gen }.join
     end
 
-    def generateMainBlockBeginning ast
+    def generate_main_block_beginning ast
       "int main() {\n"
     end
 

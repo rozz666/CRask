@@ -34,9 +34,9 @@ module CRask
         )
       end
     end
-    context "generateMainBlockBeginning" do
+    context "generate_main_block_beginning" do
       it "should begin main()" do
-        @cg.generateMainBlockBeginning(@ast).should eql("int main() {\n")
+        @cg.generate_main_block_beginning(@ast).should eql("int main() {\n")
       end
     end
     context "generateMainBlockEnding" do

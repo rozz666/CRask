@@ -5,7 +5,7 @@ module CRask
     def generate ast
       generate_headers(ast) +
       generateMethodDefinitions(ast) +
-      generateMainBlockBeginning(ast) +
+      generate_main_block_beginning(ast) +
       generate_class_registrations(ast) +
       generateMainBlockEnding(ast)
     end
