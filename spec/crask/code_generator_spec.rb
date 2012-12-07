@@ -44,19 +44,19 @@ module CRask
         @cg.generate_main_block_ending(@ast).should eql("}\n")
       end
     end
-    context "generateMethodDefinitions" do
+    context "generate_method_definitions" do
       it "should generate nothing when there are no classes" do
-        @cg.generateMethodDefinitions(@ast).should eql("")
+        @cg.generate_method_definitions(@ast).should eql("")
       end
       it "should generate nothing when there are no methods" do
         @ast = Ast::Ast.with_two_classes("A", "B")
-        @cg.generateMethodDefinitions(@ast).should eql("")
+        @cg.generate_method_definitions(@ast).should eql("")
       end
       it "should generate a function for each method in a class" do
         @ast = Ast::Ast.with_class_with_two_methods("A", "abc", "def")
         @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
         @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
-        @cg.generateMethodDefinitions(@ast).should eql(
+        @cg.generate_method_definitions(@ast).should eql(
         "CRASK_OBJECT methodName1(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
         "CRASK_OBJECT methodName2(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
       end
@@ -64,7 +64,7 @@ module CRask
         @ast = Ast::Ast.with_two_classes_with_methods("A", "abc", "B", "def")
         @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
         @name_gen.stub(:get_method_name).with("B", "def").and_return("methodName2")
-        @cg.generateMethodDefinitions(@ast).should eql(
+        @cg.generate_method_definitions(@ast).should eql(
         "CRASK_OBJECT methodName1(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
         "CRASK_OBJECT methodName2(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
       end

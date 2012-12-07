@@ -40,7 +40,7 @@ module CRask
       "}\n"
     end
 
-    def generateMethodDefinitions ast
+    def generate_method_definitions ast
       ast.stmts.map {
         |s| s.defs.map {
           |d| d.definitionCode s.name, @name_gen
