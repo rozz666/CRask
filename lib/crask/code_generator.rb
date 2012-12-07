@@ -28,7 +28,7 @@ module CRask
       "#include <crask.h>\n"
     end
 
-    def generateClassRegistrations ast
+    def generate_class_registrations ast
       ast.stmts.map { |s| s.get_registration_code @name_gen }.join
     end
 

@@ -6,7 +6,7 @@ module CRask
       generate_headers(ast) +
       generateMethodDefinitions(ast) +
       generateMainBlockBeginning(ast) +
-      generateClassRegistrations(ast) +
+      generate_class_registrations(ast) +
       generateMainBlockEnding(ast)
     end
   end
