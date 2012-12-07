@@ -3,7 +3,7 @@ require 'crask/code_generator'
 module CRask
   class CodeGenerator
     def generate ast
-      generateHeaders(ast) +
+      generate_headers(ast) +
       generateMethodDefinitions(ast) +
       generateMainBlockBeginning(ast) +
       generateClassRegistrations(ast) +

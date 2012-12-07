@@ -24,7 +24,7 @@ module CRask
       @name_gen = name_gen
     end
 
-    def generateHeaders ast
+    def generate_headers ast
       "#include <crask.h>\n"
     end
 

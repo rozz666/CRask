@@ -8,9 +8,9 @@ module CRask
       @cg = CodeGenerator.new(@name_gen)
       @ast = Ast::Ast.new
     end
-    context "generateHeaders" do
+    context "generate_headers" do
       it "should include crask.h" do
-        @cg.generateHeaders(@ast).should eql("#include <crask.h>\n");
+        @cg.generate_headers(@ast).should eql("#include <crask.h>\n");
       end
     end
     context "generateClassRegistrations" do
