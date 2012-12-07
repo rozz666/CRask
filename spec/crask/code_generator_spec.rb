@@ -49,23 +49,24 @@ module CRask
         @cg.generateMethodDefinitions(@ast).should eql("")
       end
       it "should generate nothing when there are no methods" do
-        @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
+        @ast = Ast::Ast.with_two_classes("A", "B")
         @cg.generateMethodDefinitions(@ast).should eql("")
       end
       it "should generate a function for each method in a class" do
-        @ast.stmts = [ Ast::ClassDef.new("A") ]
-        @ast.stmts[0].defs = [ Ast::MethodDef.new("abc"), Ast::MethodDef.new("def") ]
+        @ast = Ast::Ast.with_class_with_two_methods("A", "abc", "def")
+        @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
+        @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
         @cg.generateMethodDefinitions(@ast).should eql(
-        "CRASK_OBJECT class_A_method_abc(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
-        "CRASK_OBJECT class_A_method_def(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
+        "CRASK_OBJECT methodName1(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
+        "CRASK_OBJECT methodName2(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
       end
       it "should generate a function for each class" do
-        @ast.stmts = [ Ast::ClassDef.new("A"), Ast::ClassDef.new("B") ]
-        @ast.stmts[0].defs = [ Ast::MethodDef.new("abc") ]
-        @ast.stmts[1].defs = [ Ast::MethodDef.new("def") ]
+        @ast = Ast::Ast.with_two_classes_with_methods("A", "abc", "B", "def")
+        @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
+        @name_gen.stub(:get_method_name).with("B", "def").and_return("methodName2")
         @cg.generateMethodDefinitions(@ast).should eql(
-        "CRASK_OBJECT class_A_method_abc(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
-        "CRASK_OBJECT class_B_method_def(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
+        "CRASK_OBJECT methodName1(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
+        "CRASK_OBJECT methodName2(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
       end
     end
   end
