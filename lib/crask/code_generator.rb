@@ -36,7 +36,7 @@ module CRask
       "int main() {\n"
     end
 
-    def generateMainBlockEnding ast
+    def generate_main_block_ending ast
       "}\n"
     end
 

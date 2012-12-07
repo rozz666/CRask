@@ -39,9 +39,9 @@ module CRask
         @cg.generate_main_block_beginning(@ast).should eql("int main() {\n")
       end
     end
-    context "generateMainBlockEnding" do
+    context "generate_main_block_ending" do
       it "should end main()" do
-        @cg.generateMainBlockEnding(@ast).should eql("}\n")
+        @cg.generate_main_block_ending(@ast).should eql("}\n")
       end
     end
     context "generateMethodDefinitions" do
