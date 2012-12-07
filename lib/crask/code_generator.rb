@@ -12,16 +12,13 @@ module CRask
       def get_registration_code class_name, class_var_name, name_gen
         "crask_addMethodToClass(&#{name_gen.get_method_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
       end
-
-      def get_definition_code class_name, name_gen
-        "CRASK_OBJECT #{name_gen.get_method_name(class_name, self.name)}(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n"
-      end
     end
   end
 
   class CodeGenerator
-    def initialize name_gen
+    def initialize name_gen, method_gen
       @name_gen = name_gen
+      @method_gen = method_gen
     end
 
     def generate_headers ast
@@ -43,7 +40,7 @@ module CRask
     def generate_method_definitions ast
       ast.stmts.map {
         |s| s.defs.map {
-          |d| d.get_definition_code s.name, @name_gen
+          |d| @method_gen.generate s.name, d
         }.join
       }.join
     end

@@ -5,7 +5,8 @@ module CRask
   describe CodeGenerator do
     before(:each) do
       @name_gen = double("name generator")
-      @cg = CodeGenerator.new(@name_gen)
+      @method_gen = double("method code generator")
+      @cg = CodeGenerator.new(@name_gen, @method_gen)
       @ast = Ast::Ast.new
     end
     context "generate_headers" do
@@ -56,17 +57,17 @@ module CRask
         @ast = Ast::Ast.with_class_with_two_methods("A", "abc", "def")
         @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
         @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
-        @cg.generate_method_definitions(@ast).should eql(
-        "CRASK_OBJECT methodName1(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
-        "CRASK_OBJECT methodName2(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
+        @method_gen.should_receive(:generate).with("A", @ast.stmts[0].defs[0]).and_return("method0")
+        @method_gen.should_receive(:generate).with("A", @ast.stmts[0].defs[1]).and_return("method1")
+        @cg.generate_method_definitions(@ast).should eql("method0method1")
       end
       it "should generate a function for each class" do
         @ast = Ast::Ast.with_two_classes_with_methods("A", "abc", "B", "def")
         @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
         @name_gen.stub(:get_method_name).with("B", "def").and_return("methodName2")
-        @cg.generate_method_definitions(@ast).should eql(
-        "CRASK_OBJECT methodName1(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n" +
-        "CRASK_OBJECT methodName2(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
+        @method_gen.should_receive(:generate).with("A", @ast.stmts[0].defs[0]).and_return("method0")
+        @method_gen.should_receive(:generate).with("B", @ast.stmts[1].defs[0]).and_return("method1")
+        @cg.generate_method_definitions(@ast).should eql("method0method1")
       end
     end
   end
