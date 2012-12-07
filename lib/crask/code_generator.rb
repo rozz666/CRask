@@ -13,8 +13,8 @@ module CRask
         "crask_addMethodToClass(&#{name_gen.get_method_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
       end
 
-      def definitionCode className, name_gen
-        "CRASK_OBJECT #{name_gen.get_method_name(className, self.name)}(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n"
+      def get_definition_code class_name, name_gen
+        "CRASK_OBJECT #{name_gen.get_method_name(class_name, self.name)}(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n"
       end
     end
   end
@@ -43,7 +43,7 @@ module CRask
     def generate_method_definitions ast
       ast.stmts.map {
         |s| s.defs.map {
-          |d| d.definitionCode s.name, @name_gen
+          |d| d.get_definition_code s.name, @name_gen
         }.join
       }.join
     end
