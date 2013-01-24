@@ -29,6 +29,15 @@ Then /^file "([^"]*)" should contain:$/ do |cfile, source|
   File.open(cfile) { |f| f.read.should include(source) }
 end
 
+Then /^file "(.*?)" should contain lines:$/ do |cfile, lines|
+  File.open(cfile) { |f|
+    code = f.read
+    lines.split("\n").each { |line|
+      code.should include(line)
+    }
+  }
+end
+
 Then /^file "([^"]*)" should compile$/ do |cfile|
   gccOutput = %x(cc "#{cfile}" -I"#{LIBCRASK_INCLUDE_PATH}" -L"#{LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
   $?.exitstatus.should be(0), gccOutput
