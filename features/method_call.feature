@@ -1,7 +1,5 @@
-@wip
 Feature: Method call
 
-    @wip
     Scenario: Method call with no arguments
         Given a file named "methodCall.rask" with:
             """

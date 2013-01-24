@@ -1,2 +1,4 @@
-default: --tag ~@wip
-
+default: --tag @done -f pretty
+wip: --tag @wip -f pretty
+all: -f pretty
+regression: --tag @done -f progress

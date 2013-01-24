@@ -45,7 +45,7 @@ end
 
 desc "run feature scenarios"
 task :features => [:grammar, :libcrask] do
-  sh 'cucumber -f progress'
+  sh 'cucumber -p regression'
 end
 
 desc "run all examples and scenarios (default)"

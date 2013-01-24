@@ -1,5 +1,6 @@
 Feature: Empty source
 
+    @done
     Scenario: Empty input
         Given an empty file named "empty.rask"
         When I translate "empty.rask" to C into "empty.c"

@@ -1,7 +1,5 @@
-@wip
 Feature: Class instantiation
 
-    @wip
     Scenario: Class instantiation with no arguments
         Given a file named "classInstantiation.rask" with:
             """

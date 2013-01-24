@@ -1,4 +1,5 @@
 Feature: Class definitions
+    @done
     Scenario: Empty class definitions
         Given a file named "someClass.rask" with:
             """
@@ -17,6 +18,7 @@ Feature: Class definitions
             CRASK_CLASS class_AnotherClass = crask_registerClass("AnotherClass");
             """
         And file "someClass.c" should compile
+    @done
     Scenario: A class with methods
         Given a file named "classWithMethods.rask" with:
             """
@@ -50,7 +52,6 @@ Feature: Class definitions
             """
         And file "classWithMethods.c" should compile
 
-    @wip
     Scenario: A class with a method with arguments
         Given a file named "classWithMethodWithArguments.rask" with:
             """
@@ -78,7 +79,6 @@ Feature: Class definitions
             """
         And file "classWithMethodWithArguments.c" should compile
 
-    @wip
     Scenario: A class with destructor
         Given a file named "classWithDestructor.rask" with:
             """

@@ -1,7 +1,5 @@
-@wip
 Feature: Local variables
 
-    @wip
     Scenario: Creating a new local variable by assignment
         Given a file named "local.rask" with:
             """
@@ -17,7 +15,6 @@ Feature: Local variables
             """
         And file "local.c" should compile
 
-    @wip
     Scenario: Creating a local variable in a method
         Given a file named "local_in_method.rask" with:
             """
