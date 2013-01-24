@@ -49,3 +49,23 @@ Feature: Class definitions
             crask_addMethodToClass(&class_ClassWithMethods_method_bar, "bar", class_ClassWithMethods);
             """
         And file "classWithMethods.c" should compile
+
+    Scenario: A class with destructor
+        Given a file named "classWithDestructor.rask" with:
+            """
+            class ClassWithDtor {
+                dtor {
+                }
+            }
+            """
+        When I translate "classWithDestructor.rask" to C into "classWithDestructor.c"
+        Then file "classWithDestructor.c" should contain:
+            """
+            void class_ClassWithDtor(CRASK_OBJECT self) {
+            }
+            """
+        And file "classWithDestructor.c" should contain:
+            """
+            crask_addDestructorToClass(&class_ClassWithDtor, class_ClassWithDtor);
+            """
+        And file "classWithDestructor.c" should compile
