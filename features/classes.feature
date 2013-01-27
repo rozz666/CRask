@@ -78,7 +78,7 @@ Feature: Class definitions
             crask_addMethodToClass(&class_X_method_baz_arg_a_first_arg_m_middle_arg_z_last, "baz:a_first,m_middle,z_last", class_X);
             """
         And file "classWithMethodWithArguments.c" should compile
-
+    
     Scenario: A class with destructor
         Given a file named "classWithDestructor.rask" with:
             """
@@ -98,3 +98,23 @@ Feature: Class definitions
             crask_addDestructorToClass(&class_ClassWithDtor, class_ClassWithDtor);
             """
         And file "classWithDestructor.c" should compile
+    @wip
+    Scenario: A class with constructor
+        Given source code:
+            """
+            class ClassWithCtor {
+                ctor new {
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+            void class_A_class_ctor_new(CRASK_OBJECT self) {
+            }
+            """
+        And generated C code should contain:
+            """
+            crask_addConstructorToClass(&class_A_class_ctor_new, class_A);
+            """
+        And generated C code should compile
