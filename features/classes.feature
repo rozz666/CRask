@@ -102,7 +102,7 @@ Feature: Class definitions
     Scenario: A class with constructor
         Given source code:
             """
-            class ClassWithCtor {
+            class A {
                 ctor new {
                 }
             }
@@ -110,7 +110,7 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            void class_A_class_ctor_new(CRASK_OBJECT self) {
+            void class_A_class_ctor_new(CRASK_OBJECT self, ...) {
             }
             """
         And generated C code should contain:
@@ -118,3 +118,30 @@ Feature: Class definitions
             crask_addConstructorToClass(&class_A_class_ctor_new, class_A);
             """
         And generated C code should compile
+
+    Scenario: A class with constructor with arguments
+        Given source code:
+            """
+            class A {
+                ctor foo(bar, baz) {
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+            void class_A_class_ctor_foo(CRASK_OBJECT self, ...) {
+                CRASK_OBJECT local_bar, local_baz;
+                va_list rask_args;
+                va_start(rask_args, self);
+                local_bar = va_arg(rask_args, CRASK_OBJECT);
+                local_baz = va_arg(rask_args, CRASK_OBJECT);
+                va_end(rask_args);
+            }
+            """
+        And generated C code should contain:
+            """
+            crask_addConstructorToClass(&class_A_class_ctor_foo, class_A);
+            """
+        And generated C code should compile
+    
