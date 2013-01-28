@@ -7,6 +7,7 @@ rule
   {BLANK}
   class           { [:class, text] }
   def             { [:def, text] }
+  ctor            { [:ctor, text] }
   \w+             { [:identifier, text ] }
   {BRACE_OPEN}    { [:brace_open, text ] }
   {BRACE_CLOSE}   { [:brace_close, text ] }
