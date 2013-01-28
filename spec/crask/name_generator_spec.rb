@@ -18,5 +18,10 @@ module CRask
         @generator.get_method_name("Class", "m2").should eql("#{class_name}_method_m2")
       end
     end
+    context "get_ctor_name" do
+      it "should prepend given name with class_ClassName_class_ctor_" do
+        @generator.get_ctor_name("Abc", "c1").should eql("class_Abc_class_ctor_c1")
+      end
+    end
   end
 end
