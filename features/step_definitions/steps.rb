@@ -43,7 +43,7 @@ Then /^generated C code should contain:$/ do |source|
 end
 
 Then /^generated C code should compile$/ do
-  gccOutput = %x(cc "#{cfile}" -I"#{LIBCRASK_INCLUDE_PATH}" -L"#{LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
+  gccOutput = %x(cc "#{$DEFAULT_C_OUTPUT}" -I"#{LIBCRASK_INCLUDE_PATH}" -L"#{LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
   $?.exitstatus.should eql(0), gccOutput
 end
 

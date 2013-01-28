@@ -115,7 +115,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addConstructorToClass(&class_A_class_ctor_new, class_A);
+            crask_addConstructorToClass(&class_A_class_ctor_new, "new", class_A);
             """
         And generated C code should compile
 
@@ -141,7 +141,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addConstructorToClass(&class_A_class_ctor_foo, class_A);
+            crask_addConstructorToClass(&class_A_class_ctor_foo, "foo", class_A);
             """
         And generated C code should compile
     
