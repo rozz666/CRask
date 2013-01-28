@@ -41,5 +41,10 @@ module CRask
       defs[0].should be_a_kind_of(Ast::CtorDef)
       defs[0].name.should eql("foo")
     end
+    it "should parse all ctor definitions" do
+      defs = parser.parse_class_defs("ctor a {\n}\ndef b {\n}\n")
+      
+      defs.should have(2).items
+    end
   end
 end
