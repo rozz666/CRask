@@ -34,6 +34,17 @@ module CRask
         "crask_addMethodToClass(&methodName2, \"def\", className);\n"
         )
       end
+      it "should register class constructors" do
+        ast = Ast::Ast.with_class_with_two_ctors("X", "foo", "bar")
+        @name_gen.stub(:get_class_name).with("X").and_return("className")
+        @name_gen.stub(:get_ctor_name).with("X", "foo").and_return("ctorName1")
+        @name_gen.stub(:get_ctor_name).with("X", "bar").and_return("ctorName2")
+        @cg.generate_class_registrations(ast).should include(
+          ";\n" +
+          "crask_addConstructorToClass(&ctorName1, \"foo\", className);\n" +
+          "crask_addConstructorToClass(&ctorName2, \"bar\", className);\n"
+        )
+      end
     end
     context "generate_main_block_beginning" do
       it "should begin main()" do

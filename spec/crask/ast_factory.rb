@@ -15,6 +15,11 @@ module CRask
           ClassDef.new(klass1, [ MethodDef.new(method1) ]),
           ClassDef.new(klass2, [ MethodDef.new(method2) ]) ]
       end
+      
+      def self.with_class_with_two_ctors klass, first, second
+        Ast.new [ ClassDef.new(klass,
+          [ CtorDef.new(first), CtorDef.new(second) ]) ]
+      end
     end
   end
 end

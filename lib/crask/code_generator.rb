@@ -13,6 +13,12 @@ module CRask
         "crask_addMethodToClass(&#{name_gen.get_method_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
       end
     end
+    
+    class CtorDef
+      def get_registration_code class_name, class_var_name, name_gen
+        "crask_addConstructorToClass(&#{name_gen.get_ctor_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
+      end
+    end
   end
 
   class CodeGenerator
