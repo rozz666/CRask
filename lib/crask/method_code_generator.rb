@@ -9,7 +9,11 @@ module CRask
     class CtorDef
       def get_method_code class_name, name_gen
         ctor_name = name_gen.get_ctor_name class_name, name
-        "void #{ctor_name}(CRASK_OBJECT self, ...) {\n}"
+        decorated_class_name = name_gen.get_class_name class_name
+        "CRASK_OBJECT #{ctor_name}(CRASK_OBJECT classSelf, ...) {\n"+
+        "    CRASK_OBJECT self = crask_createInstance(#{decorated_class_name});\n" +
+        "    return self;\n" +
+        "}"
       end
     end
   end

@@ -11,9 +11,14 @@ module CRask
       @gen.generate("A", Ast::MethodDef.new("m")).should eql(
       "CRASK_OBJECT methodName(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
     end
-    it "should generate empty constructors" do
+    it "should generate a constructor creating a new instance" do
       @name_gen.should_receive(:get_ctor_name).with("A", "m").and_return("ctorName")
-      @gen.generate("A", Ast::CtorDef.new("m")).should eql("void ctorName(CRASK_OBJECT self, ...) {\n}")
+      @name_gen.should_receive(:get_class_name).with("A").and_return("className")
+      @gen.generate("A", Ast::CtorDef.new("m")).should eql(
+        "CRASK_OBJECT ctorName(CRASK_OBJECT classSelf, ...) {\n" +
+        "    CRASK_OBJECT self = crask_createInstance(className);\n" +
+        "    return self;\n" +
+        "}")
     end
   end
 end
