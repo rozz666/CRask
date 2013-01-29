@@ -1,23 +1,23 @@
 Feature: Class definitions
     @done
     Scenario: Empty class definitions
-        Given a file named "someClass.rask" with:
+        Given source code:
             """
             class SomeClass {
             }
             class AnotherClass {
             }
             """
-        When I translate "someClass.rask" to C into "someClass.c"
-        Then file "someClass.c" should contain:
+        When I translate it to C
+        Then generated C code should contain:
             """
             CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
             """
-        And file "someClass.c" should contain:
+        And generated C code should contain:
             """
             CRASK_CLASS class_AnotherClass = crask_registerClass("AnotherClass");
             """
-        And file "someClass.c" should compile
+        And generated C code should compile
     @done
     Scenario: A class with methods
         Given a file named "classWithMethods.rask" with:
