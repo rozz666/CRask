@@ -2,13 +2,15 @@ Feature: Empty source
 
     @done
     Scenario: Empty input
-        Given an empty file named "empty.rask"
-        When I translate "empty.rask" to C into "empty.c"
-        Then file "empty.c" should contain:
+        Given source code:
+        """
+        """
+        When I translate it to C
+        Then generated C code should contain:
             """
             #include <crask.h>
             int main() {
             }
             
             """
-        And file "empty.c" should compile
+        And generated C code should compile
