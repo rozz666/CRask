@@ -86,7 +86,8 @@ CRASK_METHOD crask_registerMethod(const char *methodName) {
     return &*method;
 }
 
-void crask_addClassMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
+void crask_addClassMethodToClass(CRASK_METHOD_IMPL methodImpl, const char *methodName, CRASK_CLASS cls) {
+    CRASK_METHOD method = crask_registerMethod(methodName);
     cls->self->cls->methods.insert({method, methodImpl});
 }
 

@@ -22,7 +22,7 @@ extern CRASK_OBJECT CRASK_NIL;
 CRASK_CLASS crask_registerClass(const char *className);
 CRASK_CLASS crask_getClass(const char *className);
 CRASK_METHOD crask_registerMethod(const char *methodName);
-void crask_addClassMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls);
+void crask_addClassMethodToClass(CRASK_METHOD_IMPL methodImpl, const char *methodName, CRASK_CLASS cls);
 CRASK_OBJECT crask_getClassObject(CRASK_CLASS cls);
 CRASK_METHOD_IMPL crask_getMethodImplForObject(CRASK_METHOD method, CRASK_OBJECT object);
 CRASK_OBJECT crask_createInstance(CRASK_CLASS cls);

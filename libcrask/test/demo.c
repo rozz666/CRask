@@ -114,14 +114,14 @@ CRASK_OBJECT int_print(CRASK_OBJECT self, ...) {
 
 void initClasses() {
     intClass = crask_registerClass("int");
-    crask_addClassMethodToClass(new_, int_new, intClass);
+    crask_addClassMethodToClass(int_new, "new", intClass);
     crask_addMethodToClass(dealloc, int_dealloc, intClass);
     crask_addMethodToClass(mult, int_mult, intClass);
     crask_addMethodToClass(print, int_print, intClass);
     crask_addMethodToClass(release, Object_release, intClass);
 
     rectClass = crask_registerClass("Rect");
-    crask_addClassMethodToClass(new_, Rect_new, rectClass);
+    crask_addClassMethodToClass(Rect_new, "new", rectClass);
     crask_addMethodToClass(setA, Rect_setA, rectClass);
     crask_addMethodToClass(setB, Rect_setB, rectClass);
     crask_addMethodToClass(area, Rect_area, rectClass);
