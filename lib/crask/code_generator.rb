@@ -3,7 +3,8 @@ module CRask
     class ClassDef
       def get_registration_code name_gen
         class_var_name = name_gen.get_class_name(self.name)
-        "CRASK_CLASS #{class_var_name} = crask_registerClass(\"#{self.name}\");\n" +
+        "CRASK_CLASS #{class_var_name};\n" +
+        "#{class_var_name} = crask_registerClass(\"#{self.name}\");\n" +
         defs.map { |d| d.get_registration_code self.name, class_var_name, name_gen }.join
       end
     end

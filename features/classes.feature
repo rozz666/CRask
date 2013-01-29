@@ -9,13 +9,12 @@ Feature: Class definitions
             }
             """
         When I translate it to C
-        Then generated C code should contain:
+        Then generated C code should contain lines:
             """
-            CRASK_CLASS class_SomeClass = crask_registerClass("SomeClass");
-            """
-        And generated C code should contain:
-            """
-            CRASK_CLASS class_AnotherClass = crask_registerClass("AnotherClass");
+            CRASK_CLASS class_SomeClass;
+            class_SomeClass = crask_registerClass("SomeClass");
+            CRASK_CLASS class_AnotherClass;
+            class_AnotherClass = crask_registerClass("AnotherClass");
             """
         And generated C code should compile
     @done
