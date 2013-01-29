@@ -80,24 +80,24 @@ Feature: Class definitions
         And generated C code should compile
     
     Scenario: A class with destructor
-        Given a file named "classWithDestructor.rask" with:
+        Given source code:
             """
             class ClassWithDtor {
                 dtor {
                 }
             }
             """
-        When I translate "classWithDestructor.rask" to C into "classWithDestructor.c"
-        Then file "classWithDestructor.c" should contain:
+        When I translate it to C
+        Then generated C code should contain:
             """
             void class_ClassWithDtor(CRASK_OBJECT self) {
             }
             """
-        And file "classWithDestructor.c" should contain:
+        And generated C code should contain:
             """
             crask_addDestructorToClass(&class_ClassWithDtor, class_ClassWithDtor);
             """
-        And file "classWithDestructor.c" should compile
+        And generated C code should compile
     @wip
     Scenario: A class with constructor
         Given source code:
