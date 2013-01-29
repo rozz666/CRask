@@ -60,6 +60,15 @@ Then /^file "(.*?)" should contain lines:$/ do |cfile, lines|
   }
 end
 
+Then /^generated C code should contain lines:$/ do |lines|
+  File.open($DEFAULT_C_OUTPUT) { |f|
+    code = f.read
+    lines.split("\n").each { |line|
+      code.should include(line)
+    }
+  }
+end
+
 Then /^file "([^"]*)" should compile$/ do |cfile|
   gccOutput = %x(cc "#{cfile}" -I"#{LIBCRASK_INCLUDE_PATH}" -L"#{LIBCRASK_BUILD_PATH}" -lcrask -o a.out 2>&1 && rm a.out)
   $?.exitstatus.should eql(0), gccOutput

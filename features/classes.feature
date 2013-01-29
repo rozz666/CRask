@@ -53,7 +53,7 @@ Feature: Class definitions
         And generated C code should compile
 
     Scenario: A class with a method with arguments
-        Given a file named "classWithMethodWithArguments.rask" with:
+        Given source code:
             """
             class X {
                 def foo(one) {
@@ -64,20 +64,20 @@ Feature: Class definitions
                 }
             }
             """
-        When I translate "classWithMethodWithArguments.rask" to C into "classWithMethodWithArguments.c"
-        Then file "classWithMethodWithArguments.c" should contain lines:
+        When I translate it to C
+        Then generated C code should contain lines:
             """
             CRASK_OBJECT class_X_method_foo_arg_one(CRASK_OBJECT self, ...)
             CRASK_OBJECT class_X_method_bar_arg_first_arg_second_arg_third(CRASK_OBJECT self, ...)
             CRASK_OBJECT class_X_method_baz_arg_a_first_arg_m_middle_arg_z_last(CRASK_OBJECT self, ...)
             """
-        And file "classWithMethodWithArguments.c" should contain lines:
+        And generated C code should contain lines:
             """
             crask_addMethodToClass(&class_X_method_foo_arg_one, "foo:one", class_X);
             crask_addMethodToClass(&class_X_method_bar_arg_first_arg_second_arg_third, "bar:first,second,third", class_X);
             crask_addMethodToClass(&class_X_method_baz_arg_a_first_arg_m_middle_arg_z_last, "baz:a_first,m_middle,z_last", class_X);
             """
-        And file "classWithMethodWithArguments.c" should compile
+        And generated C code should compile
     
     Scenario: A class with destructor
         Given a file named "classWithDestructor.rask" with:
