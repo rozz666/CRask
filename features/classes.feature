@@ -31,23 +31,23 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            CRASK_OBJECT class_ClassWithMethods_method_foo(CRASK_OBJECT self, ...) {
+            CRASK_OBJECT class_ClassWithMethods_class_method_foo(CRASK_OBJECT self, ...) {
                 return CRASK_NIL;
             }
             """
         And generated C code should contain:
             """
-            CRASK_OBJECT class_ClassWithMethods_method_bar(CRASK_OBJECT self, ...) {
+            CRASK_OBJECT class_ClassWithMethods_class_method_bar(CRASK_OBJECT self, ...) {
                 return CRASK_NIL;
             }
             """
         And generated C code should contain:
             """
-            crask_addMethodToClass(&class_ClassWithMethods_method_foo, "foo", class_ClassWithMethods);
+            crask_addMethodToClass(&class_ClassWithMethods_class_method_foo, "foo", class_ClassWithMethods);
             """
         And generated C code should contain:
             """
-            crask_addMethodToClass(&class_ClassWithMethods_method_bar, "bar", class_ClassWithMethods);
+            crask_addMethodToClass(&class_ClassWithMethods_class_method_bar, "bar", class_ClassWithMethods);
             """
         And generated C code should compile
 
