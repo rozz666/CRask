@@ -14,15 +14,23 @@ module CRask
         @cg.generate_headers(@ast).should eql("#include <crask.h>\n");
       end
     end
+    context "generate_class_declarations" do
+      it "should define decorated class variables" do
+        ast = Ast::Ast.with_two_classes("A", "B")
+        @name_gen.stub(:get_class_name).with("A").and_return("name1")
+        @name_gen.stub(:get_class_name).with("B").and_return("name2")
+        @cg.generate_class_declarations(ast).should eql(
+        "CRASK_CLASS name1;\n" +
+        "CRASK_CLASS name2;\n")
+      end
+    end
     context "generate_class_registrations" do
-      it "should register classes and define its variables" do
+      it "should register classes" do
         ast = Ast::Ast.with_two_classes("A", "B")
         @name_gen.stub(:get_class_name).with("A").and_return("name1")
         @name_gen.stub(:get_class_name).with("B").and_return("name2")
         @cg.generate_class_registrations(ast).should eql(
-        "CRASK_CLASS name1;\n" +
         "name1 = crask_registerClass(\"A\");\n" +
-        "CRASK_CLASS name2;\n" +
         "name2 = crask_registerClass(\"B\");\n")
       end
       it "should register class methods" do

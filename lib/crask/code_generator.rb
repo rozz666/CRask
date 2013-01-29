@@ -1,9 +1,12 @@
 module CRask
   module Ast
     class ClassDef
+      def get_declaration_code name_gen
+        class_var_name = name_gen.get_class_name(self.name)
+        "CRASK_CLASS #{class_var_name};\n"
+      end
       def get_registration_code name_gen
         class_var_name = name_gen.get_class_name(self.name)
-        "CRASK_CLASS #{class_var_name};\n" +
         "#{class_var_name} = crask_registerClass(\"#{self.name}\");\n" +
         defs.map { |d| d.get_registration_code self.name, class_var_name, name_gen }.join
       end
@@ -30,6 +33,10 @@ module CRask
 
     def generate_headers ast
       "#include <crask.h>\n"
+    end
+    
+    def generate_class_declarations ast
+      ast.stmts.map { |s| s.get_declaration_code @name_gen }.join
     end
 
     def generate_class_registrations ast
