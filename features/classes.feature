@@ -20,7 +20,7 @@ Feature: Class definitions
         And generated C code should compile
     @done
     Scenario: A class with methods
-        Given a file named "classWithMethods.rask" with:
+        Given source code:
             """
             class ClassWithMethods {
                 def foo {
@@ -29,28 +29,28 @@ Feature: Class definitions
                 }
             }
             """
-        When I translate "classWithMethods.rask" to C into "classWithMethods.c"
-        Then file "classWithMethods.c" should contain:
+        When I translate it to C
+        Then generated C code should contain:
             """
             CRASK_OBJECT class_ClassWithMethods_method_foo(CRASK_OBJECT self, ...) {
                 return CRASK_NIL;
             }
             """
-        And file "classWithMethods.c" should contain:
+        And generated C code should contain:
             """
             CRASK_OBJECT class_ClassWithMethods_method_bar(CRASK_OBJECT self, ...) {
                 return CRASK_NIL;
             }
             """
-        And file "classWithMethods.c" should contain:
+        And generated C code should contain:
             """
             crask_addMethodToClass(&class_ClassWithMethods_method_foo, "foo", class_ClassWithMethods);
             """
-        And file "classWithMethods.c" should contain:
+        And generated C code should contain:
             """
             crask_addMethodToClass(&class_ClassWithMethods_method_bar, "bar", class_ClassWithMethods);
             """
-        And file "classWithMethods.c" should compile
+        And generated C code should compile
 
     Scenario: A class with a method with arguments
         Given a file named "classWithMethodWithArguments.rask" with:
