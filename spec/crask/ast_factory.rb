@@ -24,6 +24,12 @@ module CRask
       def self.with_class_with_dtor klass
         Ast.new [ ClassDef.new(klass, [ DtorDef.new ]) ]
       end
+      
+      def self.with_two_classes_with_dtors
+        Ast.new [
+          ClassDef.new("A", [ DtorDef.new ]),
+          ClassDef.new("B", [ DtorDef.new ]) ]
+      end
     end
   end
 end
