@@ -1,6 +1,7 @@
 require 'crask/ast/class_def'
 require 'crask/ast/method_def'
 require 'crask/ast/ctor_def'
+require 'crask/ast/dtor_def'
 
 module CRask
   module Ast

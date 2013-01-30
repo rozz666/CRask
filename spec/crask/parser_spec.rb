@@ -46,5 +46,11 @@ module CRask
       
       defs.should have(2).items
     end
+    it "should parse empty dtor definition" do
+      defs = parser.parse_class_defs("dtor {\n}")
+      
+      defs.should have(1).item
+      defs[0].should be_a_kind_of(Ast::DtorDef)
+    end
   end
 end
