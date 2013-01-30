@@ -22,5 +22,10 @@ module CRask
         @generator.get_ctor_name("Abc", "c1").should eql("class_Abc_class_ctor_c1")
       end
     end
+    context "get_dtor_name" do
+      it "should always return class_ClassName_class_dtor" do
+        @generator.get_dtor_name("Abc").should eql("class_Abc_class_dtor")
+      end
+    end
   end
 end
