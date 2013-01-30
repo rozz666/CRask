@@ -95,8 +95,7 @@ Feature: Class definitions
             crask_addDestructorToClass(&class_Foo_class_dtor, class_Foo);
             """
         And generated C code should compile
-
-    @wip    
+    @done
     Scenario: A class with destructor
         Given source code:
             """
