@@ -108,12 +108,12 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            void class_ClassWithDtor(CRASK_OBJECT self) {
+            void class_ClassWithDtor_class_dtor(CRASK_OBJECT self) {
             }
             """
         And generated C code should contain:
             """
-            crask_addDestructorToClass(&class_ClassWithDtor, class_ClassWithDtor);
+            crask_addDestructorToClass(&class_ClassWithDtor_class_dtor, class_ClassWithDtor);
             """
         And generated C code should compile
     @done
