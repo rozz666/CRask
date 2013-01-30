@@ -15,6 +15,7 @@ struct CRASK_METHOD_;
 typedef struct CRASK_METHOD_ *CRASK_METHOD;
 
 typedef CRASK_OBJECT (*CRASK_METHOD_IMPL)(CRASK_OBJECT, ...);
+typedef void (*CRASK_DESTRUCTOR_IMPL)(CRASK_OBJECT);
 
 extern CRASK_CLASS CRASK_CLASS_NIL;
 extern CRASK_OBJECT CRASK_NIL;
@@ -34,6 +35,7 @@ CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object);
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object);
 void crask_setObjectData(CRASK_OBJECT object, void *data);
 void *crask_getObjectData(CRASK_OBJECT object);
+void crask_addDestructorToClass(CRASK_DESTRUCTOR_IMPL dtorImpl, CRASK_CLASS cls);
 
 #ifdef __cplusplus
 }

@@ -149,4 +149,8 @@ void *crask_getObjectData(CRASK_OBJECT object) {
     return object->data;
 }
 
+void crask_addDestructorToClass(CRASK_DESTRUCTOR_IMPL dtorImpl, CRASK_CLASS cls)
+{
+}
+
 }
