@@ -20,5 +20,10 @@ module CRask
         "    return self;\n" +
         "}")
     end
+    it "should generate an empty destructor" do
+      @name_gen.should_receive(:get_dtor_name).with("A").and_return("dtorName")
+      @gen.generate("A", Ast::DtorDef.new).should eql(
+        "void dtorName(CRASK_OBJECT self) {\n}\n")
+    end
   end
 end

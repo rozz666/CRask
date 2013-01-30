@@ -16,6 +16,12 @@ module CRask
         "}"
       end
     end
+    class DtorDef
+      def get_method_code class_name, name_gen
+        dtor_name = name_gen.get_dtor_name class_name
+        "void #{dtor_name}(CRASK_OBJECT self) {\n}\n"
+      end
+    end
   end
   class MethodCodeGenerator
     def initialize name_gen
