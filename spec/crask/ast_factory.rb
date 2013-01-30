@@ -20,6 +20,10 @@ module CRask
         Ast.new [ ClassDef.new(klass,
           [ CtorDef.new(first), CtorDef.new(second) ]) ]
       end
+      
+      def self.with_class_with_dtor klass
+        Ast.new [ ClassDef.new(klass, [ DtorDef.new ]) ]
+      end
     end
   end
 end

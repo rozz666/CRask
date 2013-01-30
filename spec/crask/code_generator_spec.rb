@@ -55,6 +55,13 @@ module CRask
           "crask_addClassMethodToClass(&ctorName2, \"bar\", className);\n"
         )
       end
+      it "should register class destructor" do
+        ast = Ast::Ast.with_class_with_dtor "X"
+        @name_gen.stub(:get_class_name).with("X").and_return("className")
+        @name_gen.stub(:get_dtor_name).with("X").and_return("dtorName")
+        @cg.generate_class_registrations(ast).should end_with(
+          ";\ncrask_addDestructorToClass(&dtorName, className);\n")
+      end
     end
     context "generate_main_block_beginning" do
       it "should begin main()" do
