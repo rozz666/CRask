@@ -29,7 +29,7 @@ CRASK_METHOD_IMPL crask_getMethodImplForObject(CRASK_METHOD method, CRASK_OBJECT
 CRASK_OBJECT crask_createInstance(CRASK_CLASS cls);
 void crask_release(CRASK_OBJECT object);
 void crask_retain(CRASK_OBJECT object);
-void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls);
+void crask_addMethodToClass(CRASK_METHOD_IMPL methodImpl, const char *methodName, CRASK_CLASS cls);
 CRASK_OBJECT *crask_getVariableFromObject(const char *name, CRASK_OBJECT object);
 CRASK_OBJECT *crask_addVariableToObject(const char *name, CRASK_OBJECT object);
 CRASK_OBJECT crask_getObjectClassObject(CRASK_OBJECT object);

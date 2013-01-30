@@ -115,7 +115,8 @@ void crask_retain(CRASK_OBJECT object) {
     ++object->refCount;
 }
 
-void crask_addMethodToClass(CRASK_METHOD method, CRASK_METHOD_IMPL methodImpl, CRASK_CLASS cls) {
+void crask_addMethodToClass(CRASK_METHOD_IMPL methodImpl, const char *methodName, CRASK_CLASS cls) {
+    CRASK_METHOD method = crask_registerMethod(methodName);
     cls->methods.insert({method, methodImpl});
 }
 
