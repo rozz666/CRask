@@ -78,7 +78,6 @@ Feature: Class definitions
             """
         And generated C code should compile
 
-    @wip    
     Scenario: Default destructor
         Given source code:
             """
@@ -97,6 +96,7 @@ Feature: Class definitions
             """
         And generated C code should compile
 
+    @wip    
     Scenario: A class with destructor
         Given source code:
             """
