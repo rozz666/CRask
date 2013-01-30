@@ -77,7 +77,26 @@ Feature: Class definitions
             crask_addMethodToClass(&class_X_class_method_baz_arg_a_first_arg_m_middle_arg_z_last, "baz:a_first,m_middle,z_last", class_X);
             """
         And generated C code should compile
-    
+
+    @wip    
+    Scenario: Default destructor
+        Given source code:
+            """
+            class Foo {
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+            void class_Foo_class_dtor(CRASK_OBJECT self) {
+            }
+            """
+        And generated C code should contain:
+            """
+            crask_addDestructorToClass(&class_Foo_class_dtor, class_Foo);
+            """
+        And generated C code should compile
+
     Scenario: A class with destructor
         Given source code:
             """
