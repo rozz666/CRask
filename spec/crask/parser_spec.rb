@@ -57,5 +57,12 @@ module CRask
       
       defs.should have(2).items
     end
+    it "should parse all methods in the class" do
+      defs = parser.parse_class_defs(
+        "def a {\n}\nctor b {\n}\ndtor {\n}\n" +
+        "def c {\n}\nctor d {\n}\ndtor {\n}\n")
+      
+      defs.should have(6).items
+    end
   end
 end
