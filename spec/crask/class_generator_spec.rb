@@ -12,5 +12,12 @@ module CRask
       @name_gen.stub(:get_class_name).with("A").and_return("name1")
       @gen.generate_registration(cdef).should eql("name1 = crask_registerClass(\"A\");\n")
     end
+    it "should register class destructor" do
+      cdef = Ast::ClassDef.with_name_and_dtor "B"
+      @name_gen.stub(:get_class_name).and_return("className")
+      @name_gen.stub(:get_dtor_name).with("B").and_return("dtorName")
+      @gen.generate_registration(cdef).should end_with(
+        ";\ncrask_addDestructorToClass(&dtorName, className);\n")
+    end
   end
 end
