@@ -19,5 +19,15 @@ module CRask
       @gen.generate_registration(cdef).should end_with(
         ";\ncrask_addDestructorToClass(&dtorName, className);\n")
     end
+    it "should generate method registrations using libcrask" do
+      cdef = Ast::ClassDef.with_name_and_two_methods("A", "abc", "def")
+      @name_gen.stub(:get_class_name).and_return("className")
+      @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
+      @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
+      @gen.generate_registration(cdef).should end_with(
+        ";\n" +
+        "crask_addMethodToClass(&methodName1, \"abc\", className);\n" +
+        "crask_addMethodToClass(&methodName2, \"def\", className);\n")
+    end
   end
 end
