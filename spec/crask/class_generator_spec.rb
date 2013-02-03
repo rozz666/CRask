@@ -29,5 +29,16 @@ module CRask
         "crask_addMethodToClass(&methodName1, \"abc\", className);\n" +
         "crask_addMethodToClass(&methodName2, \"def\", className);\n")
     end
+    it "should generate constructor registrations as class methods using libcrask" do
+      cdef = Ast::ClassDef.with_name_and_ctors "X", "foo", "bar"
+      @name_gen.stub(:get_class_name).and_return("className")
+      @name_gen.stub(:get_ctor_name).with("X", "foo").and_return("ctorName1")
+      @name_gen.stub(:get_ctor_name).with("X", "bar").and_return("ctorName2")
+      @gen.generate_registration(cdef).should end_with(
+        ";\n" +
+        "crask_addClassMethodToClass(&ctorName1, \"foo\", className);\n" +
+        "crask_addClassMethodToClass(&ctorName2, \"bar\", className);\n"
+      )
+    end
   end
 end
