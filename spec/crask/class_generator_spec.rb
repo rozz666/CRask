@@ -40,5 +40,10 @@ module CRask
         "crask_addClassMethodToClass(&ctorName2, \"bar\", className);\n"
       )
     end
+    it "should generate class variable declaration" do
+      cdef = Ast::ClassDef.with_name "Z"
+      @name_gen.stub(:get_class_name).and_return("className")
+      @gen.generate_declaration(cdef).should eql("CRASK_CLASS className;\n")
+    end
   end
 end

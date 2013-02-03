@@ -30,5 +30,9 @@ module CRask
         d.generate_registration_code @name_gen, class_def.name, decorated_name
       end.join
     end
+    def generate_declaration class_def
+      decorated_name = @name_gen.get_class_name class_def.name
+      "CRASK_CLASS #{decorated_name};\n"
+    end
   end
 end
