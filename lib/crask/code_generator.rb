@@ -5,36 +5,14 @@ module CRask
         class_var_name = name_gen.get_class_name(self.name)
         "CRASK_CLASS #{class_var_name};\n"
       end
-      def get_registration_code name_gen
-        class_var_name = name_gen.get_class_name(self.name)
-        "#{class_var_name} = crask_registerClass(\"#{self.name}\");\n" +
-        defs.map { |d| d.get_registration_code self.name, class_var_name, name_gen }.join
-      end
-    end
-
-    class MethodDef
-      def get_registration_code class_name, class_var_name, name_gen
-        "crask_addMethodToClass(&#{name_gen.get_method_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
-      end
-    end
-    
-    class CtorDef
-      def get_registration_code class_name, class_var_name, name_gen
-        "crask_addClassMethodToClass(&#{name_gen.get_ctor_name(class_name, self.name)}, \"#{self.name}\", #{class_var_name});\n"
-      end
-    end
-    
-    class DtorDef
-      def get_registration_code class_name, class_var_name, name_gen
-        "crask_addDestructorToClass(&#{name_gen.get_dtor_name(class_name)}, #{class_var_name});\n"
-      end
     end
   end
 
   class CodeGenerator
-    def initialize name_gen, method_gen
+    def initialize name_gen, method_gen, class_gen
       @name_gen = name_gen
       @method_gen = method_gen
+      @class_gen = class_gen
     end
 
     def generate_headers ast
@@ -46,7 +24,7 @@ module CRask
     end
 
     def generate_class_registrations ast
-      ast.stmts.map { |s| s.get_registration_code @name_gen }.join
+      ast.stmts.map { |s| @class_gen.generate_registration(s) }.join
     end
 
     def generate_main_block_beginning ast

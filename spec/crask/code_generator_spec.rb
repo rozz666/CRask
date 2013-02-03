@@ -6,7 +6,8 @@ module CRask
     before(:each) do
       @name_gen = double("name generator")
       @method_gen = double("method code generator")
-      @cg = CodeGenerator.new(@name_gen, @method_gen)
+      @class_gen = double("class generator")
+      @cg = CodeGenerator.new(@name_gen, @method_gen, @class_gen)
       @ast = Ast::Ast.new
     end
     context "generate_headers" do
@@ -25,42 +26,11 @@ module CRask
       end
     end
     context "generate_class_registrations" do
-      it "should register classes" do
+      it "should generate registrations for all classes" do
         ast = Ast::Ast.with_two_classes("A", "B")
-        @name_gen.stub(:get_class_name).with("A").and_return("name1")
-        @name_gen.stub(:get_class_name).with("B").and_return("name2")
-        @cg.generate_class_registrations(ast).should eql(
-        "name1 = crask_registerClass(\"A\");\n" +
-        "name2 = crask_registerClass(\"B\");\n")
-      end
-      it "should register class methods" do
-        ast = Ast::Ast.with_class_with_two_methods("A", "abc", "def")
-        @name_gen.stub(:get_class_name).and_return("className")
-        @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
-        @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
-        @cg.generate_class_registrations(ast).should end_with(
-        ";\n" +
-        "crask_addMethodToClass(&methodName1, \"abc\", className);\n" +
-        "crask_addMethodToClass(&methodName2, \"def\", className);\n"
-        )
-      end
-      it "should register class constructors as class methods" do
-        ast = Ast::Ast.with_class_with_two_ctors("X", "foo", "bar")
-        @name_gen.stub(:get_class_name).with("X").and_return("className")
-        @name_gen.stub(:get_ctor_name).with("X", "foo").and_return("ctorName1")
-        @name_gen.stub(:get_ctor_name).with("X", "bar").and_return("ctorName2")
-        @cg.generate_class_registrations(ast).should end_with(
-          ";\n" +
-          "crask_addClassMethodToClass(&ctorName1, \"foo\", className);\n" +
-          "crask_addClassMethodToClass(&ctorName2, \"bar\", className);\n"
-        )
-      end
-      it "should register class destructor" do
-        ast = Ast::Ast.with_class_with_dtor "X"
-        @name_gen.stub(:get_class_name).with("X").and_return("className")
-        @name_gen.stub(:get_dtor_name).with("X").and_return("dtorName")
-        @cg.generate_class_registrations(ast).should end_with(
-          ";\ncrask_addDestructorToClass(&dtorName, className);\n")
+        @class_gen.should_receive(:generate_registration).with(ast.stmts[0]).and_return("reg1;")
+        @class_gen.should_receive(:generate_registration).with(ast.stmts[1]).and_return("reg2;")
+        @cg.generate_class_registrations(ast).should eql("reg1;reg2;")
       end
     end
     context "generate_main_block_beginning" do
