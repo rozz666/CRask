@@ -16,13 +16,11 @@ module CRask
       end
     end
     context "generate_class_declarations" do
-      it "should define decorated class variables" do
+      it "should generate declarations for all classes" do
         ast = Ast::Ast.with_two_classes("A", "B")
-        @name_gen.stub(:get_class_name).with("A").and_return("name1")
-        @name_gen.stub(:get_class_name).with("B").and_return("name2")
-        @cg.generate_class_declarations(ast).should eql(
-        "CRASK_CLASS name1;\n" +
-        "CRASK_CLASS name2;\n")
+        @class_gen.should_receive(:generate_declaration).with(ast.stmts[0]).and_return("decl1;")
+        @class_gen.should_receive(:generate_declaration).with(ast.stmts[1]).and_return("decl2;")
+        @cg.generate_class_declarations(ast).should eql("decl1;decl2;")
       end
     end
     context "generate_class_registrations" do
