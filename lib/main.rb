@@ -12,6 +12,6 @@ default_methods_generator = CRask::DefaultMethodsGenerator.new
 default_methods_generator.update_ast ast
 name_gen = CRask::NameGenerator.new
 method_code_gen = CRask::MethodCodeGenerator.new name_gen
-class_gen = CRask::ClassGenerator.new name_gen
+class_gen = CRask::ClassGenerator.new name_gen, nil
 code_generator = CRask::CodeGenerator.new(name_gen, method_code_gen, class_gen)
 File.open(ARGV[2], "w") { |output| output.write code_generator.generate(ast) }

@@ -5,7 +5,8 @@ module CRask
   describe ClassGenerator do
     before(:each) do
       @name_gen = double("name generator")
-      @gen = ClassGenerator.new @name_gen
+      @method_gen = double("method code generator")
+      @gen = ClassGenerator.new @name_gen, @method_gen
     end
     it "should generate class registration using libcrask" do
       cdef = Ast::ClassDef.with_name "A"
@@ -44,6 +45,12 @@ module CRask
       cdef = Ast::ClassDef.with_name "Z"
       @name_gen.stub(:get_class_name).and_return("className")
       @gen.generate_declaration(cdef).should eql("CRASK_CLASS className;\n")
+    end
+    it "should generate method implementations" do
+      cdef = Ast::ClassDef.with_name_and_two_methods("A", "abc", "def")
+      @method_gen.should_receive(:generate).with("A", cdef.defs[0]).and_return("impl1;")
+      @method_gen.should_receive(:generate).with("A", cdef.defs[1]).and_return("impl2;")
+      @gen.generate_method_definitions(cdef).should eql("impl1;impl2;")
     end
   end
 end

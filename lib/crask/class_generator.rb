@@ -20,8 +20,9 @@ module CRask
     end
   end
   class ClassGenerator
-    def initialize name_gen
+    def initialize name_gen, method_gen
       @name_gen = name_gen
+      @method_gen = method_gen
     end
     def generate_registration class_def
       decorated_name = @name_gen.get_class_name class_def.name
@@ -33,6 +34,11 @@ module CRask
     def generate_declaration class_def
       decorated_name = @name_gen.get_class_name class_def.name
       "CRASK_CLASS #{decorated_name};\n"
+    end
+    def generate_method_definitions class_def
+      class_def.defs.map do |d|
+        @method_gen.generate class_def.name, d
+      end.join
     end
   end
 end
