@@ -16,6 +16,9 @@ module CRask
       end
     end
     context "generate_class_declarations" do
+      it "should generate nothing when there are no classes" do
+        @cg.generate_class_declarations(@ast).should eql("")
+      end
       it "should generate declarations for all classes" do
         ast = Ast::Ast.with_two_classes("A", "B")
         @class_gen.should_receive(:generate_declaration).with(ast.stmts[0]).and_return("decl1;")
