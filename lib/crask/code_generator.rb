@@ -27,11 +27,9 @@ module CRask
     end
 
     def generate_method_definitions ast
-      ast.stmts.map {
-        |s| s.defs.map {
-          |d| @method_gen.generate s.name, d
-        }.join
-      }.join
+      ast.stmts.map do |s|
+        @class_gen.generate_method_definitions s
+      end.join
     end
   end
 end

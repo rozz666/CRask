@@ -45,25 +45,11 @@ module CRask
       it "should generate nothing when there are no classes" do
         @cg.generate_method_definitions(@ast).should eql("")
       end
-      it "should generate nothing when there are no methods" do
-        @ast = Ast::Ast.with_two_classes("A", "B")
-        @cg.generate_method_definitions(@ast).should eql("")
-      end
-      it "should generate a function for each method in a class" do
-        @ast = Ast::Ast.with_class_with_two_methods("A", "abc", "def")
-        @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
-        @name_gen.stub(:get_method_name).with("A", "def").and_return("methodName2")
-        @method_gen.should_receive(:generate).with("A", @ast.stmts[0].defs[0]).and_return("method0")
-        @method_gen.should_receive(:generate).with("A", @ast.stmts[0].defs[1]).and_return("method1")
-        @cg.generate_method_definitions(@ast).should eql("method0method1")
-      end
-      it "should generate a function for each class" do
-        @ast = Ast::Ast.with_two_classes_with_methods("A", "abc", "B", "def")
-        @name_gen.stub(:get_method_name).with("A", "abc").and_return("methodName1")
-        @name_gen.stub(:get_method_name).with("B", "def").and_return("methodName2")
-        @method_gen.should_receive(:generate).with("A", @ast.stmts[0].defs[0]).and_return("method0")
-        @method_gen.should_receive(:generate).with("B", @ast.stmts[1].defs[0]).and_return("method1")
-        @cg.generate_method_definitions(@ast).should eql("method0method1")
+      it "should generate methods for each class" do
+        ast = Ast::Ast.with_two_classes("A", "B")
+        @class_gen.should_receive(:generate_method_definitions).with(ast.stmts[0]).and_return("def1;")
+        @class_gen.should_receive(:generate_method_definitions).with(ast.stmts[1]).and_return("def2;")
+        @cg.generate_method_definitions(ast).should eql("def1;def2;")
       end
     end
   end
