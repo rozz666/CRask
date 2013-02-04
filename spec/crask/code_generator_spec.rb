@@ -27,6 +27,9 @@ module CRask
       end
     end
     context "generate_class_registrations" do
+      it "should generate nothing when there are no classes" do
+        @cg.generate_class_registrations(@ast).should eql("")
+      end
       it "should generate registrations for all classes" do
         ast = Ast::Ast.with_two_classes("A", "B")
         @class_gen.should_receive(:generate_registration).with(ast.stmts[0]).and_return("reg1;")
