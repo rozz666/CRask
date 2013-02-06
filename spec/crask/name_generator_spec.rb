@@ -18,8 +18,8 @@ module CRask
       end
     end
     context "get_ctor_name" do
-      it "should prepend given name with class_ClassName_class_ctor_" do
-        @generator.get_ctor_name("Abc", "c1").should eql("class_Abc_class_ctor_c1")
+      it "should prepend given name with CT_ClassName_" do
+        @generator.get_ctor_name("Abc", "c1").should eql("CT_Abc_c1")
       end
     end
     context "get_dtor_name" do

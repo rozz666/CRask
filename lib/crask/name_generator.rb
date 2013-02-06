@@ -7,7 +7,7 @@ module CRask
       "M_#{class_name}_#{name}"
     end
     def get_ctor_name class_name, name
-      "class_#{class_name}_class_ctor_#{name}"
+      "CT_#{class_name}_#{name}"
     end
     def get_dtor_name class_name
       "DT_#{class_name}"

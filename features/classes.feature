@@ -127,14 +127,14 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            CRASK_OBJECT class_A_class_ctor_new(CRASK_OBJECT classSelf, ...) {
+            CRASK_OBJECT CT_A_new(CRASK_OBJECT classSelf, ...) {
                 CRASK_OBJECT self = crask_createInstance(C_A);
                 return self;
             }
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&class_A_class_ctor_new, "new", C_A);
+            crask_addClassMethodToClass(&CT_A_new, "new", C_A);
             """
         And generated C code should compile
 
@@ -149,7 +149,7 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            void class_A_class_ctor_foo(CRASK_OBJECT classSelf, ...) {
+            void CT_A_foo(CRASK_OBJECT classSelf, ...) {
                 CRASK_OBJECT local_bar, local_baz;
                 va_list rask_args;
                 va_start(rask_args, classSelf);
@@ -162,7 +162,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&class_A_class_ctor_foo, "foo:bar,baz", C_A);
+            crask_addClassMethodToClass(&CT_A_foo, "foo:bar,baz", C_A);
             """
         And generated C code should compile
     
