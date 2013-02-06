@@ -137,24 +137,26 @@ Feature: Class definitions
             crask_addClassMethodToClass(&CT_A_new, "new", C_A);
             """
         And generated C code should compile
-
+    @wip
     Scenario: A class with constructor with arguments
         Given source code:
             """
             class A {
                 ctor foo(bar, baz) {
                 }
+                ctor bla(d, b, a, c) {
+                }
             }
             """
         When I translate it to C
         Then generated C code should contain:
             """
-            void CT_A_foo(CRASK_OBJECT classSelf, ...) {
-                CRASK_OBJECT local_bar, local_baz;
+            void CT_A_foo_bar_baz(CRASK_OBJECT classSelf, ...) {
+                CRASK_OBJECT L_bar, L_baz;
                 va_list rask_args;
                 va_start(rask_args, classSelf);
-                local_bar = va_arg(rask_args, CRASK_OBJECT);
-                local_baz = va_arg(rask_args, CRASK_OBJECT);
+                L_bar = va_arg(rask_args, CRASK_OBJECT);
+                L_baz = va_arg(rask_args, CRASK_OBJECT);
                 va_end(rask_args);
                 CRASK_OBJECT self = crask_createInstance(C_A);
                 return self;
@@ -162,7 +164,26 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&CT_A_foo, "foo:bar,baz", C_A);
+            void CT_A_a_b_c_d(CRASK_OBJECT classSelf, ...) {
+                CRASK_OBJECT L_a, L_b, L_c, L_d;
+                va_list rask_args;
+                va_start(rask_args, classSelf);
+                L_a = va_arg(rask_args, CRASK_OBJECT);
+                L_b = va_arg(rask_args, CRASK_OBJECT);
+                L_c = va_arg(rask_args, CRASK_OBJECT);
+                L_d = va_arg(rask_args, CRASK_OBJECT);
+                va_end(rask_args);
+                CRASK_OBJECT self = crask_createInstance(C_A);
+                return self;
+            }
+            """
+        And generated C code should contain:
+            """
+            crask_addClassMethodToClass(&CT_A_foo_bar_baz, "foo:bar,baz", C_A);
+            """
+        And generated C code should contain:
+            """
+            crask_addClassMethodToClass(&CT_A_a_b_c_d, "foo:a,b,c,d", C_A);
             """
         And generated C code should compile
     
