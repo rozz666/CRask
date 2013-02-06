@@ -6,9 +6,9 @@ module CRask
       @generator = NameGenerator.new
     end
     context "get_class_name" do
-      it "should prepend given name with class_" do
-        @generator.get_class_name("name").should eql("class_name")
-        @generator.get_class_name("other").should eql("class_other")
+      it "should prepend given name with C_" do
+        @generator.get_class_name("name").should eql("C_name")
+        @generator.get_class_name("other").should eql("C_other")
       end
     end
     context "get_method_name" do

@@ -11,10 +11,10 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain lines:
             """
-            CRASK_CLASS class_SomeClass;
-            class_SomeClass = crask_registerClass("SomeClass");
-            CRASK_CLASS class_AnotherClass;
-            class_AnotherClass = crask_registerClass("AnotherClass");
+            CRASK_CLASS C_SomeClass;
+            C_SomeClass = crask_registerClass("SomeClass");
+            CRASK_CLASS C_AnotherClass;
+            C_AnotherClass = crask_registerClass("AnotherClass");
             """
         And generated C code should compile
     @done
@@ -43,11 +43,11 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addMethodToClass(&class_ClassWithMethods_class_method_foo, "foo", class_ClassWithMethods);
+            crask_addMethodToClass(&class_ClassWithMethods_class_method_foo, "foo", C_ClassWithMethods);
             """
         And generated C code should contain:
             """
-            crask_addMethodToClass(&class_ClassWithMethods_class_method_bar, "bar", class_ClassWithMethods);
+            crask_addMethodToClass(&class_ClassWithMethods_class_method_bar, "bar", C_ClassWithMethods);
             """
         And generated C code should compile
 
@@ -72,9 +72,9 @@ Feature: Class definitions
             """
         And generated C code should contain lines:
             """
-            crask_addMethodToClass(&class_X_class_method_foo_arg_one, "foo:one", class_X);
-            crask_addMethodToClass(&class_X_class_method_bar_arg_first_arg_second_arg_third, "bar:first,second,third", class_X);
-            crask_addMethodToClass(&class_X_class_method_baz_arg_a_first_arg_m_middle_arg_z_last, "baz:a_first,m_middle,z_last", class_X);
+            crask_addMethodToClass(&class_X_class_method_foo_arg_one, "foo:one", C_X);
+            crask_addMethodToClass(&class_X_class_method_bar_arg_first_arg_second_arg_third, "bar:first,second,third", C_X);
+            crask_addMethodToClass(&class_X_class_method_baz_arg_a_first_arg_m_middle_arg_z_last, "baz:a_first,m_middle,z_last", C_X);
             """
         And generated C code should compile
     @done
@@ -92,7 +92,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addDestructorToClass(&class_Foo_class_dtor, class_Foo);
+            crask_addDestructorToClass(&class_Foo_class_dtor, C_Foo);
             """
         And generated C code should compile
     @done
@@ -112,7 +112,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addDestructorToClass(&class_ClassWithDtor_class_dtor, class_ClassWithDtor);
+            crask_addDestructorToClass(&class_ClassWithDtor_class_dtor, C_ClassWithDtor);
             """
         And generated C code should compile
     @done
@@ -128,13 +128,13 @@ Feature: Class definitions
         Then generated C code should contain:
             """
             CRASK_OBJECT class_A_class_ctor_new(CRASK_OBJECT classSelf, ...) {
-                CRASK_OBJECT self = crask_createInstance(class_A);
+                CRASK_OBJECT self = crask_createInstance(C_A);
                 return self;
             }
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&class_A_class_ctor_new, "new", class_A);
+            crask_addClassMethodToClass(&class_A_class_ctor_new, "new", C_A);
             """
         And generated C code should compile
 
@@ -156,13 +156,13 @@ Feature: Class definitions
                 local_bar = va_arg(rask_args, CRASK_OBJECT);
                 local_baz = va_arg(rask_args, CRASK_OBJECT);
                 va_end(rask_args);
-                CRASK_OBJECT self = crask_createInstance(class_A);
+                CRASK_OBJECT self = crask_createInstance(C_A);
                 return self;
             }
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&class_A_class_ctor_foo, "foo:bar,baz", class_A);
+            crask_addClassMethodToClass(&class_A_class_ctor_foo, "foo:bar,baz", C_A);
             """
         And generated C code should compile
     
