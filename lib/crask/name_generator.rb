@@ -4,7 +4,7 @@ module CRask
       "C_#{name}"
     end
     def get_method_name class_name, name
-      "class_#{class_name}_class_method_#{name}"
+      "M_#{class_name}_#{name}"
     end
     def get_ctor_name class_name, name
       "class_#{class_name}_class_ctor_#{name}"

@@ -31,23 +31,23 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            CRASK_OBJECT class_ClassWithMethods_class_method_foo(CRASK_OBJECT self, ...) {
+            CRASK_OBJECT M_ClassWithMethods_foo(CRASK_OBJECT self, ...) {
                 return CRASK_NIL;
             }
             """
         And generated C code should contain:
             """
-            CRASK_OBJECT class_ClassWithMethods_class_method_bar(CRASK_OBJECT self, ...) {
+            CRASK_OBJECT M_ClassWithMethods_bar(CRASK_OBJECT self, ...) {
                 return CRASK_NIL;
             }
             """
         And generated C code should contain:
             """
-            crask_addMethodToClass(&class_ClassWithMethods_class_method_foo, "foo", C_ClassWithMethods);
+            crask_addMethodToClass(&M_ClassWithMethods_foo, "foo", C_ClassWithMethods);
             """
         And generated C code should contain:
             """
-            crask_addMethodToClass(&class_ClassWithMethods_class_method_bar, "bar", C_ClassWithMethods);
+            crask_addMethodToClass(&M_ClassWithMethods_bar, "bar", C_ClassWithMethods);
             """
         And generated C code should compile
 
@@ -66,15 +66,15 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain lines:
             """
-            CRASK_OBJECT class_X_class_method_foo_arg_one(CRASK_OBJECT self, ...)
-            CRASK_OBJECT class_X_class_method_bar_arg_first_arg_second_arg_third(CRASK_OBJECT self, ...)
-            CRASK_OBJECT class_X_class_method_baz_arg_a_first_arg_m_middle_arg_z_last(CRASK_OBJECT self, ...)
+            CRASK_OBJECT M_X_foo_one(CRASK_OBJECT self, ...)
+            CRASK_OBJECT M_X_bar_first_second_third(CRASK_OBJECT self, ...)
+            CRASK_OBJECT M_X_baz_a__first_m__middle_z__last(CRASK_OBJECT self, ...)
             """
         And generated C code should contain lines:
             """
-            crask_addMethodToClass(&class_X_class_method_foo_arg_one, "foo:one", C_X);
-            crask_addMethodToClass(&class_X_class_method_bar_arg_first_arg_second_arg_third, "bar:first,second,third", C_X);
-            crask_addMethodToClass(&class_X_class_method_baz_arg_a_first_arg_m_middle_arg_z_last, "baz:a_first,m_middle,z_last", C_X);
+            crask_addMethodToClass(&M_X_foo_one, "foo:one", C_X);
+            crask_addMethodToClass(&M_X_bar_first_second_third, "bar:first,second,third", C_X);
+            crask_addMethodToClass(&M_X_baz_a__first_m__middle_z__last, "baz:a_first,m_middle,z_last", C_X);
             """
         And generated C code should compile
     @done
