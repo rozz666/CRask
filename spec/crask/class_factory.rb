@@ -11,7 +11,7 @@ module CRask
         ClassDef.new name, [ MethodDef.new(methodName1), MethodDef.new(methodName2) ]
       end
       def self.with_name_and_ctors name, *ctorNames
-        ClassDef.new name, ctorNames.map { |cname| CtorDef.new cname }
+        ClassDef.new name, ctorNames.map { |cname| CtorDef.new cname, [] }
       end
     end
   end

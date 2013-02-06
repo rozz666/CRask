@@ -1,9 +1,10 @@
 module CRask
   module Ast
     class CtorDef
-      attr_reader :name
-      def initialize name
+      attr_reader :name, :args
+      def initialize name, args
         @name = name
+        @args = args
       end
     end
   end

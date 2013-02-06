@@ -14,7 +14,7 @@ module CRask
     it "should generate a constructor creating a new instance" do
       @name_gen.should_receive(:get_ctor_name).with("A", "m").and_return("ctorName")
       @name_gen.should_receive(:get_class_name).with("A").and_return("className")
-      @gen.generate("A", Ast::CtorDef.new("m")).should eql(
+      @gen.generate("A", Ast::CtorDef.new("m", [])).should eql(
         "CRASK_OBJECT ctorName(CRASK_OBJECT classSelf, ...) {\n" +
         "    CRASK_OBJECT self = crask_createInstance(className);\n" +
         "    return self;\n" +
