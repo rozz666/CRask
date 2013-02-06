@@ -23,8 +23,8 @@ module CRask
       end
     end
     context "get_dtor_name" do
-      it "should always return class_ClassName_class_dtor" do
-        @generator.get_dtor_name("Abc").should eql("class_Abc_class_dtor")
+      it "should always return DT_ClassName" do
+        @generator.get_dtor_name("Abc").should eql("DT_Abc")
       end
     end
   end

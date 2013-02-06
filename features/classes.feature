@@ -87,12 +87,12 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            void class_Foo_class_dtor(CRASK_OBJECT self) {
+            void DT_Foo(CRASK_OBJECT self) {
             }
             """
         And generated C code should contain:
             """
-            crask_addDestructorToClass(&class_Foo_class_dtor, C_Foo);
+            crask_addDestructorToClass(&DT_Foo, C_Foo);
             """
         And generated C code should compile
     @done
@@ -107,12 +107,12 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            void class_ClassWithDtor_class_dtor(CRASK_OBJECT self) {
+            void DT_ClassWithDtor(CRASK_OBJECT self) {
             }
             """
         And generated C code should contain:
             """
-            crask_addDestructorToClass(&class_ClassWithDtor_class_dtor, C_ClassWithDtor);
+            crask_addDestructorToClass(&DT_ClassWithDtor, C_ClassWithDtor);
             """
         And generated C code should compile
     @done

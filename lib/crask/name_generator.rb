@@ -10,7 +10,7 @@ module CRask
       "class_#{class_name}_class_ctor_#{name}"
     end
     def get_dtor_name class_name
-      "class_#{class_name}_class_dtor"
+      "DT_#{class_name}"
     end
   end
 end
