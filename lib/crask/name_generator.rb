@@ -10,7 +10,7 @@ module CRask
       "CT_#{class_name}_#{name}"
     end
     def get_ctor_name_with_args class_name, name, args
-      "CT_#{class_name}_#{name}"
+      "CT_#{class_name}_#{name}" + args.map { |a| "_#{a}" }.join
     end
     def get_dtor_name class_name
       "DT_#{class_name}"

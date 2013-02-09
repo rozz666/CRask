@@ -26,6 +26,9 @@ module CRask
       it "should prepend given name with CT_ClassName_" do
         @generator.get_ctor_name_with_args("Abc", "c1", []).should eql("CT_Abc_c1")
       end
+      it "should append arg names to generated name" do
+        @generator.get_ctor_name_with_args("X", "Y", [ "a", "b", "c" ]).should eql("CT_X_Y_a_b_c")
+      end
     end
     context "get_dtor_name" do
       it "should always return DT_ClassName" do
