@@ -151,7 +151,7 @@ Feature: Class definitions
         When I translate it to C
         Then generated C code should contain:
             """
-            void CT_A_foo_bar_baz(CRASK_OBJECT classSelf, ...) {
+            CRASK_OBJECT CT_A_foo_bar_baz(CRASK_OBJECT classSelf, ...) {
                 CRASK_OBJECT L_bar, L_baz;
                 va_list rask_args;
                 va_start(rask_args, classSelf);
@@ -164,7 +164,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            void CT_A_a_b_c_d(CRASK_OBJECT classSelf, ...) {
+            CRASK_OBJECT CT_A_a_b_c_d(CRASK_OBJECT classSelf, ...) {
                 CRASK_OBJECT L_a, L_b, L_c, L_d;
                 va_list rask_args;
                 va_start(rask_args, classSelf);
