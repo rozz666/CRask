@@ -12,7 +12,7 @@ module CRask
       "CRASK_OBJECT methodName(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
     end
     it "should generate a constructor creating a new instance" do
-      @name_gen.should_receive(:get_ctor_name).with("A", "m").and_return("ctorName")
+      @name_gen.should_receive(:get_ctor_name_with_args).with("A", "m", []).and_return("ctorName")
       @name_gen.should_receive(:get_class_name).with("A").and_return("className")
       @gen.generate("A", Ast::CtorDef.new("m", [])).should eql(
         "CRASK_OBJECT ctorName(CRASK_OBJECT classSelf, ...) {\n" +
