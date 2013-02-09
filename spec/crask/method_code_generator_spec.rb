@@ -21,7 +21,7 @@ module CRask
         "}")
     end
     it "should generate a constructor with args from varargs" do
-      @name_gen.stub(:get_ctor_name).and_return("ctorName")
+      @name_gen.should_receive(:get_ctor_name_with_args).with("A", "m", [ "arg1", "arg2"] ).and_return("ctorName")
       @name_gen.stub(:get_class_name).and_return("className")
       @name_gen.should_receive(:get_local_name).with("arg1").and_return("local1")
       @name_gen.should_receive(:get_local_name).with("arg2").and_return("local2")
@@ -36,7 +36,6 @@ module CRask
         "    CRASK_OBJECT self = crask_createInstance(className);\n" +
         "    return self;\n" +
         "}")
-                   
     end
     it "should generate an empty destructor" do
       @name_gen.should_receive(:get_dtor_name).with("A").and_return("dtorName")
