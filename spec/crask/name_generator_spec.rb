@@ -27,5 +27,10 @@ module CRask
         @generator.get_dtor_name("Abc").should eql("DT_Abc")
       end
     end
+    context "get_local_name" do
+      it "should always return L_VarName" do
+        @generator.get_local_name("xyz").should eql("L_xyz")
+      end
+    end
   end
 end
