@@ -13,6 +13,9 @@ module CRask
       def self.with_name_and_ctors name, *ctorNames
         ClassDef.new name, ctorNames.map { |cname| CtorDef.new cname, [] }
       end
+      def self.with_name_and_ctors_with_args name, *namesAndArgs
+        ClassDef.new name, namesAndArgs.map { |nameAndArgs| CtorDef.new nameAndArgs[0], nameAndArgs[1] }
+      end
     end
   end
 end

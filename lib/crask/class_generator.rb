@@ -2,7 +2,7 @@ module CRask
   module Ast
     class CtorDef
       def generate_registration_code name_gen, class_name, decorated_class_name
-        decorated_name = name_gen.get_ctor_name class_name, name
+        decorated_name = name_gen.get_ctor_name_with_args class_name, name, args
         "crask_addClassMethodToClass(&#{decorated_name}, \"#{name}\", #{decorated_class_name});\n"
       end
     end
