@@ -6,7 +6,7 @@ module CRask
     def get_method_name class_name, name
       "M_#{class_name}_#{name}"
     end
-    def get_ctor_name_with_args class_name, name, args
+    def get_ctor_name class_name, name, args
       "CT_#{class_name}_#{name}" + args.map { |a| "_#{a}" }.join
     end
     def get_dtor_name class_name

@@ -8,7 +8,7 @@ module CRask
     end
     class CtorDef
       def get_method_code class_name, name_gen
-        ctor_name = name_gen.get_ctor_name_with_args class_name, name, args
+        ctor_name = name_gen.get_ctor_name class_name, name, args
         decorated_class_name = name_gen.get_class_name class_name
         "CRASK_OBJECT #{ctor_name}(CRASK_OBJECT classSelf, ...) {\n"+
         get_args_decl(name_gen) +

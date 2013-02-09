@@ -17,12 +17,12 @@ module CRask
         @generator.get_method_name("Y", "m2").should eql("M_Y_m2")
       end
     end
-    context "get_ctor_name_with_args" do
+    context "get_ctor_name" do
       it "should prepend given name with CT_ClassName_" do
-        @generator.get_ctor_name_with_args("Abc", "c1", []).should eql("CT_Abc_c1")
+        @generator.get_ctor_name("Abc", "c1", []).should eql("CT_Abc_c1")
       end
       it "should append arg names to generated name" do
-        @generator.get_ctor_name_with_args("X", "Y", [ "a", "b", "c" ]).should eql("CT_X_Y_a_b_c")
+        @generator.get_ctor_name("X", "Y", [ "a", "b", "c" ]).should eql("CT_X_Y_a_b_c")
       end
     end
     context "get_dtor_name" do
