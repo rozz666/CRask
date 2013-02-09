@@ -9,6 +9,9 @@ module CRask
     def get_ctor_name class_name, name
       "CT_#{class_name}_#{name}"
     end
+    def get_ctor_name_with_args class_name, name, args
+      "CT_#{class_name}_#{name}"
+    end
     def get_dtor_name class_name
       "DT_#{class_name}"
     end
