@@ -22,7 +22,7 @@ module CRask
         "DECLARED_ARGS" +
         "    CRASK_OBJECT self = crask_createInstance(className);\n" +
         "    return self;\n" +
-        "}")
+        "}\n")
     end
     it "should generate an empty destructor" do
       @name_gen.should_receive(:get_dtor_name).with("A").and_return("dtorName")

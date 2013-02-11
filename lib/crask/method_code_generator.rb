@@ -14,7 +14,7 @@ module CRask
         arg_decl.generate(args) +
         "    CRASK_OBJECT self = crask_createInstance(#{decorated_class_name});\n" +
         "    return self;\n" +
-        "}"
+        "}\n"
       end
     end
     class DtorDef
