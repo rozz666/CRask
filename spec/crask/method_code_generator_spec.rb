@@ -9,7 +9,7 @@ module CRask
     end
     it "should generate empty methods" do
       @name_gen.should_receive(:get_method_name).with("A", "m").and_return("methodName")
-      @gen.generate("A", Ast::MethodDef.new("m")).should eql(
+      @gen.generate("A", Ast::MethodDef.new("m", [])).should eql(
       "CRASK_OBJECT methodName(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
     end
     it "should generate a constructor with args creating a new instance" do

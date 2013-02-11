@@ -34,6 +34,14 @@ module CRask
       
       defs.should have(2).items
     end
+    it "should parse method with args" do
+      defs = parser.parse_class_defs("def foo(a, b, c) {\n}")
+      
+      defs[0].args.should have(3).items
+      defs[0].args[0].should eql("a")
+      defs[0].args[1].should eql("b")
+      defs[0].args[2].should eql("c")
+    end
     it "should parse empty ctor definition" do
       defs = parser.parse_class_defs("ctor foo {\n}")
       

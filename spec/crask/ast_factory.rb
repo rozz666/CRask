@@ -7,8 +7,8 @@ module CRask
 
       def self.with_two_classes_with_methods klass1, method1, klass2, method2
         Ast.new [
-          ClassDef.new(klass1, [ MethodDef.new(method1) ]),
-          ClassDef.new(klass2, [ MethodDef.new(method2) ]) ]
+          ClassDef.new(klass1, [ MethodDef.new(method1, []) ]),
+          ClassDef.new(klass2, [ MethodDef.new(method2, []) ]) ]
       end
       
       def self.with_two_classes_with_dtors

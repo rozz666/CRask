@@ -8,7 +8,7 @@ rule
               | method_defs method_def { result << val[1] }
               | method_defs ctor_def { result << val[1] }
               | method_defs dtor_def { result << val[1] }
-  method_def : def identifier brace_open brace_close { result = Ast::MethodDef.new(val[1]) }
+  method_def : def identifier arguments brace_open brace_close { result = Ast::MethodDef.new(val[1], val[2]) }
   ctor_def : ctor identifier arguments brace_open brace_close { result = Ast::CtorDef.new(val[1], val[2]) }
   dtor_def : dtor brace_open brace_close { result = Ast::DtorDef.new }
   comma_separated_identifiers : identifier { result = [ val[0] ] }

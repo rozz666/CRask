@@ -8,7 +8,7 @@ module CRask
     end
     it "should not add a destructor to a class if it's already defined" do
       ast = Ast::Ast.with_two_classes_with_dtors
-      ast.stmts[0].defs.insert 0, Ast::MethodDef.new("X")
+      ast.stmts[0].defs.insert 0, Ast::MethodDef.new("X", [])
       
       @gen.update_ast ast
       ast.stmts[0].defs.should have(2).item
