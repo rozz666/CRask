@@ -144,8 +144,6 @@ Feature: Class definitions
             class A {
                 ctor foo(bar, baz) {
                 }
-                ctor bla(d, b, a, c) {
-                }
             }
             """
         When I translate it to C
@@ -164,26 +162,33 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            CRASK_OBJECT CT_A_bla_a_b_c_d(CRASK_OBJECT classSelf, ...) {
-                CRASK_OBJECT L_d, L_b, L_a, L_c;
-                va_list rask_args;
-                va_start(rask_args, classSelf);
+            crask_addClassMethodToClass(&CT_A_foo_bar_baz, "foo:bar,baz", C_A);
+            """
+        And generated C code should compile
+    @wip
+    Scenario: Constructor name based on sorted argument names
+        Given source code:
+            """
+            class A {
+                ctor bla(d, b, a, c) {
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+            CRASK_OBJECT CT_A_bla_a_b_c_d(CRASK_OBJECT classSelf, ...)
+            """
+        And generated C code should contain:
+            """
                 L_d = va_arg(rask_args, CRASK_OBJECT);
                 L_b = va_arg(rask_args, CRASK_OBJECT);
                 L_a = va_arg(rask_args, CRASK_OBJECT);
                 L_c = va_arg(rask_args, CRASK_OBJECT);
-                va_end(rask_args);
-                CRASK_OBJECT self = crask_createInstance(C_A);
-                return self;
-            }
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&CT_A_foo_bar_baz, "foo:bar,baz", C_A);
-            """
-        And generated C code should contain:
-            """
-            crask_addClassMethodToClass(&CT_A_a_b_c_d, "foo:a,b,c,d", C_A);
+            crask_addClassMethodToClass(&CT_A_a_b_c_d, "bla:a,b,c,d", C_A);
             """
         And generated C code should compile
     
