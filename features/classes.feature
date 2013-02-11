@@ -165,7 +165,7 @@ Feature: Class definitions
             crask_addClassMethodToClass(&CT_A_foo_bar_baz, "foo:bar,baz", C_A);
             """
         And generated C code should compile
-    @wip
+    @done
     Scenario: Constructor name based on sorted argument names
         Given source code:
             """
@@ -188,7 +188,7 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            crask_addClassMethodToClass(&CT_A_a_b_c_d, "bla:a,b,c,d", C_A);
+            crask_addClassMethodToClass(&CT_A_bla_a_b_c_d, "bla:a,b,c,d", C_A);
             """
         And generated C code should compile
     
