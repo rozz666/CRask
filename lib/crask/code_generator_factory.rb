@@ -1,4 +1,4 @@
-require 'crask/name_generator'
+require 'crask/symbol_name_generator'
 require 'crask/method_code_generator'
 require 'crask/class_generator'
 require 'crask/default_methods_generator'
@@ -9,7 +9,7 @@ module CRask
   class CodeGeneratorFactory
     def createCodeGenerator
       arg_ordering_policy = ArgumentOrderingPolicy.new
-      name_gen = CRask::NameGenerator.new arg_ordering_policy
+      name_gen = CRask::SymbolNameGenerator.new arg_ordering_policy
       arg_decl = CRask::VarArgDeclarator.new name_gen
       method_code_gen = CRask::MethodCodeGenerator.new name_gen, arg_decl
       class_gen = CRask::ClassGenerator.new name_gen, method_code_gen

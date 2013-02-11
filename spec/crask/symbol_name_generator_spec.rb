@@ -1,10 +1,10 @@
-require 'crask/name_generator'
+require 'crask/symbol_name_generator'
 
 module CRask
-  describe NameGenerator do
+  describe SymbolNameGenerator do
     before :each do
       @arg_ordering_policy = double("ordering policy")
-      @generator = NameGenerator.new @arg_ordering_policy
+      @generator = SymbolNameGenerator.new @arg_ordering_policy
     end
     context "get_class_name" do
       it "should prepend given name with C_" do

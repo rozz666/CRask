@@ -1,5 +1,5 @@
 module CRask
-  class NameGenerator
+  class SymbolNameGenerator
     def initialize arg_ordering_policy
       @arg_ordering_policy = arg_ordering_policy
     end
