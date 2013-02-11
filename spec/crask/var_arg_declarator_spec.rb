@@ -16,5 +16,8 @@ module CRask
         "    local2 = va_arg(rask_args, CRASK_OBJECT);\n" +
         "    va_end(rask_args);\n")
     end
+    it "should generate nothing for no arguments" do
+      @arg_decl.generate([]).should eql("")
+    end
   end
 end
