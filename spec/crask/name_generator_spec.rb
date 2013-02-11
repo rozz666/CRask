@@ -3,7 +3,8 @@ require 'crask/name_generator'
 module CRask
   describe NameGenerator do
     before :each do
-      @generator = NameGenerator.new
+      @arg_ordering_policy = double("ordering policy")
+      @generator = NameGenerator.new @arg_ordering_policy
     end
     context "get_class_name" do
       it "should prepend given name with C_" do
@@ -21,8 +22,9 @@ module CRask
       it "should prepend given name with CT_ClassName_" do
         @generator.get_ctor_name("Abc", "c1", []).should eql("CT_Abc_c1")
       end
-      it "should append arg names to generated name" do
-        @generator.get_ctor_name("X", "Y", [ "a", "b", "c" ]).should eql("CT_X_Y_a_b_c")
+      it "should append ordered arg names to generated name" do
+        @arg_ordering_policy.should_receive(:get_ordered_arguments).with([ "b", "a", "c"]).and_return([ "a", "b", "c"])
+        @generator.get_ctor_name("X", "Y", [ "b", "a", "c" ]).should eql("CT_X_Y_a_b_c")
       end
     end
     context "get_dtor_name" do

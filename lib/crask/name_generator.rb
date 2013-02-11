@@ -1,5 +1,8 @@
 module CRask
   class NameGenerator
+    def initialize arg_ordering_policy
+      @arg_ordering_policy = arg_ordering_policy
+    end
     def get_class_name name
       "C_#{name}"
     end
@@ -7,6 +10,7 @@ module CRask
       "M_#{class_name}_#{name}"
     end
     def get_ctor_name class_name, name, args
+      args = @arg_ordering_policy.get_ordered_arguments args unless args.empty?
       "CT_#{class_name}_#{name}" + args.map { |a| "_#{a}" }.join
     end
     def get_dtor_name class_name
