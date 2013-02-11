@@ -164,14 +164,14 @@ Feature: Class definitions
             """
         And generated C code should contain:
             """
-            CRASK_OBJECT CT_A_a_b_c_d(CRASK_OBJECT classSelf, ...) {
-                CRASK_OBJECT L_a, L_b, L_c, L_d;
+            CRASK_OBJECT CT_A_bla_a_b_c_d(CRASK_OBJECT classSelf, ...) {
+                CRASK_OBJECT L_d, L_b, L_a, L_c;
                 va_list rask_args;
                 va_start(rask_args, classSelf);
-                L_a = va_arg(rask_args, CRASK_OBJECT);
-                L_b = va_arg(rask_args, CRASK_OBJECT);
-                L_c = va_arg(rask_args, CRASK_OBJECT);
                 L_d = va_arg(rask_args, CRASK_OBJECT);
+                L_b = va_arg(rask_args, CRASK_OBJECT);
+                L_a = va_arg(rask_args, CRASK_OBJECT);
+                L_c = va_arg(rask_args, CRASK_OBJECT);
                 va_end(rask_args);
                 CRASK_OBJECT self = crask_createInstance(C_A);
                 return self;
