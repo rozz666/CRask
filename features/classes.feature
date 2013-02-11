@@ -50,7 +50,7 @@ Feature: Class definitions
             crask_addMethodToClass(&M_ClassWithMethods_bar, "bar", C_ClassWithMethods);
             """
         And generated C code should compile
-
+    @wip
     Scenario: A class with a method with arguments
         Given source code:
             """
