@@ -137,7 +137,7 @@ Feature: Class definitions
             crask_addClassMethodToClass(&CT_A_new, "new", C_A);
             """
         And generated C code should compile
-    @wip
+    @done
     Scenario: A class with constructor with arguments
         Given source code:
             """
