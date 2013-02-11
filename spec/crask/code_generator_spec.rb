@@ -12,7 +12,7 @@ module CRask
     end
     context "generate_headers" do
       it "should include crask.h" do
-        @cg.generate_headers(@ast).should eql("#include <crask.h>\n");
+        @cg.generate_headers(@ast).should eql("#include <crask.h>\n#include <stdarg.h>\n\n");
       end
     end
     context "generate_class_declarations" do

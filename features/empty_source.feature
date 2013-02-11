@@ -9,6 +9,9 @@ Feature: Empty source
         Then generated C code should contain:
             """
             #include <crask.h>
+            """
+        And generated C code should contain:
+            """
             int main() {
             }
             

@@ -7,7 +7,8 @@ module CRask
     end
 
     def generate_headers ast
-      "#include <crask.h>\n"
+      "#include <crask.h>\n" +
+      "#include <stdarg.h>\n\n"
     end
     
     def generate_class_declarations ast
