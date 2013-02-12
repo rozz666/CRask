@@ -4,7 +4,7 @@ module CRask
       def get_method_code class_name, name_gen, arg_decl
         method_name = name_gen.get_method_name class_name, name, args
         "CRASK_OBJECT #{method_name}(CRASK_OBJECT self, ...) {\n" +
-        arg_decl.generate(args) +
+        arg_decl.generate_from_self_arg("self", args) +
         "    return CRASK_NIL;\n" +
         "}\n"
       end
