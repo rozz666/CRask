@@ -37,7 +37,7 @@ Feature: Instance methods
             CRASK_OBJECT M_X_bar_first_second_third(CRASK_OBJECT self, ...) {
                 CRASK_OBJECT L_first, L_second, L_third;
                 va_list rask_args;
-                va_start(rask_args, classSelf);
+                va_start(rask_args, self);
                 L_first = va_arg(rask_args, CRASK_OBJECT);
                 L_second = va_arg(rask_args, CRASK_OBJECT);
                 L_third = va_arg(rask_args, CRASK_OBJECT);
@@ -63,7 +63,7 @@ Feature: Instance methods
         When I translate it to C
         Then generated C code should contain:
             """
-            CRASK_OBJECT M_A_bla_a_b_c_d(CRASK_OBJECT classSelf, ...)
+            CRASK_OBJECT M_A_bla_a_b_c_d(CRASK_OBJECT self, ...)
             """
         And generated C code should contain:
             """
