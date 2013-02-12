@@ -56,7 +56,7 @@ Feature: Instance methods
         Given source code:
             """
             class A {
-                ctor bla(d, b, a, c) {
+                def bla(d, b, a, c) {
                 }
             }
             """
