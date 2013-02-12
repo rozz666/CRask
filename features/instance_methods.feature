@@ -51,6 +51,7 @@ Feature: Instance methods
             """
         And generated C code should compile
 
+    @wip
     Scenario: Method name based on sorted argument names
         Given source code:
             """
