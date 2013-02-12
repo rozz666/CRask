@@ -22,7 +22,7 @@ Feature: Instance methods
             """
         And generated C code should compile
 
-    @wip
+    @done
     Scenario: A class with a method with arguments
         Given source code:
             """
@@ -51,7 +51,7 @@ Feature: Instance methods
             """
         And generated C code should compile
 
-    @wip
+    @done
     Scenario: Method name based on sorted argument names
         Given source code:
             """
@@ -78,7 +78,7 @@ Feature: Instance methods
             """
         And generated C code should compile
 
-    @wip
+    @done
     Scenario: A class with multiple methods
         Given source code:
             """
