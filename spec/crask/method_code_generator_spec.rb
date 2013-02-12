@@ -7,10 +7,15 @@ module CRask
       @arg_decl = double("arg declarator")
       @gen = MethodCodeGenerator.new @name_gen, @arg_decl
     end
-    it "should generate empty methods" do
-      @name_gen.should_receive(:get_method_name_without_args).with("A", "m").and_return("methodName")
-      @gen.generate("A", Ast::MethodDef.new("m", [])).should eql(
-      "CRASK_OBJECT methodName(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n")
+    it "should generate an empty method with args" do
+      args = [ "arg1", "arg2"]
+      @name_gen.should_receive(:get_method_name).with("A", "m", args).and_return("methodName")
+      @arg_decl.should_receive(:generate).with(args).and_return("DECLARED_ARGS")
+      @gen.generate("A", Ast::MethodDef.new("m", args)).should eql(
+        "CRASK_OBJECT methodName(CRASK_OBJECT self, ...) {\n" +
+        "DECLARED_ARGS" +
+        "    return CRASK_NIL;\n" +
+        "}\n")
     end
     it "should generate a constructor with args creating a new instance" do
       args = [ "arg1", "arg2"]
