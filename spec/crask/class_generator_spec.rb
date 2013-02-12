@@ -24,14 +24,16 @@ module CRask
         ";\ncrask_addDestructorToClass(&dtorName, className);\n")
     end
     it "should generate method registrations using libcrask" do
-      cdef = Ast::ClassDef.with_name_and_two_methods("A", "abc", "def")
+      cdef = Ast::ClassDef.with_name_and_methods_with_args "A", [ "abc", [ "a", "b" ] ], [ "def", [ "c" ] ]
       @symbol_name_gen.stub(:get_class_name).and_return("className")
-      @symbol_name_gen.stub(:get_method_name_without_args).with("A", "abc").and_return("methodName1")
-      @symbol_name_gen.stub(:get_method_name_without_args).with("A", "def").and_return("methodName2")
+      @symbol_name_gen.stub(:get_method_name).with("A", "abc", [ "a", "b" ]).and_return("methodName1")
+      @symbol_name_gen.stub(:get_method_name).with("A", "def", [ "c" ]).and_return("methodName2")
+      @method_name_gen.should_receive(:generate).with("abc", [ "a", "b" ]).and_return("abcName")
+      @method_name_gen.should_receive(:generate).with("def", [ "c" ]).and_return("defName")
       @gen.generate_registration(cdef).should end_with(
         ";\n" +
-        "crask_addMethodToClass(&methodName1, \"abc\", className);\n" +
-        "crask_addMethodToClass(&methodName2, \"def\", className);\n")
+        "crask_addMethodToClass(&methodName1, \"abcName\", className);\n" +
+        "crask_addMethodToClass(&methodName2, \"defName\", className);\n")
     end
     it "should generate constructor registrations as class methods using libcrask" do
       cdef = Ast::ClassDef.with_name_and_ctors_with_args "X", [ "foo", [ "a", "b" ] ], [ "bar", [ "c" ] ]

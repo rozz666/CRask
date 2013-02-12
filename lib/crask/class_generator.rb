@@ -15,8 +15,9 @@ module CRask
     end
     class MethodDef
       def generate_registration_code symbol_name_gen, method_name_gen, class_name, decorated_class_name
-        decorated_name = symbol_name_gen.get_method_name_without_args class_name, name
-        "crask_addMethodToClass(&#{decorated_name}, \"#{name}\", #{decorated_class_name});\n"
+        decorated_name = symbol_name_gen.get_method_name class_name, name, args
+        public_name = method_name_gen.generate name, args
+        "crask_addMethodToClass(&#{decorated_name}, \"#{public_name}\", #{decorated_class_name});\n"
       end
     end
   end
