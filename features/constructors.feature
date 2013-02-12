@@ -75,3 +75,23 @@ Feature: Class constructors
             crask_addClassMethodToClass(&CT_A_bla_a_b_c_d, "bla:a,b,c,d", C_A);
             """
         And generated C code should compile
+    @done
+    Scenario: A class with multiple constructors
+        Given source code:
+            """
+            class A {
+                ctor foo(x) {
+                }
+                ctor bar(y) {
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain lines:
+            """
+            CRASK_OBJECT CT_A_foo_x(CRASK_OBJECT classSelf, ...)
+            CRASK_OBJECT CT_A_bar_y(CRASK_OBJECT classSelf, ...)
+            crask_addClassMethodToClass(&CT_A_foo_x, "foo:x", C_A);
+            crask_addClassMethodToClass(&CT_A_bar_y, "bar:y", C_A);
+            """
+        And generated C code should compile
