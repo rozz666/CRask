@@ -9,6 +9,9 @@ module CRask
     def get_method_name_without_args class_name, name
       "M_#{class_name}_#{name}"
     end
+    def get_method_name class_name, name, args
+      "M_#{class_name}_#{name}"
+    end
     def get_ctor_name class_name, name, args
       args = @arg_ordering_policy.get_ordered_arguments args unless args.empty?
       "CT_#{class_name}_#{name}" + args.map { |a| "_#{a}" }.join
