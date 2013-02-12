@@ -12,10 +12,10 @@ module CRask
         @generator.get_class_name("other").should eql("C_other")
       end
     end
-    context "get_method_name" do
+    context "get_method_name_without_args" do
       it "should prepend given name with M_ClassName_" do
-        @generator.get_method_name("Y", "m1").should eql("M_Y_m1")
-        @generator.get_method_name("Y", "m2").should eql("M_Y_m2")
+        @generator.get_method_name_without_args("Y", "m1").should eql("M_Y_m1")
+        @generator.get_method_name_without_args("Y", "m2").should eql("M_Y_m2")
       end
     end
     context "get_ctor_name" do

@@ -2,7 +2,7 @@ module CRask
   module Ast
     class MethodDef
       def get_method_code class_name, name_gen, arg_decl
-        method_name = name_gen.get_method_name class_name, name
+        method_name = name_gen.get_method_name_without_args class_name, name
         "CRASK_OBJECT #{method_name}(CRASK_OBJECT self, ...) {\n    return CRASK_NIL;\n}\n"
       end
     end
