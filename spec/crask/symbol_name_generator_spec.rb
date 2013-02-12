@@ -23,6 +23,10 @@ module CRask
         @generator.get_method_name("Y", "m1", []).should eql("M_Y_m1")
         @generator.get_method_name("Z", "m2", []).should eql("M_Z_m2")
       end
+      it "should append ordered arg names to generated name" do
+        @arg_ordering_policy.should_receive(:get_ordered_arguments).with([ "b", "a", "c"]).and_return([ "a", "b", "c"])
+        @generator.get_method_name("X", "Y", [ "b", "a", "c" ]).should eql("M_X_Y_a_b_c")
+      end
     end
     context "get_ctor_name" do
       it "should prepend given name with CT_ClassName_" do
