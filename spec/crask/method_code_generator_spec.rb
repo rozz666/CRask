@@ -21,7 +21,7 @@ module CRask
       args = [ "arg1", "arg2"]
       @name_gen.should_receive(:get_ctor_name).with("A", "m", args).and_return("ctorName")
       @name_gen.should_receive(:get_class_name).with("A").and_return("className")
-      @arg_decl.should_receive(:generate).with(args).and_return("DECLARED_ARGS")
+      @arg_decl.should_receive(:generate_from_self_arg).with("classSelf", args).and_return("DECLARED_ARGS")
       @gen.generate("A", Ast::CtorDef.new("m", args)).should eql(
         "CRASK_OBJECT ctorName(CRASK_OBJECT classSelf, ...) {\n" +
         "DECLARED_ARGS" +

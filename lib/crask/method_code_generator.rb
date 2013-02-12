@@ -14,7 +14,7 @@ module CRask
         ctor_name = name_gen.get_ctor_name class_name, name, args
         decorated_class_name = name_gen.get_class_name class_name
         "CRASK_OBJECT #{ctor_name}(CRASK_OBJECT classSelf, ...) {\n"+
-        arg_decl.generate(args) +
+        arg_decl.generate_from_self_arg("classSelf", args) +
         "    CRASK_OBJECT self = crask_createInstance(#{decorated_class_name});\n" +
         "    return self;\n" +
         "}\n"
