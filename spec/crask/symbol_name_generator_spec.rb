@@ -41,5 +41,10 @@ module CRask
         @generator.get_local_name("xyz").should eql("L_xyz")
       end
     end
+    context "get_self_name" do
+      it "should always return self" do
+        @generator.get_self_name.should eql("self")
+      end
+    end
   end
 end

@@ -20,5 +20,8 @@ module CRask
     def get_local_name var_name
       "L_#{var_name}"
     end
+    def get_self_name
+      "self"
+    end
   end
 end
