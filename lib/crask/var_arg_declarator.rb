@@ -12,6 +12,16 @@ module CRask
       names.map { |n| "    #{n} = va_arg(rask_args, CRASK_OBJECT);\n" }.join +
       "    va_end(rask_args);\n"
     end
+    def generate_method_args args
+      return "" if args.empty?
+      self_arg = @name_gen.get_self_name
+      names = args.map { |a| @name_gen.get_local_name a }
+      "    CRASK_OBJECT #{names.join(", ")};\n" +
+      "    va_list rask_args;\n" +
+      "    va_start(rask_args, #{self_arg});\n" +
+      names.map { |n| "    #{n} = va_arg(rask_args, CRASK_OBJECT);\n" }.join +
+      "    va_end(rask_args);\n"
+    end
     def generate_function_args
       "CRASK_OBJECT #{@name_gen.get_self_name}, ..."
     end
