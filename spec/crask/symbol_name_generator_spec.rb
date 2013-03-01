@@ -46,5 +46,10 @@ module CRask
         @generator.get_self_name.should eql("self")
       end
     end
+    context "get_class_self_name" do
+      it "should always return classSelf" do
+        @generator.get_class_self_name.should eql("classSelf")
+      end
+    end
   end
 end

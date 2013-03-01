@@ -23,5 +23,8 @@ module CRask
     def get_self_name
       "self"
     end
+    def get_class_self_name
+      "classSelf"
+    end
   end
 end
