@@ -1,36 +1,109 @@
 Feature: Local variables
 
-    Scenario: Creating a new local variable by assignment
-        Given a file named "local.rask" with:
+    Scenario: Creating new local variables by nil assignment
+        Given source code:
             """
-            aVariable = nil
-            """
-        When I translate "local.rask" to C into "local.c"
-        Then file "local.c" should contain:
-            """
-            int main() {
-                CRASK_OBJECT local_aVariable;
-                local_aVariable = CRASK_NIL;
-            }
-            """
-        And file "local.c" should compile
-
-    Scenario: Creating a local variable in a method
-        Given a file named "local_in_method.rask" with:
-            """
-            class C {
+            class A {
                 def m {
-                    a = nil
+                    foo = nil
+                    bar = nil
                 }
             }
             """
-        When I translate "local_in_method.rask" to C into "local_in_method.c"
-        Then file "local_in_method.c" should contain:
+        When I translate it to C
+        Then generated C code should contain:
             """
-            CRASK_OBJECT class_C_method_m(CRASK_OBJECT self, ...) {
-                CRASK_OBJECT local_a;
-                local_a = CRASK_NIL;
+            CRASK_OBJECT M_A_m(CRASK_OBJECT self, ...) {
+                CRASK_OBJECT L_foo, L_bar;
+                L_foo = CRASK_NIL;
+                creak_retain(L_foo);
+                L_bar = CRASK_NIL;
+                creak_retain(L_bar);
+                crask_release(L_bar);
+                crask_release(L_foo);
+                return CRASK_NIl;
+            }
+            """
+        And generated C code should compile
+
+    Scenario: Repeated assignment 
+        Given source code:
+            """
+            class A {
+                def m {
+                    foo = nil
+                    foo = nil
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+            CRASK_OBJECT M_A_m(CRASK_OBJECT self, ...) {
+                CRASK_OBJECT L_foo;
+                L_foo = CRASK_NIL;
+                creak_retain(L_foo);
+                crask_release(L_foo);
+                L_foo = CRASK_NIL;
+                creak_retain(L_foo);
+                crask_release(L_foo);
                 return CRASK_NIL;
             }
             """
-        And file "local_in_method.c" should compile
+        And generated C code should compile
+
+    Scenario: Assignment from arguments
+        Given source code:
+            """
+            class A {
+                def m(arg) {
+                    foo = arg
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+                CRASK_OBJECT L_arg, L_foo;
+                crask_retain(L_arg);
+                L_foo = L_arg;
+                crask_retain(L_foo);
+                crask_release(L_foo);
+                crask_release(L_arg);
+                return CRASK_NIL;
+            }
+            """
+        And generated C code should compile
+
+    Scenario: Repeated assignment from arguments
+        Given source code:
+            """
+            class A {
+                def m(arg1, arg2) {
+                    foo = arg1
+                    foo = arg2
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+                CRASK_OBJECT L_arg1, L_arg2, L_foo;
+            """
+        And generated C code should contain:
+            """
+                creak_retain(L_arg1);
+                creak_retain(L_arg2);
+                L_foo = L_arg1;
+                creak_retain(L_foo);
+                crask_release(L_foo);
+                L_foo = L_arg2;
+                crask_retain(L_foo);
+                crask_release(L_foo);
+                crask_release(L_arg2);
+                crask_release(L_arg1);
+                return CRASK_NIL;
+            }
+            """
+        And generated C code should compile
+    
