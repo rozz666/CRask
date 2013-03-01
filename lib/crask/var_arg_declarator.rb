@@ -23,7 +23,14 @@ module CRask
       "    va_end(rask_args);\n"
     end
     def generate_function_args
-      "CRASK_OBJECT #{@name_gen.get_self_name}, ..."
+      generate_function_args_with_self_name @name_gen.get_self_name
+    end
+    def generate_class_function_args
+      generate_function_args_with_self_name @name_gen.get_class_self_name
+    end
+    private
+    def generate_function_args_with_self_name self_name
+      "CRASK_OBJECT #{self_name}, ..."
     end
   end
 end

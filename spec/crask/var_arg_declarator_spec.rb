@@ -36,5 +36,9 @@ module CRask
       @name_gen.should_receive(:get_self_name).and_return("selfName")
       @arg_decl.generate_function_args.should eql("CRASK_OBJECT selfName, ...")
     end
+    it "should declare class C function var args" do
+      @name_gen.should_receive(:get_class_self_name).and_return("classSelfName")
+      @arg_decl.generate_class_function_args.should eql("CRASK_OBJECT classSelfName, ...")
+    end
   end
 end
