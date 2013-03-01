@@ -19,5 +19,9 @@ module CRask
     it "should generate nothing for no arguments" do
       @arg_decl.generate_from_self_arg("selfArg", []).should eql("")
     end
+    it "should declare C function var args" do
+      @name_gen.should_receive(:get_self_name).and_return("selfName")
+      @arg_decl.generate_function_args.should eql("CRASK_OBJECT selfName, ...")
+    end
   end
 end

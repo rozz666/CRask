@@ -12,5 +12,8 @@ module CRask
       names.map { |n| "    #{n} = va_arg(rask_args, CRASK_OBJECT);\n" }.join +
       "    va_end(rask_args);\n"
     end
+    def generate_function_args
+      "CRASK_OBJECT #{@name_gen.get_self_name}, ..."
+    end
   end
 end
