@@ -12,7 +12,7 @@ module CRask
       @name_gen.should_receive(:get_method_name).with("A", "m", args).and_return("methodName")
       @name_gen.should_receive(:get_self_name).and_return("selfName")
       @arg_decl.should_receive(:generate_from_self_arg).with("selfName", args).and_return("DECLARED_ARGS")
-      @arg_decl.should_receive(:generate_function_args).and_return("FUNCTION_ARGS")
+      @arg_decl.should_receive(:generate_function_args).with("selfName").and_return("FUNCTION_ARGS")
       @gen.generate("A", Ast::MethodDef.new("m", args)).should eql(
         "CRASK_OBJECT methodName(FUNCTION_ARGS) {\n" + 
         "DECLARED_ARGS" +
