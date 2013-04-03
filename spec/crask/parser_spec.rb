@@ -91,5 +91,14 @@ module CRask
       defs[0].stmts[0].left.should eql("var")
       defs[0].stmts[0].right.should eql("nil")
     end
+    it "should parse all nil assignments" do
+      defs = parser.parse_class_defs(
+        "def a {\n" +
+        "  a = nil\n" +
+        "  b = nil\n" +
+        "}\n")
+        
+      defs[0].stmts.should have(2).items
+    end
   end
 end
