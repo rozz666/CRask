@@ -1,5 +1,5 @@
 Feature: Local variables
-
+    @wip
     Scenario: Creating new local variables by nil assignment
         Given source code:
             """
@@ -21,7 +21,7 @@ Feature: Local variables
                 creak_retain(L_bar);
                 crask_release(L_bar);
                 crask_release(L_foo);
-                return CRASK_NIl;
+                return CRASK_NIL;
             }
             """
         And generated C code should compile
