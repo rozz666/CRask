@@ -6,6 +6,7 @@ macro
   PAREN_OPEN \(
   PAREN_CLOSE \)
   COMMA \,
+  ASSIGN =
 rule
   {BLANK}
   class           { [:class, text] }
@@ -18,5 +19,6 @@ rule
   {PAREN_OPEN}    { [:paren_open, text] }
   {PAREN_CLOSE}   { [:paren_close, text] }
   {COMMA}         { [:comma, text] }
+  {ASSIGN}        { [:assign, text] }
 inner
 end
