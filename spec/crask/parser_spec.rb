@@ -81,24 +81,24 @@ module CRask
       defs.should have(6).items
     end
     it "should parse a nil assignment" do
-      defs = parser.parse_class_defs(
+      mdef = parser.parse_method_def(
         "def a {\n" +
         "  var = nil\n" +
         "}\n")
         
-      defs[0].stmts.should have(1).item
-      defs[0].stmts[0].should be_kind_of(Ast::AssignmentDef)
-      defs[0].stmts[0].left.should eql("var")
-      defs[0].stmts[0].right.should eql("nil")
+      mdef.stmts.should have(1).item
+      mdef.stmts[0].should be_kind_of(Ast::AssignmentDef)
+      mdef.stmts[0].left.should eql("var")
+      mdef.stmts[0].right.should eql("nil")
     end
     it "should parse all nil assignments" do
-      defs = parser.parse_class_defs(
+      mdef = parser.parse_method_def(
         "def a {\n" +
         "  a = nil\n" +
         "  b = nil\n" +
         "}\n")
         
-      defs[0].stmts.should have(2).items
+      mdef.stmts.should have(2).items
     end
   end
 end

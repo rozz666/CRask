@@ -14,5 +14,8 @@ module CRask
     def parse_class_defs source
       @parser.parse("class A {\n#{source}\n}\n").stmts[0].defs
     end
+    def parse_method_def source
+      parse_class_defs(source)[0]
+    end
   end
 end
