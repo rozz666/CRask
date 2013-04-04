@@ -16,9 +16,9 @@ Feature: Local variables
             CRASK_OBJECT M_A_m(CRASK_OBJECT self, ...) {
                 CRASK_OBJECT L_foo, L_bar;
                 L_foo = CRASK_NIL;
-                creak_retain(L_foo);
+                crask_retain(L_foo);
                 L_bar = CRASK_NIL;
-                creak_retain(L_bar);
+                crask_retain(L_bar);
                 crask_release(L_bar);
                 crask_release(L_foo);
                 return CRASK_NIL;
@@ -42,10 +42,10 @@ Feature: Local variables
             CRASK_OBJECT M_A_m(CRASK_OBJECT self, ...) {
                 CRASK_OBJECT L_foo;
                 L_foo = CRASK_NIL;
-                creak_retain(L_foo);
+                crask_retain(L_foo);
                 crask_release(L_foo);
                 L_foo = CRASK_NIL;
-                creak_retain(L_foo);
+                crask_retain(L_foo);
                 crask_release(L_foo);
                 return CRASK_NIL;
             }
@@ -92,10 +92,10 @@ Feature: Local variables
             """
         And generated C code should contain:
             """
-                creak_retain(L_arg1);
-                creak_retain(L_arg2);
+                crask_retain(L_arg1);
+                crask_retain(L_arg2);
                 L_foo = L_arg1;
-                creak_retain(L_foo);
+                crask_retain(L_foo);
                 crask_release(L_foo);
                 L_foo = L_arg2;
                 crask_retain(L_foo);
