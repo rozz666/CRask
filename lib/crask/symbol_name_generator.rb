@@ -26,5 +26,8 @@ module CRask
     def get_class_self_name
       "classSelf"
     end
+    def get_nil_name
+      "CRASK_NIL"
+    end
   end
 end
