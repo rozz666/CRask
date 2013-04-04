@@ -7,13 +7,20 @@ require 'crask/argument_ordering_policy'
 require 'crask/method_name_generator'
 
 module CRask
+  
+  class StatementGeneratorStub
+    def generate_statements(*args)
+      ""
+    end
+  end
+  
   class CodeGeneratorFactory
     def createCodeGenerator
       arg_ordering_policy = ArgumentOrderingPolicy.new
       symbol_name_gen = CRask::SymbolNameGenerator.new arg_ordering_policy
       method_name_generator = CRask::MethodNameGenerator.new arg_ordering_policy
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen
-      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl
+      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, StatementGeneratorStub.new
       class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen
       CRask::CodeGenerator.new(symbol_name_gen, method_code_gen, class_gen)
     end
