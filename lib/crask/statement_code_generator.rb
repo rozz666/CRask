@@ -5,7 +5,9 @@ module CRask
     end
     def generate_statements stmts
       return "" if stmts.empty?
-      "#{@name_gen.get_local_name(stmts[0].left)} = #{@name_gen.get_nil_name}"
+      local_name = @name_gen.get_local_name(stmts[0].left)
+      "    #{local_name} = #{@name_gen.get_nil_name};\n" +
+      "    crask_retain(#{local_name});\n"
     end
   end
 end
