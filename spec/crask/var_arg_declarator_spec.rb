@@ -3,11 +3,14 @@ module CRask
   describe VarArgDeclarator do
     before(:each) do
       @name_gen = double("name generator")
-      @arg_decl = VarArgDeclarator.new @name_gen
+      @symbol_table = double("symbol table")
+      @arg_decl = VarArgDeclarator.new @name_gen, @symbol_table
     end
-    it "should declare method args using varargs with given self arg" do
+    it "should declare method args using varargs with given self arg and register the args" do
       @name_gen.should_receive(:get_local_name).with("arg1").and_return("local1")
       @name_gen.should_receive(:get_local_name).with("arg2").and_return("local2")
+      @symbol_table.should_receive(:add_local).with("arg1")
+      @symbol_table.should_receive(:add_local).with("arg2")
       @arg_decl.generate_from_self_arg("selfArg", [ "arg1", "arg2" ]).should eql(
         "    CRASK_OBJECT local1, local2;\n" +
         "    va_list rask_args;\n" +
