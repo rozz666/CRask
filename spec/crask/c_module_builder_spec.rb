@@ -16,5 +16,8 @@ module CRask
       @builder.add_include "def"
       c_module = @builder.build.includes.should eql([ "abc", "def" ])
     end
+    it "should build empty global list by default" do
+      @builder.build.global_variables.should eql([])
+    end
   end
 end

@@ -9,7 +9,7 @@ module CRask
       @includes << name
     end
     def build
-      CAst::Module.new @includes
+      CAst::Module.new @includes, []
     end
   end
 end
