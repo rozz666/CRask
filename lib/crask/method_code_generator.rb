@@ -6,7 +6,7 @@ module CRask
         self_name = name_gen.get_self_name
         "CRASK_OBJECT #{method_name}(#{arg_decl.generate_function_args self_name}) {\n" +
         local_decl.generate_variables(args) +
-        arg_decl.generate_from_self_arg(self_name, args) +
+        arg_decl.generate_initialization(self_name, args) +
         stmt_gen.generate_statements(stmts) +
         "    return CRASK_NIL;\n" +
         "}\n"
@@ -20,7 +20,7 @@ module CRask
         self_name = name_gen.get_self_name
         "CRASK_OBJECT #{ctor_name}(#{arg_decl.generate_function_args class_self_name}) {\n"+
         local_decl.generate_variables(args) +
-        arg_decl.generate_from_self_arg(class_self_name, args) +
+        arg_decl.generate_initialization(class_self_name, args) +
         "    CRASK_OBJECT #{self_name} = crask_createInstance(#{decorated_class_name});\n" +
         "    return #{self_name};\n" +
         "}\n"

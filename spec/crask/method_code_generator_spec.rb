@@ -13,7 +13,7 @@ module CRask
       args = [ "arg1", "arg2"]
       @name_gen.should_receive(:get_method_name).with("A", "m", args).and_return("methodName")
       @name_gen.should_receive(:get_self_name).and_return("selfName")
-      @arg_decl.should_receive(:generate_from_self_arg).with("selfName", args).and_return("DECLARED_ARGS")
+      @arg_decl.should_receive(:generate_initialization).with("selfName", args).and_return("DECLARED_ARGS")
       @arg_decl.should_receive(:generate_function_args).with("selfName").and_return("FUNCTION_ARGS")
       @stmt_gen.should_receive(:generate_statements).with(:stmts).and_return("STATEMENTS")
       @local_decl.should_receive(:generate_variables).with(args).and_return("LOCAL_VARS")
@@ -31,7 +31,7 @@ module CRask
       @name_gen.should_receive(:get_class_name).with("A").and_return("className")
       @name_gen.should_receive(:get_class_self_name).and_return("classSelfName")
       @name_gen.should_receive(:get_self_name).and_return("selfName")
-      @arg_decl.should_receive(:generate_from_self_arg).with("classSelfName", args).and_return("DECLARED_ARGS")
+      @arg_decl.should_receive(:generate_initialization).with("classSelfName", args).and_return("DECLARED_ARGS")
       @arg_decl.should_receive(:generate_function_args).with("classSelfName").and_return("FUNCTION_ARGS")
       @local_decl.should_receive(:generate_variables).with(args).and_return("LOCAL_VARS")
       @gen.generate("A", Ast::CtorDef.new("m", args)).should eql(

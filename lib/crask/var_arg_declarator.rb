@@ -4,13 +4,12 @@ module CRask
       @name_gen = name_gen
       @symbol_table = symbol_table
     end
-    def generate_from_self_arg self_arg, args
+    def generate_initialization self_arg, args
       return "" if args.empty?
       names = args.map do |a|
         @symbol_table.add_local a
         @name_gen.get_local_name a
       end
-      "    CRASK_OBJECT #{names.join(", ")};\n" +
       "    va_list rask_args;\n" +
       "    va_start(rask_args, #{self_arg});\n" +
       names.map { |n| "    #{n} = va_arg(rask_args, CRASK_OBJECT);\n" }.join +

@@ -7,6 +7,7 @@ require 'crask/argument_ordering_policy'
 require 'crask/method_name_generator'
 require 'crask/statement_code_generator'
 require 'crask/assignment_code_generator'
+require 'crask/local_variable_declarator'
 
 module CRask
   class SymbolTableStub
@@ -29,7 +30,8 @@ module CRask
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen, symbol_table
       assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen, symbol_table
       stmt_gen = CRask::StatementCodeGenerator.new assignment_gen
-      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, LocalDeclaratorStub.new
+      local_var_decl = LocalVariableDeclarator.new symbol_name_gen
+      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl
       class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen
       CRask::CodeGenerator.new(symbol_name_gen, method_code_gen, class_gen)
     end
