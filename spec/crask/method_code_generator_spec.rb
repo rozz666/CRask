@@ -33,8 +33,10 @@ module CRask
       @name_gen.should_receive(:get_self_name).and_return("selfName")
       @arg_decl.should_receive(:generate_from_self_arg).with("classSelfName", args).and_return("DECLARED_ARGS")
       @arg_decl.should_receive(:generate_function_args).with("classSelfName").and_return("FUNCTION_ARGS")
+      @local_decl.should_receive(:generate_variables).with(args).and_return("LOCAL_VARS")
       @gen.generate("A", Ast::CtorDef.new("m", args)).should eql(
         "CRASK_OBJECT ctorName(FUNCTION_ARGS) {\n" +
+        "LOCAL_VARS" +
         "DECLARED_ARGS" +
         "    CRASK_OBJECT selfName = crask_createInstance(className);\n" +
         "    return selfName;\n" +
