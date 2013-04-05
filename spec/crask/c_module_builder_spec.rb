@@ -32,5 +32,10 @@ module CRask
     it "should build empty function list by default" do
       @builder.build.functions.should eql([])
     end
+    it "should add functions" do
+      @builder.add_function :first
+      @builder.add_function :second
+      @builder.build.functions.should eql([ :first, :second ])
+    end
   end
 end
