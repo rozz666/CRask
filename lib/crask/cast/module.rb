@@ -1,3 +1,5 @@
+require 'crask/cast/global_variable'
+
 module CRask
   module CAst
     class Module

@@ -14,10 +14,20 @@ module CRask
     it "should add includes" do
       @builder.add_include "abc"
       @builder.add_include "def"
-      c_module = @builder.build.includes.should eql([ "abc", "def" ])
+      @builder.build.includes.should eql([ "abc", "def" ])
     end
     it "should build empty global list by default" do
       @builder.build.global_variables.should eql([])
+    end
+    it "should add global variables" do
+      @builder.add_global_variable "type1", "var1"
+      @builder.add_global_variable "type2", "var2"
+      vars = @builder.build.global_variables
+      vars[0].should be_a_kind_of(CAst::GlobalVariable)
+      vars[0].type.should eql("type1")
+      vars[0].name.should eql("var1")
+      vars[1].type.should eql("type2")
+      vars[1].name.should eql("var2")
     end
   end
 end
