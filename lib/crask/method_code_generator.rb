@@ -1,10 +1,11 @@
 module CRask
   module Ast
     class MethodDef
-      def get_method_code class_name, name_gen, arg_decl, stmt_gen
+      def get_method_code class_name, name_gen, arg_decl, stmt_gen, local_decl
         method_name = name_gen.get_method_name class_name, name, args
         self_name = name_gen.get_self_name
         "CRASK_OBJECT #{method_name}(#{arg_decl.generate_function_args self_name}) {\n" +
+        local_decl.generate_variables(args) +
         arg_decl.generate_from_self_arg(self_name, args) +
         stmt_gen.generate_statements(stmts) +
         "    return CRASK_NIL;\n" +
@@ -12,7 +13,7 @@ module CRask
       end
     end
     class CtorDef
-      def get_method_code class_name, name_gen, arg_decl, stmt_gen
+      def get_method_code class_name, name_gen, arg_decl, stmt_gen, local_decl
         ctor_name = name_gen.get_ctor_name class_name, name, args
         decorated_class_name = name_gen.get_class_name class_name
         class_self_name = name_gen.get_class_self_name
@@ -25,20 +26,21 @@ module CRask
       end
     end
     class DtorDef
-      def get_method_code class_name, name_gen, arg_decl, stmt_gen
+      def get_method_code class_name, name_gen, arg_decl, stmt_gen, local_decl
         dtor_name = name_gen.get_dtor_name class_name
         "void #{dtor_name}(CRASK_OBJECT self) {\n}\n"
       end
     end
   end
   class MethodCodeGenerator
-    def initialize name_gen, arg_decl, stmt_gen
+    def initialize name_gen, arg_decl, stmt_gen, local_decl
       @name_gen = name_gen
       @arg_decl = arg_decl
       @stmt_gen = stmt_gen
+      @local_decl = local_decl
     end
     def generate class_name, method_def
-      method_def.get_method_code class_name, @name_gen, @arg_decl, @stmt_gen
+      method_def.get_method_code class_name, @name_gen, @arg_decl, @stmt_gen, @local_decl
     end
   end
 end

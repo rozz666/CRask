@@ -6,7 +6,8 @@ module CRask
       @name_gen = double("name generator")
       @arg_decl = double("arg declarator")
       @stmt_gen = double("stmt generator")
-      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen
+      @local_decl = double("local var declarator")
+      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl
     end
     it "should generate a method with args" do
       args = [ "arg1", "arg2"]
@@ -15,8 +16,10 @@ module CRask
       @arg_decl.should_receive(:generate_from_self_arg).with("selfName", args).and_return("DECLARED_ARGS")
       @arg_decl.should_receive(:generate_function_args).with("selfName").and_return("FUNCTION_ARGS")
       @stmt_gen.should_receive(:generate_statements).with(:stmts).and_return("STATEMENTS")
+      @local_decl.should_receive(:generate_variables).with(args).and_return("LOCAL_VARS")
       @gen.generate("A", Ast::MethodDef.new("m", args, :stmts)).should eql(
         "CRASK_OBJECT methodName(FUNCTION_ARGS) {\n" + 
+        "LOCAL_VARS" +
         "DECLARED_ARGS" +
         "STATEMENTS" +
         "    return CRASK_NIL;\n" +
