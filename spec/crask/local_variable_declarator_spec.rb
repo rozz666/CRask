@@ -11,5 +11,8 @@ module CRask
     it "should declare one variable" do
       @decl.generate_variables([ "var" ]).should eql("    CRASK_OBJECT var;\n")
     end
+    it "should use one declaration for all variables" do
+      @decl.generate_variables([ "x", "y", "A" ]).should eql("    CRASK_OBJECT x, y, A;\n")
+    end
   end
 end
