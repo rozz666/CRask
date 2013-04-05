@@ -13,7 +13,7 @@ module CRask
       @global_variables << CAst::GlobalVariable.new(type, name)
     end
     def build
-      CAst::Module.new @includes, @global_variables
+      CAst::Module.new @includes, @global_variables, []
     end
   end
 end

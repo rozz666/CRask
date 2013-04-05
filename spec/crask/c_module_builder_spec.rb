@@ -29,5 +29,8 @@ module CRask
       vars[1].type.should eql("type2")
       vars[1].name.should eql("var2")
     end
+    it "should build empty function list by default" do
+      @builder.build.functions.should eql([])
+    end
   end
 end
