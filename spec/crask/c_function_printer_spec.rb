@@ -30,5 +30,11 @@ module CRask
             
       @printer.print(function).should include("{\n    LINE1\n    LINE2\n}")
     end
+    it "should ident statements" do
+      function = CAst::Function.new "", "", nil, nil, :statements
+      @statement_printer.should_receive(:print).with(:statements).and_return("LINE1\nLINE2\n")
+            
+      @printer.print(function).should include("{\n    LINE1\n    LINE2\n}")
+    end
   end
 end

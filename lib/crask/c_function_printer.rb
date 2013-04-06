@@ -8,8 +8,7 @@ module CRask
     def print function
       args = @argument_printer.print function.arguments
       local_vars = ident_text(@local_variable_printer.print(function.local_variables))
-      statements = @statement_printer.print function.statements
-      statements = "    " + statements unless statements.empty?
+      statements = ident_text(@statement_printer.print(function.statements))
       "#{function.type} #{function.name}(#{args}) {\n#{local_vars}#{statements}}\n"
     end
     private
