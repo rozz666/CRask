@@ -19,5 +19,10 @@ module CRask
     it "should build empty statement list build default" do
       @builder.build.statements.should eql([])
     end
+    it "should add statements" do
+      @builder.add_statement :first
+      @builder.add_statement :second
+      @builder.build.statements.should eql([ :first, :second ])
+    end
   end
 end
