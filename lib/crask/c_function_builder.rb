@@ -3,7 +3,7 @@ require 'crask/cast/function'
 module CRask
   class CFunctionBuilder
     def build
-      CAst::Function.new
+      CAst::Function.new []
     end
   end
 end

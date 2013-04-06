@@ -8,5 +8,8 @@ module CRask
     it "should build CAst::Function" do
       @builder.build().should be_a_kind_of(CAst::Function)
     end
+    it "should build empty local variable list by default" do
+      @builder.build.local_variables.should eql([])
+    end
   end
 end
