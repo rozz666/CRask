@@ -16,5 +16,13 @@ module CRask
             
       @printer.print(function).should eql("type name(ARGS) {\n}\n")
     end
+    it "should print local variables and statements" do
+      function = CAst::Function.new "", "", nil, :local_vars, :statements
+      @local_variable_printer.should_receive(:print).with(:local_vars).and_return("LOCAL_VARS\n")
+      @statement_printer.should_receive(:print).with(:statements).and_return("STATEMENTS\n")
+      @arg_printer.stub(:print).and_return("")
+            
+      @printer.print(function).should include("{\n    LOCAL_VARS\n    STATEMENTS\n}")
+    end
   end
 end
