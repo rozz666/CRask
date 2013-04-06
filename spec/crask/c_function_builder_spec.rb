@@ -16,5 +16,8 @@ module CRask
       @builder.add_local_variable "y"
       @builder.build.local_variables.should eql([ "x", "y" ])
     end
+    it "should build empty statement list build default" do
+      @builder.build.statements.should eql([])
+    end
   end
 end

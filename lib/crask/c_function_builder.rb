@@ -9,7 +9,7 @@ module CRask
       @local_variables << name
     end
     def build
-      CAst::Function.new @local_variables
+      CAst::Function.new @local_variables, []
     end
   end
 end
