@@ -1,3 +1,5 @@
+require 'crask/c_include_printer'
+
 module CRask
   class CodeGenerator
     def initialize name_gen, method_gen, class_gen
@@ -7,8 +9,7 @@ module CRask
     end
 
     def generate_headers ast
-      "#include <crask.h>\n" +
-      "#include <stdarg.h>\n\n"
+      CIncludePrinter.new.print([ "crask.h", "stdarg.h" ])
     end
     
     def generate_class_declarations ast
