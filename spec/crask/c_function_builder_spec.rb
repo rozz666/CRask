@@ -11,5 +11,10 @@ module CRask
     it "should build empty local variable list by default" do
       @builder.build.local_variables.should eql([])
     end
+    it "should add local variables" do
+      @builder.add_local_variable "x"
+      @builder.add_local_variable "y"
+      @builder.build.local_variables.should eql([ "x", "y" ])
+    end
   end
 end
