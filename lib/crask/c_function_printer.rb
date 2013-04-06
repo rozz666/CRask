@@ -5,8 +5,7 @@ module CRask
       @statement_printer = statement_printer
     end
     def print function
-      @local_variable_printer.print(function.local_variables) +
-      @statement_printer.print(function.statements)
+      "#{function.type} #{function.name}() {\n}\n"
     end
   end
 end

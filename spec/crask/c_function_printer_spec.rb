@@ -7,11 +7,12 @@ module CRask
       @statement_printer = double("statement printer")
       @printer = CFunctionPrinter.new @local_variable_printer, @statement_printer
     end
-    it "should print local variables and statements" do
-      function = CAst::Function.new :local_variables, :statements
-      @local_variable_printer.should_receive(:print).with(:local_variables).and_return("LOCAL_VARS\n")
-      @statement_printer.should_receive(:print).with(:statements).and_return("STATEMENTS\n")      
-      @printer.print(function).should eql("LOCAL_VARS\nSTATEMENTS\n")
+    it "should print type and name" do
+      function = CAst::Function.new "type", "name", nil, nil
+      @local_variable_printer.stub(:print).and_return("")
+      @statement_printer.stub(:print).and_return("")
+            
+      @printer.print(function).should eql("type name() {\n}\n")
     end
   end
 end
