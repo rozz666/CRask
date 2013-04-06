@@ -17,5 +17,13 @@ module CRask
       text.should include("type2 var2;\n")
       text.should end_with(";\n")
     end
+    it "should group variables by type" do
+      vars = [
+        CAst::LocalVariable.new("A", "a1"), CAst::LocalVariable.new("A", "a2"),
+        CAst::LocalVariable.new("A", "a3"), CAst::LocalVariable.new("B", "b1") ]
+      text = @printer.print(vars)
+      text.should include("A a1, a2, a3;")
+      text.should include("B b1;")
+    end
   end
 end
