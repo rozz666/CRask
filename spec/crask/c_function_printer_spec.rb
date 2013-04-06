@@ -24,5 +24,13 @@ module CRask
             
       @printer.print(function).should include("{\n    LOCAL_VARS\n    STATEMENTS\n}")
     end
+    it "should ident local variables" do
+      function = CAst::Function.new "", "", nil, :local_vars, nil
+      @local_variable_printer.should_receive(:print).with(:local_vars).and_return("LINE1\nLINE2\n")
+      @statement_printer.stub(:print).and_return("")
+      @arg_printer.stub(:print).and_return("")
+            
+      @printer.print(function).should include("{\n    LINE1\n    LINE2\n}")
+    end
   end
 end

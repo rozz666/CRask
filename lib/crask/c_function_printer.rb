@@ -7,11 +7,14 @@ module CRask
     end
     def print function
       args = @argument_printer.print function.arguments
-      local_vars = @local_variable_printer.print function.local_variables
-      local_vars = "    " + local_vars unless local_vars.empty?
+      local_vars = ident_text(@local_variable_printer.print(function.local_variables))
       statements = @statement_printer.print function.statements
       statements = "    " + statements unless statements.empty?
       "#{function.type} #{function.name}(#{args}) {\n#{local_vars}#{statements}}\n"
     end
+    private
+    def ident_text text
+      text.split("\n").map { |line| "    " + line + "\n" }.join
+    end    
   end
 end
