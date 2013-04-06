@@ -5,14 +5,16 @@ module CRask
     before(:each) do
       @local_variable_printer = double("local variable printer")
       @statement_printer = double("statement printer")
-      @printer = CFunctionPrinter.new @local_variable_printer, @statement_printer
+      @arg_printer = double("arg printer")
+      @printer = CFunctionPrinter.new @arg_printer, @local_variable_printer, @statement_printer
     end
-    it "should print type and name" do
-      function = CAst::Function.new "type", "name", nil, nil
+    it "should print type, name and arguments" do
+      function = CAst::Function.new "type", "name", :args, nil, nil
       @local_variable_printer.stub(:print).and_return("")
       @statement_printer.stub(:print).and_return("")
+      @arg_printer.should_receive(:print).with(:args).and_return("ARGS")
             
-      @printer.print(function).should eql("type name() {\n}\n")
+      @printer.print(function).should eql("type name(ARGS) {\n}\n")
     end
   end
 end

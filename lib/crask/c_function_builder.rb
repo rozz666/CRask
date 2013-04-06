@@ -13,7 +13,7 @@ module CRask
       @statements << stmt
     end
     def build
-      CAst::Function.new nil, nil, @local_variables, @statements
+      CAst::Function.new nil, nil, nil, @local_variables, @statements
     end
   end
 end
