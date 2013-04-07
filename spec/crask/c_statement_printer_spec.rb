@@ -25,12 +25,12 @@ module CRask
       @printer.print(stmts).should eql("RETURN\n")
     end
     it "should print a function call with semicolon and newline" do
-      stmts = [ CAst::FunctionCall.new ]
+      stmts = [ CAst::FunctionCall.new(nil, nil) ]
       @function_call_printer.should_receive(:print).with(stmts[0]).and_return("FCALL")
       @printer.print(stmts).should eql("FCALL;\n")
     end
     it "should print all statements" do
-      stmts = [ CAst::Assignment.new(nil, nil), CAst::Return.new, CAst::FunctionCall.new ]
+      stmts = [ CAst::Assignment.new(nil, nil), CAst::Return.new, CAst::FunctionCall.new(nil, nil) ]
       @assignment_printer.should_receive(:print).with(stmts[0]).and_return("1")
       @return_printer.should_receive(:print).with(stmts[1]).and_return("2")
       @function_call_printer.should_receive(:print).with(stmts[2]).and_return("3")
