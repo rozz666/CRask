@@ -1,5 +1,6 @@
 require 'crask/cast/assignment'
 require 'crask/cast/return'
+require 'crask/cast/function_call'
 
 module CRask
   module CAst
@@ -12,6 +13,12 @@ module CRask
     class Return
       def print printers
         printers[:Return].print self
+      end
+    end
+    
+    class FunctionCall
+      def print printers
+        printers[:FunctionCall].print self
       end
     end
   end
