@@ -15,7 +15,7 @@ module CRask
       @printer.print([]).should eql("")
     end
     it "should print assignments" do
-      stmts = [ CAst::Assignment.new ]
+      stmts = [ CAst::Assignment.new(nil, nil) ]
       @assignment_printer.should_receive(:print).with(stmts[0]).and_return("STMT\n")
       @printer.print(stmts).should eql("STMT\n")
     end
@@ -30,7 +30,7 @@ module CRask
       @printer.print(stmts).should eql("FCALL;\n")
     end
     it "should print all statements" do
-      stmts = [ CAst::Assignment.new, CAst::Return.new, CAst::FunctionCall.new ]
+      stmts = [ CAst::Assignment.new(nil, nil), CAst::Return.new, CAst::FunctionCall.new ]
       @assignment_printer.should_receive(:print).with(stmts[0]).and_return("1")
       @return_printer.should_receive(:print).with(stmts[1]).and_return("2")
       @function_call_printer.should_receive(:print).with(stmts[2]).and_return("3")
