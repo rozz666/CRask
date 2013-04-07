@@ -7,5 +7,8 @@ module CRask
     it "should print variable name" do
       @printer.print(CAst::Variable.new("var")).should eql("var")
     end
+    it "should print ampersand and variable name for address of variable" do
+      @printer.print(CAst::VariableAddress.new("other")).should eql("&other")
+    end
   end
 end
