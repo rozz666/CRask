@@ -13,5 +13,9 @@ module CRask
         CAst::LocalVariable.new("type2", "name2") ]
       @printer.print(args).should eql("type1 name1, type2 name2")
     end
+    it "should not print name and space after ellipsis" do
+      args = [ CAst::LocalVariable.new("...", "dummy") ]
+      @printer.print(args).should eql("...")
+    end
   end
 end
