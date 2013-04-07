@@ -18,7 +18,7 @@ module CRask
     
     class FunctionCall
       def print_with printers
-        printers[:FunctionCall].print self
+        printers[:FunctionCall].print(self) + ";\n"
       end
     end
   end
