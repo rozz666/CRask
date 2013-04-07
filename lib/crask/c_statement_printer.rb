@@ -28,7 +28,6 @@ module CRask
       @printers = printers
     end
     def print stmts
-      return "" if stmts.empty?
       stmts.map { |s| s.print_with @printers }.join
     end
   end
