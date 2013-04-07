@@ -10,5 +10,8 @@ module CRask
     it "should print ampersand and variable name for address of variable" do
       @printer.print(CAst::VariableAddress.new("other")).should eql("&other")
     end
+    it "should print a string in quotation marks" do
+      @printer.print(CAst::String.new("a string")).should eql("\"a string\"")
+    end
   end
 end
