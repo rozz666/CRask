@@ -5,19 +5,19 @@ require 'crask/cast/function_call'
 module CRask
   module CAst
     class Assignment
-      def print printers
+      def print_with printers
         printers[:Assignment].print self
       end
     end
     
     class Return
-      def print printers
+      def print_with printers
         printers[:Return].print self
       end
     end
     
     class FunctionCall
-      def print printers
+      def print_with printers
         printers[:FunctionCall].print self
       end
     end
@@ -29,7 +29,7 @@ module CRask
     end
     def print stmts
       return "" if stmts.empty?
-      stmts[0].print @printers
+      stmts.map { |s| s.print_with @printers }.join
     end
   end
 end
