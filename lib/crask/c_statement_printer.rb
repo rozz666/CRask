@@ -1,13 +1,28 @@
 require 'crask/cast/assignment'
+require 'crask/cast/return'
 
 module CRask
+  module CAst
+    class Assignment
+      def print printers
+        printers[:Assignment].print self
+      end
+    end
+    
+    class Return
+      def print printers
+        printers[:Return].print self
+      end
+    end
+  end
+  
   class CStatementPrinter
-    def initialize assignment_printer
-      @assignment_printer = assignment_printer
+    def initialize printers
+      @printers = printers
     end
     def print stmts
       return "" if stmts.empty?
-      @assignment_printer.print stmts[0]
+      stmts[0].print @printers
     end
   end
 end
