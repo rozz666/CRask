@@ -27,6 +27,9 @@ module CRask
       va_end =CAst::FunctionCall.new("va_end", [ rask_args ])
       [ va_start ] + local_init + [ va_end ] 
     end
+    def generate_local_vars_ast
+      [ CAst::LocalVariable.new("va_list", "rask_args")] #TODO: refactor rask_args
+    end
     def generate_function_args self_name
       "CRASK_OBJECT #{self_name}, ..."
     end

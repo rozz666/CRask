@@ -49,6 +49,14 @@ module CRask
       stmts[1].left.should be_a_C_variable("local1")
       stmts[2].left.should be_a_C_variable("local2")
     end
+    it "should generate C AST of rask_args declaration" do
+      local_args = @arg_decl.generate_local_vars_ast
+      local_args.should have(1).item
+      rask_args = local_args[0]
+      rask_args.should be_a_kind_of(CAst::LocalVariable)
+      rask_args.type.should eql("va_list")
+      rask_args.name.should eql("rask_args")
+    end
     it "should initialize nothing for no arguments" do
       @arg_decl.generate_initialization("selfArg", []).should eql("")
       @arg_decl.generate_initialization_ast("selfArg", []).should eql([])
