@@ -34,5 +34,8 @@ module CRask
     def generate_function_args self_name
       "CRASK_OBJECT #{self_name}, ..."
     end
+    def generate_function_args_ast self_name
+      [ CAst::LocalVariable.new("CRASK_OBJECT", self_name), CAst::LocalVariable.new("...", nil) ]
+    end
   end
 end

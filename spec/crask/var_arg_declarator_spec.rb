@@ -53,9 +53,7 @@ module CRask
       local_args = @arg_decl.generate_local_vars_ast [ "arg1" ]
       local_args.should have(1).item
       rask_args = local_args[0]
-      rask_args.should be_a_kind_of(CAst::LocalVariable)
-      rask_args.type.should eql("va_list")
-      rask_args.name.should eql("rask_args")
+      rask_args.should be_a_local_C_variable("va_list", "rask_args")
     end
     it "should initialize nothing for no arguments" do
       @arg_decl.generate_initialization("selfArg", []).should eql("")
@@ -64,6 +62,12 @@ module CRask
     end
     it "should declare C function var args" do
       @arg_decl.generate_function_args("selfName").should eql("CRASK_OBJECT selfName, ...")
+    end
+    it "should generate C AST with self and varargs" do
+      args = @arg_decl.generate_function_args_ast("selfName")
+      args.should have(2).variables
+      args[0].should be_a_local_C_variable("CRASK_OBJECT", "selfName")
+      args[1].should be_a_local_C_variable("...")
     end
   end
 end

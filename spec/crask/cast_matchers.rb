@@ -31,4 +31,16 @@ module CRask
       "expected #{actual.inspect} to " + description
     end
   end
+  
+  RSpec::Matchers.define :be_a_local_C_variable do |type, name|
+    match do |actual|
+      actual.kind_of?(CAst::LocalVariable) and actual.type == type and actual.name == name
+    end
+    description do
+      "be a local C variable #{name.inspect} of type #{type.inspect}"
+    end
+    failure_message_for_should do |actual|
+      "expected #{actual.inspect} to " + description
+    end
+  end
 end
