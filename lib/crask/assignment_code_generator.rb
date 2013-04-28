@@ -10,5 +10,11 @@ module CRask
       "    #{local_name} = #{@name_gen.get_nil_name};\n" +
       "    crask_retain(#{local_name});\n"
     end
+    def generate_ast assignment
+      left = CAst::Variable.new @name_gen.get_local_name(assignment.left)
+      right = CAst::Variable.new @name_gen.get_nil_name
+      [ CAst::Assignment.new(left, right),
+        CAst::FunctionCall.new("crask_retain", [ left ]) ]
+    end
   end
 end
