@@ -40,7 +40,8 @@ module CRask
         "CRASK_OBJECT ctorName(FUNCTION_ARGS) {\n" +
         "LOCAL_VARS" +
         "DECLARED_ARGS" +
-        "    CRASK_OBJECT selfName = crask_createInstance(className);\n" +
+        "    CRASK_OBJECT selfName;\n" + 
+        "    selfName = crask_createInstance(className);\n" +
         "    return selfName;\n" +
         "}\n")
     end

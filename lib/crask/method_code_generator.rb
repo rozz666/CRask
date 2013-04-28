@@ -21,7 +21,8 @@ module CRask
         "CRASK_OBJECT #{ctor_name}(#{arg_decl.generate_function_args class_self_name}) {\n"+
         local_decl.generate_variables(args) +
         arg_decl.generate_initialization(class_self_name, args) +
-        "    CRASK_OBJECT #{self_name} = crask_createInstance(#{decorated_class_name});\n" +
+        "    CRASK_OBJECT #{self_name};\n" + 
+        "    #{self_name} = crask_createInstance(#{decorated_class_name});\n" +
         "    return #{self_name};\n" +
         "}\n"
       end

@@ -12,7 +12,8 @@ Feature: Class constructors
         Then generated C code should contain:
             """
             CRASK_OBJECT CT_A_new(CRASK_OBJECT classSelf, ...) {
-                CRASK_OBJECT self = crask_createInstance(C_A);
+                CRASK_OBJECT self;
+                self = crask_createInstance(C_A);
                 return self;
             }
             """
@@ -40,7 +41,8 @@ Feature: Class constructors
                 L_bar = va_arg(rask_args, CRASK_OBJECT);
                 L_baz = va_arg(rask_args, CRASK_OBJECT);
                 va_end(rask_args);
-                CRASK_OBJECT self = crask_createInstance(C_A);
+                CRASK_OBJECT self;
+                self = crask_createInstance(C_A);
                 return self;
             }
             """
