@@ -7,5 +7,8 @@ module CRask
       return "" if vars.empty?
       "    CRASK_OBJECT #{vars.map{ |v| @name_gen.get_local_name(v) }.join(", ")};\n"
     end
+    def generate_ast vars
+      vars.map { |v| CAst::Variable.new(@name_gen.get_local_name(v)) }
+    end
   end
 end
