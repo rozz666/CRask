@@ -48,8 +48,17 @@ task :features => [:grammar, :libcrask] do
   sh 'cucumber -p regression'
 end
 
+desc "run WIP feature scenarios"
+task :wip_features => [:grammar, :libcrask] do
+  sh 'cucumber -p wip'
+end
+
 desc "run all examples and scenarios (default)"
 task :test => [:libcrask_ut, :spec, :features] do
+end
+
+desc "run all examples and WIP scenarios"
+task :wip => [:libcrask_ut, :spec, :wip_features] do
 end
 
 task :clean do
