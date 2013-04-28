@@ -8,6 +8,10 @@ require 'crask/method_name_generator'
 require 'crask/statement_code_generator'
 require 'crask/assignment_code_generator'
 require 'crask/local_variable_declarator'
+require 'crask/c_statement_printer'
+require 'crask/c_assignment_printer'
+require 'crask/c_expression_printer'
+require 'crask/c_function_call_printer'
 
 module CRask
   class SymbolTableStub
@@ -31,7 +35,12 @@ module CRask
       assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen, symbol_table
       stmt_gen = CRask::StatementCodeGenerator.new assignment_gen
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen
-      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl
+      expr_printer = CExpressionPrinter.new
+      stmt_printer = CStatementPrinter.new({
+        :Assignment => CAssignmentPrinter.new(expr_printer),
+        :FunctionCall => CFunctionCallPrinter.new(expr_printer)
+      })
+      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, stmt_printer, local_var_decl
       class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen
       CRask::CodeGenerator.new(symbol_name_gen, method_code_gen, class_gen)
     end
