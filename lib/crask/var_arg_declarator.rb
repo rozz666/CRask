@@ -15,6 +15,18 @@ module CRask
       names.map { |n| "    #{n} = va_arg(rask_args, CRASK_OBJECT);\n" }.join +
       "    va_end(rask_args);\n"
     end
+    def generate_initialization_ast self_arg, args
+      return [] if args.empty?
+      rask_args = CAst::Variable.new("rask_args")
+      va_arg = CAst::FunctionCall.new("va_arg", [ rask_args, CAst::Variable.new("CRASK_OBJECT") ])
+      va_start = CAst::FunctionCall.new("va_start", [ rask_args, CAst::Variable.new(self_arg) ])
+      local_init = args.map { |arg|
+        local_arg = CAst::Variable.new(@name_gen.get_local_name(arg))
+        CAst::Assignment.new(local_arg, va_arg) 
+      }
+      va_end =CAst::FunctionCall.new("va_end", [ rask_args ])
+      [ va_start ] + local_init + [ va_end ] 
+    end
     def generate_function_args self_name
       "CRASK_OBJECT #{self_name}, ..."
     end
