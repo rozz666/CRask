@@ -19,12 +19,6 @@ module CRask
     end
   end
   
-  class LocalDeclaratorStub
-    def generate_variables vars
-      ""
-    end
-  end
-  
   class CodeGeneratorFactory
     def createCodeGenerator
       arg_ordering_policy = ArgumentOrderingPolicy.new
@@ -32,7 +26,7 @@ module CRask
       method_name_generator = CRask::MethodNameGenerator.new arg_ordering_policy
       symbol_table = SymbolTableStub.new
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen, symbol_table
-      assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen, symbol_table
+      assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen
       stmt_gen = CRask::StatementCodeGenerator.new assignment_gen
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen
       expr_printer = CExpressionPrinter.new
