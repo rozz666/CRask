@@ -82,6 +82,31 @@ module CRask
         "    return selfName;\n" +
         "}\n")
     end
+    it "should generate C AST of an empty constructor" do
+      @arg_decl.should_receive(:generate_initialization_ast).with("SELF", :args).and_return([ :arg_stmt1, :arg_stmt2 ])
+      @local_decl.should_receive(:generate_ast).with(:args).and_return([ :loc1, :loc2 ])
+      @arg_decl.should_receive(:generate_local_vars_ast).with(:args).and_return([ :loc3, :loc4 ])
+      @name_gen.stub(:get_class_self_name).and_return("CLASS_SELF")
+      @name_gen.stub(:get_self_name).and_return("SELF")
+      @name_gen.should_receive(:get_class_name).with("ClassName").and_return("CLASS")
+      @name_gen.should_receive(:get_ctor_name).with("ClassName", "ctorName", :args).and_return("CTOR_NAME")
+      @arg_decl.should_receive(:generate_function_args_ast).with("CLASS_SELF").and_return(:fargs)
+      
+      method = @gen.generate_ast("ClassName", Ast::CtorDef.new("ctorName", :args))
+        
+      method.type.should eql("CRASK_OBJECT")
+      method.name.should eql("CTOR_NAME")
+      method.should have(4).statements
+      method.statements[0..1].should eql([ :arg_stmt1, :arg_stmt2 ])
+      method.statements[2].should be_a_kind_of(CAst::Assignment)
+      method.statements[2].left.should be_a_C_variable("SELF")
+      method.statements[2].right.should be_a_C_function_call("crask_createInstance").with(1).arg
+      method.statements[2].right.args[0].should be_a_C_variable("CLASS")
+      method.statements[3].should be_a_kind_of(CAst::Return)
+      method.statements[3].expression.should be_a_C_variable("SELF")
+      method.local_variables.should eql([ :loc1, :loc2, :loc3, :loc4 ])
+      method.arguments.should be(:fargs)
+    end
     it "should generate an empty destructor" do
       @name_gen.should_receive(:get_dtor_name).with("A").and_return("dtorName")
       @gen.generate("A", Ast::DtorDef.new).should eql(

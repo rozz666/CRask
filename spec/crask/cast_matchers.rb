@@ -19,6 +19,7 @@ module CRask
     match do |actual|
       r = actual.kind_of?(CAst::FunctionCall)
       r &&= actual.name == name
+      r &&= !actual.args.nil?
       r &&= actual.args.size == @arg_count unless @arg_count.nil?
       r
     end
