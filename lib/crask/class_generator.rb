@@ -36,8 +36,16 @@ module CRask
     end
     def generate_registration_ast class_def
       class_name = @symbol_name_gen.get_class_name class_def.name
-      registration = CAst::FunctionCall.new("crask_registerClass", [ CAst::String.new(class_def.name) ])
-      CAst::Assignment.new(CAst::Variable.new(class_name), registration)
+      class_registration_call = CAst::FunctionCall.new("crask_registerClass", [ CAst::String.new(class_def.name) ])
+      class_registration = CAst::Assignment.new(CAst::Variable.new(class_name), class_registration_call)
+      stmts = [ class_registration ]
+      if !class_def.defs.empty?
+        func_addr = CAst::VariableAddress.new(@symbol_name_gen.get_dtor_name(class_def.name))
+        class_name_str = CAst::String.new(class_def.name)
+        dtor_registration = CAst::FunctionCall.new("crask_addDestructorToClass", [ func_addr, class_name_str])
+        stmts << dtor_registration
+      end
+      stmts
     end
     def generate_declaration class_def
       decorated_name = @symbol_name_gen.get_class_name class_def.name

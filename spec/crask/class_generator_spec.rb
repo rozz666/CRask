@@ -20,11 +20,13 @@ module CRask
     it "should generate C AST of class registration using libcrask" do
       cdef = Ast::ClassDef.with_name "A"
       @symbol_name_gen.stub(:get_class_name).with("A").and_return("name1")
-      reg = @gen.generate_registration_ast(cdef)
-      reg.should be_a_kind_of(CAst::Assignment)
-      reg.left.should be_a_C_variable("name1")
-      reg.right.should be_a_C_function_call("crask_registerClass").with(1).arg
-      reg.right.args[0].should be_a_C_string("A")
+      regs = @gen.generate_registration_ast(cdef)
+      regs.should have(1).item
+      class_reg = regs[0]
+      class_reg.should be_a_kind_of(CAst::Assignment)
+      class_reg.left.should be_a_C_variable("name1")
+      class_reg.right.should be_a_C_function_call("crask_registerClass").with(1).arg
+      class_reg.right.args[0].should be_a_C_string("A")
     end
     it "should generate destructor registration using libcrask" do
       cdef = Ast::ClassDef.with_name_and_dtor "B"
@@ -32,6 +34,18 @@ module CRask
       @symbol_name_gen.stub(:get_dtor_name).with("B").and_return("dtorName")
       @gen.generate_registration(cdef).should end_with(
         ";\ncrask_addDestructorToClass(&dtorName, className);\n")
+    end
+    it "should generate C AST of destructor registration using libcrask" do
+      cdef = Ast::ClassDef.with_name_and_dtor "B"
+      @symbol_name_gen.stub(:get_class_name).and_return("className")
+      @symbol_name_gen.stub(:get_dtor_name).with("B").and_return("dtorName")
+      regs = @gen.generate_registration_ast(cdef)
+      regs.should have(2).items
+      regs[0].should be_a_kind_of(CAst::Assignment)
+      dtor_reg = regs[1]
+      dtor_reg.should be_a_C_function_call("crask_addDestructorToClass").with(2).args
+      dtor_reg.args[0].should be_a_C_variable_address("dtorName")
+      dtor_reg.args[1].should be_a_C_string("B")
     end
     it "should generate method registrations using libcrask" do
       cdef = Ast::ClassDef.with_name_and_methods_with_args "A", [ "abc", [ "a", "b" ] ], [ "def", [ "c" ] ]

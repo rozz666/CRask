@@ -56,4 +56,16 @@ module CRask
       "expected #{actual.inspect} to " + description
     end
   end
+  
+  RSpec::Matchers.define :be_a_C_variable_address do |name|
+    match do |actual|
+      actual.kind_of?(CAst::VariableAddress) and actual.name == name
+    end
+    description do
+      "be an address of C variable #{name.inspect}"
+    end
+    failure_message_for_should do |actual|
+      "expected #{actual.inspect} to " + description
+    end
+  end
 end
