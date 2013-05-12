@@ -45,7 +45,7 @@ module CRask
       dtor_reg = regs[1]
       dtor_reg.should be_a_C_function_call("crask_addDestructorToClass").with(2).args
       dtor_reg.args[0].should be_a_C_variable_address("dtorName")
-      dtor_reg.args[1].should be_a_C_string("B")
+      dtor_reg.args[1].should be_a_C_string("B") #bug, should be C variable
     end
     it "should generate method registrations using libcrask" do
       cdef = Ast::ClassDef.with_name_and_methods_with_args "A", [ "abc", [ "a", "b" ] ], [ "def", [ "c" ] ]
@@ -58,6 +58,27 @@ module CRask
         ";\n" +
         "crask_addMethodToClass(&methodName1, \"abcName\", className);\n" +
         "crask_addMethodToClass(&methodName2, \"defName\", className);\n")
+    end
+    it "should generate C AST of method registration using libcrask" do
+      cdef = Ast::ClassDef.with_name_and_methods_with_args "A", [ "abc", :args ]
+      @symbol_name_gen.stub(:get_class_name).and_return("className")
+      @symbol_name_gen.stub(:get_method_name).with("A", "abc", :args).and_return("methodName")
+      @method_name_gen.should_receive(:generate).with("abc", :args).and_return("abcName")
+      regs = @gen.generate_registration_ast(cdef)
+      regs.should have(2).items
+      method_reg = regs[1]
+      method_reg.should be_a_C_function_call("crask_addMethodToClass").with(3).args
+      method_reg.args[0].should be_a_C_variable_address("methodName")
+      method_reg.args[1].should be_a_C_string("abcName")
+      method_reg.args[2].should be_a_C_variable("className")
+    end
+    it "should generate C AST of all method registrations" do
+      cdef = Ast::ClassDef.with_name_and_methods_with_args "A", [ "abc", [] ], [ "def", [] ]
+      @symbol_name_gen.stub(:get_class_name)
+      @symbol_name_gen.stub(:get_method_name)
+      @method_name_gen.stub(:generate)
+
+      @gen.generate_registration_ast(cdef).should have(3).items, "should have 1 class and 2 method registrations"
     end
     it "should generate constructor registrations as class methods using libcrask" do
       cdef = Ast::ClassDef.with_name_and_ctors_with_args "X", [ "foo", [ "a", "b" ] ], [ "bar", [ "c" ] ]

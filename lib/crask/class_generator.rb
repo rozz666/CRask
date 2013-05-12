@@ -12,12 +12,23 @@ module CRask
         dtor_name = symbol_name_gen.get_dtor_name class_name
         "crask_addDestructorToClass(&#{dtor_name}, #{decorated_class_name});\n"
       end
+      def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
+        func_addr = CAst::VariableAddress.new(symbol_name_gen.get_dtor_name(class_name))
+        class_name_str = CAst::String.new(class_name)
+        CAst::FunctionCall.new("crask_addDestructorToClass", [ func_addr, class_name_str])
+      end
     end
     class MethodDef
       def generate_registration_code symbol_name_gen, method_name_gen, class_name, decorated_class_name
         decorated_name = symbol_name_gen.get_method_name class_name, name, args
         public_name = method_name_gen.generate name, args
         "crask_addMethodToClass(&#{decorated_name}, \"#{public_name}\", #{decorated_class_name});\n"
+      end
+      def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
+        func_addr = CAst::VariableAddress.new(symbol_name_gen.get_method_name(class_name, name, args))
+        public_name = CAst::String.new(method_name_gen.generate(name, args))
+        class_var = CAst::Variable.new(class_var_name)
+        CAst::FunctionCall.new("crask_addMethodToClass", [ func_addr, public_name, class_var ])
       end
     end
   end
@@ -38,14 +49,10 @@ module CRask
       class_name = @symbol_name_gen.get_class_name class_def.name
       class_registration_call = CAst::FunctionCall.new("crask_registerClass", [ CAst::String.new(class_def.name) ])
       class_registration = CAst::Assignment.new(CAst::Variable.new(class_name), class_registration_call)
-      stmts = [ class_registration ]
-      if !class_def.defs.empty?
-        func_addr = CAst::VariableAddress.new(@symbol_name_gen.get_dtor_name(class_def.name))
-        class_name_str = CAst::String.new(class_def.name)
-        dtor_registration = CAst::FunctionCall.new("crask_addDestructorToClass", [ func_addr, class_name_str])
-        stmts << dtor_registration
+      [ class_registration ] +
+      class_def.defs.map do |d|
+        d.generate_registration_ast(@symbol_name_gen, @method_name_gen, class_def.name, class_name)
       end
-      stmts
     end
     def generate_declaration class_def
       decorated_name = @symbol_name_gen.get_class_name class_def.name
