@@ -87,5 +87,17 @@ module CRask
       @gen.generate("A", Ast::DtorDef.new).should eql(
         "void dtorName(CRASK_OBJECT self) {\n}\n")
     end
+    it "should generate C AST of an empty destructor" do
+      @name_gen.should_receive(:get_dtor_name).with("ClassName").and_return("dtorName")
+      @name_gen.stub(:get_self_name).and_return("SELF")
+      method = @gen.generate_ast("ClassName", Ast::DtorDef.new)
+      
+      method.name.should eql("dtorName")
+      method.type.should eql("void")
+      method.should have(1).arguments
+      method.arguments[0].should be_a_local_C_variable("CRASK_OBJECT", "SELF") #TODO: multiple responsibilities
+      method.should have(0).local_variables
+      method.should have(0).statements
+    end
   end
 end
