@@ -6,6 +6,12 @@ module CRask
         public_name = method_name_gen.generate name, args
         "crask_addClassMethodToClass(&#{decorated_name}, \"#{public_name}\", #{decorated_class_name});\n"
       end
+      def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
+        func_addr = CAst::VariableAddress.new(symbol_name_gen.get_ctor_name(class_name, name, args))
+        public_name = CAst::String.new(method_name_gen.generate(name, args))
+        class_var = CAst::Variable.new(class_var_name)
+        CAst::FunctionCall.new("crask_addClassMethodToClass", [ func_addr, public_name, class_var ])
+      end
     end
     class DtorDef
       def generate_registration_code symbol_name_gen, method_name_gen, class_name, decorated_class_name

@@ -93,6 +93,19 @@ module CRask
         "crask_addClassMethodToClass(&ctorName2, \"barName\", className);\n"
       )
     end
+    it "should generate constructor registrations as class methods using libcrask" do
+      cdef = Ast::ClassDef.with_name_and_ctors_with_args "X", [ "foo", :args ]
+      @symbol_name_gen.stub(:get_class_name).and_return("className")
+      @symbol_name_gen.stub(:get_ctor_name).with("X", "foo", :args).and_return("ctorName")
+      @method_name_gen.should_receive(:generate).with("foo", :args).and_return("fooName")
+      regs = @gen.generate_registration_ast(cdef)
+      regs.should have(2).items
+      method_reg = regs[1]
+      method_reg.should be_a_C_function_call("crask_addClassMethodToClass").with(3).args
+      method_reg.args[0].should be_a_C_variable_address("ctorName")
+      method_reg.args[1].should be_a_C_string("fooName")
+      method_reg.args[2].should be_a_C_variable("className")
+    end
     it "should generate class variable declaration" do
       cdef = Ast::ClassDef.with_name "Z"
       @symbol_name_gen.stub(:get_class_name).and_return("className")
