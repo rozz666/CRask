@@ -20,8 +20,8 @@ module CRask
       end
       def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
         func_addr = CAst::VariableAddress.new(symbol_name_gen.get_dtor_name(class_name))
-        class_name_str = CAst::String.new(class_name)
-        CAst::FunctionCall.new("crask_addDestructorToClass", [ func_addr, class_name_str])
+        class_var = CAst::Variable.new(class_var_name)
+        CAst::FunctionCall.new("crask_addDestructorToClass", [ func_addr, class_var ])
       end
     end
     class MethodDef

@@ -45,7 +45,7 @@ module CRask
       dtor_reg = regs[1]
       dtor_reg.should be_a_C_function_call("crask_addDestructorToClass").with(2).args
       dtor_reg.args[0].should be_a_C_variable_address("dtorName")
-      dtor_reg.args[1].should be_a_C_string("B") #bug, should be C variable
+      dtor_reg.args[1].should be_a_C_variable("className")
     end
     it "should generate method registrations using libcrask" do
       cdef = Ast::ClassDef.with_name_and_methods_with_args "A", [ "abc", [ "a", "b" ] ], [ "def", [ "c" ] ]
