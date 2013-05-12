@@ -34,6 +34,11 @@ module CRask
         d.generate_registration_code @symbol_name_gen, @method_name_gen, class_def.name, decorated_name
       end.join
     end
+    def generate_registration_ast class_def
+      class_name = @symbol_name_gen.get_class_name class_def.name
+      registration = CAst::FunctionCall.new("crask_registerClass", [ CAst::String.new(class_def.name) ])
+      CAst::Assignment.new(CAst::Variable.new(class_name), registration)
+    end
     def generate_declaration class_def
       decorated_name = @symbol_name_gen.get_class_name class_def.name
       "CRASK_CLASS #{decorated_name};\n"

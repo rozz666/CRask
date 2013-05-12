@@ -1,5 +1,6 @@
 require 'crask/class_generator'
 require 'crask/class_factory'
+require 'crask/cast_matchers'
 
 require 'crask/method_name_generator'
 
@@ -15,6 +16,15 @@ module CRask
       cdef = Ast::ClassDef.with_name "A"
       @symbol_name_gen.stub(:get_class_name).with("A").and_return("name1")
       @gen.generate_registration(cdef).should eql("name1 = crask_registerClass(\"A\");\n")
+    end
+    it "should generate C AST of class registration using libcrask" do
+      cdef = Ast::ClassDef.with_name "A"
+      @symbol_name_gen.stub(:get_class_name).with("A").and_return("name1")
+      reg = @gen.generate_registration_ast(cdef)
+      reg.should be_a_kind_of(CAst::Assignment)
+      reg.left.should be_a_C_variable("name1")
+      reg.right.should be_a_C_function_call("crask_registerClass").with(1).arg
+      reg.right.args[0].should be_a_C_string("A")
     end
     it "should generate destructor registration using libcrask" do
       cdef = Ast::ClassDef.with_name_and_dtor "B"

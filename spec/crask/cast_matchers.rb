@@ -44,4 +44,16 @@ module CRask
       "expected #{actual.inspect} to " + description
     end
   end
+
+  RSpec::Matchers.define :be_a_C_string do |value|
+    match do |actual|
+      actual.kind_of?(CAst::String) and actual.value == value
+    end
+    description do
+      "be a C string #{value.inspect}"
+    end
+    failure_message_for_should do |actual|
+      "expected #{actual.inspect} to " + description
+    end
+  end
 end
