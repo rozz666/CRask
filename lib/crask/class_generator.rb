@@ -38,6 +38,10 @@ module CRask
       decorated_name = @symbol_name_gen.get_class_name class_def.name
       "CRASK_CLASS #{decorated_name};\n"
     end
+    def generate_declaration_ast class_def
+      name = @symbol_name_gen.get_class_name class_def.name
+      CAst::GlobalVariable.new("CRASK_CLASS", name)
+    end
     def generate_method_definitions class_def
       class_def.defs.map do |d|
         @method_gen.generate class_def.name, d

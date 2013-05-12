@@ -53,6 +53,14 @@ module CRask
       @symbol_name_gen.stub(:get_class_name).and_return("className")
       @gen.generate_declaration(cdef).should eql("CRASK_CLASS className;\n")
     end
+    it "should generate class variable declaration C AST" do
+      cdef = Ast::ClassDef.with_name "Z"
+      @symbol_name_gen.should_receive(:get_class_name).with("Z").and_return("className")
+      var = @gen.generate_declaration_ast(cdef)
+      var.should be_a_kind_of(CAst::GlobalVariable)
+      var.type.should eql("CRASK_CLASS")
+      var.name.should eql("className")
+    end
     it "should generate method implementations" do
       cdef = Ast::ClassDef.with_name_and_two_methods("A", "abc", "def")
       @method_gen.should_receive(:generate).with("A", cdef.defs[0]).and_return("impl1;")
