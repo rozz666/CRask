@@ -47,5 +47,10 @@ module CRask
         @method_gen.generate class_def.name, d
       end.join
     end
+    def generate_method_definitions_ast class_def
+      class_def.defs.map do |d|
+        @method_gen.generate_ast class_def.name, d
+      end.flatten
+    end
   end
 end

@@ -67,5 +67,11 @@ module CRask
       @method_gen.should_receive(:generate).with("A", cdef.defs[1]).and_return("impl2;")
       @gen.generate_method_definitions(cdef).should eql("impl1;impl2;")
     end
+    it "should generate method implementations C AST" do
+      cdef = Ast::ClassDef.with_name_and_two_methods("A", "abc", "def")
+      @method_gen.should_receive(:generate_ast).with("A", cdef.defs[0]).and_return(:impl1)
+      @method_gen.should_receive(:generate_ast).with("A", cdef.defs[1]).and_return(:impl2)
+      @gen.generate_method_definitions_ast(cdef).should eql([ :impl1, :impl2 ])
+    end
   end
 end
