@@ -37,7 +37,7 @@ module CRask
       @name_gen.should_receive(:get_method_name).with("ClassName", "methodName", :args).and_return("METHOD_NAME")
       @arg_decl.should_receive(:generate_function_args_ast).with("SELF").and_return(:fargs)
       
-      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", :args, :stmts))#method name
+      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", :args, :stmts))
         
       method.type.should eql("CRASK_OBJECT")
       method.name.should eql("METHOD_NAME")
