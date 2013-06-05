@@ -1,0 +1,24 @@
+class Main {
+  def Array.bubbleSort {
+    0..(count - 1).each \(i) {
+      1..(count - i).each \(j) {
+        swap(j - 1, j) if [j - 1] > [j]
+      }
+    }
+    return self 
+  }
+  def TextFile.readNumbers {
+    count = read
+    numbers = []
+    count.times \{ numbers.append read }
+    return numbers 
+  }
+  def TextFile.writeNumbers numbers {
+    numbers.each \(n) { write "% ", n }
+  }
+  def run {
+    TextFile.openRead("numbers.txt").readNumbers.bubbleSort -> TextFile.openWrite("sorted.txt").writeNumbers
+  }
+}
+  
+Main.new.run
