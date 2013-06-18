@@ -1,2 +1,3 @@
 * module printer should print each function
-
+* use new split printers/generators
+* remove dead code
