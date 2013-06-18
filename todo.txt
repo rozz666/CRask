@@ -1,3 +1,2 @@
-* local variable declarator should generate *local* variables
 * module printer should print each function
 
