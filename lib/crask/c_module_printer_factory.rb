@@ -12,6 +12,7 @@ module CRask
     def create_module_printer
       expr_printer = CExpressionPrinter.new
       function_call_printer = CFunctionCallPrinter.new expr_printer
+      expr_printer.function_call_printer = function_call_printer
       stmt_printer = CStatementPrinter.new({
         :Assignment =>CAssignmentPrinter.new(expr_printer),
         :FunctionCall => CFunctionCallPrinter.new(expr_printer),
