@@ -6,7 +6,8 @@ module CRask
         groups[v.type] ||= [] 
         groups[v.type] << v.name
       end
-      groups.map { |type, name| "#{type} #{name.join(", ")};\n" }.join
+      sorted_types = groups.keys.sort { |l,r| l.downcase <=> r.downcase }
+      sorted_types.map { |type| "#{type} #{groups[type].join(", ")};\n" }.join 
     end
   end
 end

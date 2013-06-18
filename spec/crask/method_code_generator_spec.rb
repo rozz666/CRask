@@ -83,7 +83,7 @@ module CRask
         "}\n")
     end
     it "should generate C AST of an empty constructor" do
-      @arg_decl.should_receive(:generate_initialization_ast).with("SELF", :args).and_return([ :arg_stmt1, :arg_stmt2 ])
+      @arg_decl.should_receive(:generate_initialization_ast).with("CLASS_SELF", :args).and_return([ :arg_stmt1, :arg_stmt2 ])
       @local_decl.should_receive(:generate_ast).with(:args).and_return([ :loc1, :loc2 ])
       @arg_decl.should_receive(:generate_local_vars_ast).with(:args).and_return([ :loc3, :loc4 ])
       @name_gen.stub(:get_class_self_name).and_return("CLASS_SELF")
@@ -104,7 +104,8 @@ module CRask
       method.statements[2].right.args[0].should be_a_C_variable("CLASS")
       method.statements[3].should be_a_kind_of(CAst::Return)
       method.statements[3].expression.should be_a_C_variable("SELF")
-      method.local_variables.should eql([ :loc1, :loc2, :loc3, :loc4 ])
+      method.local_variables[0].should be_a_local_C_variable("CRASK_OBJECT", "SELF")
+      method.local_variables[1..4].should eql([ :loc1, :loc2, :loc3, :loc4 ])
       method.arguments.should be(:fargs)
     end
     it "should generate an empty destructor" do

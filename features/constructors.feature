@@ -35,13 +35,12 @@ Feature: Class constructors
         Then generated C code should contain:
             """
             CRASK_OBJECT CT_A_foo_bar_baz(CRASK_OBJECT classSelf, ...) {
-                CRASK_OBJECT L_bar, L_baz;
+                CRASK_OBJECT self, L_bar, L_baz;
                 va_list rask_args;
                 va_start(rask_args, classSelf);
                 L_bar = va_arg(rask_args, CRASK_OBJECT);
                 L_baz = va_arg(rask_args, CRASK_OBJECT);
                 va_end(rask_args);
-                CRASK_OBJECT self;
                 self = crask_createInstance(C_A);
                 return self;
             }

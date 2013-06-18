@@ -25,5 +25,12 @@ module CRask
       text.should include("A a1, a2, a3;")
       text.should include("B b1;")
     end
+    it "should sort types alphabetically" do
+      vars = [
+        CAst::LocalVariable.new("C", "x"), CAst::LocalVariable.new("d", "x"),
+        CAst::LocalVariable.new("A", "x"), CAst::LocalVariable.new("b", "x") ]
+      text = @printer.print(vars)
+      text.should match(/A[^b]*b[^C]*C[^d]*d.*/)
+    end
   end
 end
