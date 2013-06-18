@@ -1,6 +1,5 @@
 require 'crask/parser'
 require 'crask/code_generator_factory'
-require 'crask/code_generator_generate'
 require 'crask/c_module_printer_factory'
 
 parser = CRask::Parser.new

@@ -2,20 +2,8 @@ require 'crask/cast/local_variable'
 
 module CRask
   class VarArgDeclarator
-    def initialize name_gen, symbol_table
+    def initialize name_gen
       @name_gen = name_gen
-      @symbol_table = symbol_table
-    end
-    def generate_initialization self_arg, args
-      return "" if args.empty?
-      names = args.map do |a|
-        @symbol_table.add_local a
-        @name_gen.get_local_name a
-      end
-      "    va_list rask_args;\n" +
-      "    va_start(rask_args, #{self_arg});\n" +
-      names.map { |n| "    #{n} = va_arg(rask_args, CRASK_OBJECT);\n" }.join +
-      "    va_end(rask_args);\n"
     end
     def generate_initialization_ast self_arg, args
       return [] if args.empty?
@@ -32,9 +20,6 @@ module CRask
     def generate_local_vars_ast args
       return [] if args.empty?
       [ CAst::LocalVariable.new("va_list", "rask_args")] #TODO: refactor rask_args
-    end
-    def generate_function_args self_name
-      "CRASK_OBJECT #{self_name}, ..."
     end
     def generate_function_args_ast self_name
       [ CAst::LocalVariable.new("CRASK_OBJECT", self_name), CAst::LocalVariable.new("...", nil) ]

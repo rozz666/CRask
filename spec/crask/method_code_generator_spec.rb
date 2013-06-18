@@ -6,26 +6,8 @@ module CRask
       @name_gen = double("name generator")
       @arg_decl = double("arg declarator")
       @stmt_gen = double("stmt generator")
-      @stmt_printer = double("statement printer")
       @local_decl = double("local var declarator")
-      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @stmt_printer, @local_decl
-    end
-    it "should generate a method with args" do
-      args = [ "arg1", "arg2"]
-      @name_gen.should_receive(:get_method_name).with("A", "m", args).and_return("methodName")
-      @name_gen.should_receive(:get_self_name).and_return("selfName")
-      @arg_decl.should_receive(:generate_initialization).with("selfName", args).and_return("DECLARED_ARGS")
-      @arg_decl.should_receive(:generate_function_args).with("selfName").and_return("FUNCTION_ARGS")
-      @stmt_gen.should_receive(:generate_ast).with(:stmts).and_return(:stmts_ast)
-      @stmt_printer.should_receive(:print).with(:stmts_ast).and_return("STATEMENTS")
-      @local_decl.should_receive(:generate_variables).with(args).and_return("LOCAL_VARS")
-      @gen.generate("A", Ast::MethodDef.new("m", args, :stmts)).should eql(
-        "CRASK_OBJECT methodName(FUNCTION_ARGS) {\n" + 
-        "LOCAL_VARS" +
-        "DECLARED_ARGS" +
-        "STATEMENTS" +
-        "    return CRASK_NIL;\n" +
-        "}\n")
+      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl
     end
     it "should generate C AST of an empty method" do
       @arg_decl.should_receive(:generate_initialization_ast).with("SELF", :args).and_return([])
@@ -64,24 +46,6 @@ module CRask
       method.statements[4].should be_a_kind_of(CAst::Return)
       method.local_variables.should eql([ :loc1, :loc2, :loc3, :loc4 ])
     end
-    it "should generate a constructor with args creating a new instance" do
-      args = [ "arg1", "arg2"]
-      @name_gen.should_receive(:get_ctor_name).with("A", "m", args).and_return("ctorName")
-      @name_gen.should_receive(:get_class_name).with("A").and_return("className")
-      @name_gen.should_receive(:get_class_self_name).and_return("classSelfName")
-      @name_gen.should_receive(:get_self_name).and_return("selfName")
-      @arg_decl.should_receive(:generate_initialization).with("classSelfName", args).and_return("DECLARED_ARGS")
-      @arg_decl.should_receive(:generate_function_args).with("classSelfName").and_return("FUNCTION_ARGS")
-      @local_decl.should_receive(:generate_variables).with(args).and_return("LOCAL_VARS")
-      @gen.generate("A", Ast::CtorDef.new("m", args)).should eql(
-        "CRASK_OBJECT ctorName(FUNCTION_ARGS) {\n" +
-        "LOCAL_VARS" +
-        "DECLARED_ARGS" +
-        "    CRASK_OBJECT selfName;\n" + 
-        "    selfName = crask_createInstance(className);\n" +
-        "    return selfName;\n" +
-        "}\n")
-    end
     it "should generate C AST of an empty constructor" do
       @arg_decl.should_receive(:generate_initialization_ast).with("CLASS_SELF", :args).and_return([ :arg_stmt1, :arg_stmt2 ])
       @local_decl.should_receive(:generate_ast).with(:args).and_return([ :loc1, :loc2 ])
@@ -107,11 +71,6 @@ module CRask
       method.local_variables[0].should be_a_local_C_variable("CRASK_OBJECT", "SELF")
       method.local_variables[1..4].should eql([ :loc1, :loc2, :loc3, :loc4 ])
       method.arguments.should be(:fargs)
-    end
-    it "should generate an empty destructor" do
-      @name_gen.should_receive(:get_dtor_name).with("A").and_return("dtorName")
-      @gen.generate("A", Ast::DtorDef.new).should eql(
-        "void dtorName(CRASK_OBJECT self) {\n}\n")
     end
     it "should generate C AST of an empty destructor" do
       @name_gen.should_receive(:get_dtor_name).with("ClassName").and_return("dtorName")
