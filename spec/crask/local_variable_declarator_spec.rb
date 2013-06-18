@@ -24,8 +24,8 @@ module CRask
       @name_gen.should_receive(:get_local_name).with("y").and_return("Y")
       vars = @decl.generate_ast([ "x", "y" ])
       vars.should have(2).variables
-      vars[0].should be_a_C_variable("X")
-      vars[1].should be_a_C_variable("Y")
+      vars[0].should be_a_local_C_variable("CRASK_OBJECT", "X")
+      vars[1].should be_a_local_C_variable("CRASK_OBJECT", "Y")
     end
   end
 end
