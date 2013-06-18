@@ -1,3 +1,5 @@
+require 'crask/cast/function'
+
 module CRask
   module Ast
     class MethodDef

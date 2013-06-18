@@ -1,3 +1,5 @@
+require 'crask/cast/local_variable'
+
 module CRask
   class VarArgDeclarator
     def initialize name_gen, symbol_table
