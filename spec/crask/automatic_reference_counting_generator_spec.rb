@@ -11,5 +11,11 @@ module CRask
       ast = Ast::Ast.new([ Ast::ClassDef.new(nil, [ :method1, :method2 ]) ])
       @gen.update_ast ast
     end
+    it "should update methods in all classes" do
+      @method_updater.should_receive(:update_ast).with(:method1)
+      @method_updater.should_receive(:update_ast).with(:method2)
+      ast = Ast::Ast.new([ Ast::ClassDef.new(nil, [ :method1 ]), Ast::ClassDef.new(nil, [ :method2 ]) ])
+      @gen.update_ast ast
+    end
   end
 end
