@@ -1,10 +1,22 @@
 module CRask
+  module Ast
+    class AssignmentDef
+      def generate_ast generators
+        generators[:Assignment].generate_ast(self)
+      end
+    end
+    class RetainDef
+      def generate_ast generators
+        generators[:ReferenceCounting].generate_retain_ast(self)
+      end
+    end
+  end
   class StatementCodeGenerator
-    def initialize assignment_gen
-      @assignment_gen = assignment_gen
+    def initialize generators
+      @generators = generators
     end
     def generate_ast stmts
-      stmts.map { |s| @assignment_gen.generate_ast(s) }.flatten
+      stmts.map { |s| s.generate_ast(@generators) }.flatten
     end
   end
 end
