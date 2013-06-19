@@ -13,6 +13,7 @@ require 'crask/c_assignment_printer'
 require 'crask/c_expression_printer'
 require 'crask/c_function_call_printer'
 require 'crask/code_generator'
+require 'crask/reference_counting_generator'
 
 module CRask
   class CodeGeneratorFactory
@@ -22,7 +23,11 @@ module CRask
       method_name_generator = CRask::MethodNameGenerator.new arg_ordering_policy
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen
       assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen
-      stmt_gen = CRask::StatementCodeGenerator.new assignment_gen
+      reference_counting_gen = ReferenceCountingGenerator.new symbol_name_gen
+      stmt_gen = CRask::StatementCodeGenerator.new({
+        :Assignment => assignment_gen,
+        :ReferenceCounting => reference_counting_gen
+      })
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen
       method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl
       class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen

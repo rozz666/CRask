@@ -1,3 +1,5 @@
+require 'crask/ast/retain_def'
+
 module CRask
   class AutomaticReferenceCountingMethodUpdater
     def update_ast method

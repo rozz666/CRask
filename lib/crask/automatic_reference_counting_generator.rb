@@ -1,6 +1,6 @@
 module CRask
   class AutomaticReferenceCountingGenerator
-    def initialize method_updater = AutomaticReferenceCountingMethodUpdater.new
+    def initialize method_updater
       @method_updater = method_updater
     end 
     def update_ast ast
