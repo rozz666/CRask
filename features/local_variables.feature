@@ -51,7 +51,7 @@ Feature: Local variables
             }
             """
         And generated C code should compile
-    @wip
+    @done
     Scenario: Assignment from arguments
         Given source code:
             """
