@@ -16,6 +16,12 @@ require 'crask/code_generator'
 require 'crask/reference_counting_generator'
 
 module CRask
+  class LocalVariableDetectorStub
+    def find_local_vars stmts
+      []
+    end
+  end
+  
   class CodeGeneratorFactory
     def createCodeGenerator
       arg_ordering_policy = ArgumentOrderingPolicy.new
@@ -29,7 +35,8 @@ module CRask
         :ReferenceCounting => reference_counting_gen
       })
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen
-      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl
+      local_var_detector = LocalVariableDetectorStub.new
+      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl, local_var_detector
       class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen
       CRask::CodeGenerator.new(class_gen)
     end

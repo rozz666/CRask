@@ -7,19 +7,21 @@ module CRask
       @arg_decl = double("arg declarator")
       @stmt_gen = double("stmt generator")
       @local_decl = double("local var declarator")
-      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl
+      @local_detector = double("local variable detector")
+      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector
     end
     it "should generate C AST of an empty method" do
-      @arg_decl.should_receive(:generate_initialization_ast).with("SELF", :args).and_return([])
+      @arg_decl.should_receive(:generate_initialization_ast).with("SELF", [ :args ]).and_return([])
       @stmt_gen.should_receive(:generate_ast).with(:stmts).and_return([])
-      @local_decl.should_receive(:generate_ast).with(:args).and_return([])
-      @arg_decl.should_receive(:generate_local_vars_ast).with(:args).and_return([])
+      @local_detector.stub(:find_local_vars).and_return([])
+      @local_decl.should_receive(:generate_ast).with([ :args ]).and_return([])
+      @arg_decl.should_receive(:generate_local_vars_ast).with([ :args ]).and_return([])
       @name_gen.stub(:get_self_name).and_return("SELF")
       @name_gen.stub(:get_nil_name).and_return("NIL")
-      @name_gen.should_receive(:get_method_name).with("ClassName", "methodName", :args).and_return("METHOD_NAME")
+      @name_gen.should_receive(:get_method_name).with("ClassName", "methodName", [ :args ]).and_return("METHOD_NAME")
       @arg_decl.should_receive(:generate_function_args_ast).with("SELF").and_return(:fargs)
       
-      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", :args, :stmts))
+      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts))
         
       method.type.should eql("CRASK_OBJECT")
       method.name.should eql("METHOD_NAME")
@@ -30,16 +32,17 @@ module CRask
       method.arguments.should be(:fargs)
     end
     it "should generate C AST of a method with args" do
-      @arg_decl.should_receive(:generate_initialization_ast).with("SELF", :args).and_return([ :arg_stmt1, :arg_stmt2 ])
+      @arg_decl.should_receive(:generate_initialization_ast).with("SELF", [ :args ]).and_return([ :arg_stmt1, :arg_stmt2 ])
       @stmt_gen.should_receive(:generate_ast).with(:stmts).and_return([ :stmt3, :stmt4 ])
-      @local_decl.should_receive(:generate_ast).with(:args).and_return([ :loc1, :loc2 ])
-      @arg_decl.should_receive(:generate_local_vars_ast).with(:args).and_return([ :loc3, :loc4 ])
+      @local_detector.should_receive(:find_local_vars).with(:stmts).and_return([ :vars ])
+      @local_decl.should_receive(:generate_ast).with([ :args, :vars ]).and_return([ :loc1, :loc2 ])
+      @arg_decl.should_receive(:generate_local_vars_ast).with([ :args ]).and_return([ :loc3, :loc4 ])
       @name_gen.stub(:get_self_name).and_return("SELF")
       @name_gen.stub(:get_nil_name).and_return("NIL")
       @name_gen.stub(:get_method_name)
       @arg_decl.stub(:generate_function_args_ast)
       
-      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", :args, :stmts))
+      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts))
         
       method.should have(5).statements
       method.statements[0..3].should eql([ :arg_stmt1, :arg_stmt2, :stmt3, :stmt4 ])

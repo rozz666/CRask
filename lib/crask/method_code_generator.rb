@@ -3,10 +3,10 @@ require 'crask/cast/function'
 module CRask
   module Ast
     class MethodDef
-      def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl
+      def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl, local_detector
         name = name_gen.get_method_name(class_name, @name, @args)
         args = arg_decl.generate_function_args_ast(name_gen.get_self_name)
-        local_vars = generate_local_vars_ast(local_decl, arg_decl)
+        local_vars = generate_local_vars_ast(local_decl, arg_decl, local_detector)
         stmts = generate_stmts_ast(name_gen, arg_decl, stmt_gen)
         CAst::Function.new("CRASK_OBJECT", name, args, local_vars, stmts)
       end
@@ -16,13 +16,13 @@ module CRask
         stmt_gen.generate_ast(@stmts) +
         [ CAst::Return.new(CAst::Variable.new(name_gen.get_nil_name)) ]
       end
-      def generate_local_vars_ast local_decl, arg_decl
-        local_decl.generate_ast(@args) +
+      def generate_local_vars_ast local_decl, arg_decl, local_detector
+        local_decl.generate_ast(@args +         local_detector.find_local_vars(@stmts)) +
         arg_decl.generate_local_vars_ast(@args)
       end
     end
     class CtorDef
-      def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl
+      def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl, local_detector
         name = name_gen.get_ctor_name(class_name, @name, @args)
         args = arg_decl.generate_function_args_ast(name_gen.get_class_self_name)
         local_vars = generate_local_vars_ast(local_decl, arg_decl, name_gen.get_self_name)
@@ -46,7 +46,7 @@ module CRask
       end
     end
     class DtorDef
-      def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl
+      def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl, local_detector
         return CAst::Function.new(
           "void", name_gen.get_dtor_name(class_name),
           [ CAst::LocalVariable.new("CRASK_OBJECT", name_gen.get_self_name) ], [], [])
@@ -54,14 +54,15 @@ module CRask
     end
   end
   class MethodCodeGenerator
-    def initialize name_gen, arg_decl, stmt_gen, local_decl
+    def initialize name_gen, arg_decl, stmt_gen, local_decl, local_detector
       @name_gen = name_gen
       @arg_decl = arg_decl
       @stmt_gen = stmt_gen
       @local_decl = local_decl
+      @local_detector = local_detector
     end
     def generate_ast class_name, method_def
-      method_def.generate_ast class_name, @name_gen, @arg_decl, @stmt_gen, @local_decl
+      method_def.generate_ast class_name, @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector
     end
   end
 end
