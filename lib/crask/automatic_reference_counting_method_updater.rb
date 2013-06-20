@@ -7,9 +7,13 @@ module CRask
       stmts = []
       vars = []
       method.stmts.each do |a|
-        stmts << Ast::ReleaseDef.new(a.left) if vars.index(a.left) 
-        vars << a.left
-        stmts << a << Ast::RetainDef.new(a.left)
+        var = a.left
+        if vars.index(var)
+          stmts << Ast::ReleaseDef.new(var)
+        else
+          vars << var
+        end
+        stmts << a << Ast::RetainDef.new(var)
       end
       vars.reverse.each { |v| stmts << Ast::ReleaseDef.new(v) }
       method.stmts = stmts
