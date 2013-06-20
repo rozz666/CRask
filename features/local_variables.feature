@@ -25,7 +25,7 @@ Feature: Local variables
             }
             """
         And generated C code should compile
-
+    @wip
     Scenario: Repeated assignment 
         Given source code:
             """
