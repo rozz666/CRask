@@ -64,7 +64,6 @@ Feature: Local variables
         When I translate it to C
         Then generated C code should contain:
             """
-                CRASK_OBJECT L_arg, L_foo;
                 crask_retain(L_arg);
                 L_foo = L_arg;
                 crask_retain(L_foo);
