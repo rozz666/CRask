@@ -21,5 +21,12 @@ module CRask
         Ast::ReleaseDef.new("c") ]
       @detector.find_local_vars(stmts).should eql([ "b" ])
     end
+    it "should ignore repeated variables" do
+      stmts = [
+        Ast::AssignmentDef.new("b", nil),
+        Ast::AssignmentDef.new("a", nil),
+        Ast::AssignmentDef.new("b", nil) ]
+      @detector.find_local_vars(stmts).sort.should eql(["a", "b"])
+    end
   end
 end

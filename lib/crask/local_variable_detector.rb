@@ -2,7 +2,9 @@ module CRask
   class LocalVariableDetector
     def find_local_vars stmts
       vars = []
-      stmts.each { |s| vars << s.left if s.kind_of?(Ast::AssignmentDef) }
+      stmts.each do |s|
+        vars << s.left if s.kind_of?(Ast::AssignmentDef) and not vars.index(s.left)
+      end
       vars
     end
   end
