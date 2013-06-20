@@ -20,5 +20,17 @@ module CRask
       assignment.left.should be_a_C_variable("LOCAL")
       assignment.right.should be_a_C_variable("NIL")
     end
+    it "should generate C AST for an assignment to a local variable from another local variable" do
+      @name_gen.should_receive(:get_local_name).with("a").and_return("A")
+      @name_gen.should_receive(:get_local_name).with("b").and_return("B")
+      
+      stmts = @gen.generate_ast(Ast::AssignmentDef.new("a", "b"))
+      
+      stmts.should have(1).statement
+      assignment = stmts[0]
+      assignment.should be_a_kind_of(CAst::Assignment)
+      assignment.left.should be_a_C_variable("A")
+      assignment.right.should be_a_C_variable("B")
+    end
   end
 end
