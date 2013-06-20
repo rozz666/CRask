@@ -1,5 +1,5 @@
 Feature: Local variables
-    @wip
+    @done
     Scenario: Creating new local variables by nil assignment
         Given source code:
             """
