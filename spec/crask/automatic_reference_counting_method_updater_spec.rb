@@ -34,5 +34,24 @@ module CRask
     it "should not fail for a destructor" do
       @gen.update_ast Ast::DtorDef.new
     end
+    it "should not fail for a constructor" do
+      @gen.update_ast Ast::CtorDef.new(nil, nil)
+    end
+    it "should retain arguments at the beginning and release at the end" do
+      assignments = [ Ast::AssignmentDef.new("xxx", nil) ]
+      method = Ast::MethodDef.new(nil, [ "a", "b" ].freeze, assignments)
+      @gen.update_ast method
+      stmts = method.stmts 
+      stmts[0].should be_a_retain("a")
+      stmts[1].should be_a_retain("b")
+      stmts[-2].should be_a_release("b")
+      stmts[-1].should be_a_release("a")
+      method.should have(7).stmts
+    end
+    it "should not retain or release arguments when there are no statements" do
+      method = Ast::MethodDef.new(nil, [ "a", "b" ], [] )
+      @gen.update_ast method
+      method.stmts.should be_empty
+    end
   end
 end
