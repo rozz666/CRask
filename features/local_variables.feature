@@ -73,7 +73,7 @@ Feature: Local variables
             }
             """
         And generated C code should compile
-
+    @done
     Scenario: Repeated assignment from arguments
         Given source code:
             """
