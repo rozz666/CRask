@@ -31,5 +31,8 @@ module CRask
       stmts[5].should be_a_release("a")
       method.should have(6).stmts
     end
+    it "should not fail for a destructor" do
+      @gen.update_ast Ast::DtorDef.new
+    end
   end
 end
