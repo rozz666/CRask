@@ -6,7 +6,11 @@ module CRask
     def update_ast method
       stmts = []
       vars = []
-      method.stmts.each { |a| vars << a.left; stmts << a << Ast::RetainDef.new(a.left) }
+      method.stmts.each do |a|
+        stmts << Ast::ReleaseDef.new(a.left) if vars.index(a.left) 
+        vars << a.left
+        stmts << a << Ast::RetainDef.new(a.left)
+      end
       vars.reverse.each { |v| stmts << Ast::ReleaseDef.new(v) }
       method.stmts = stmts
     end

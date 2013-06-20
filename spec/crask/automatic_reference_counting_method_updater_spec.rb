@@ -21,5 +21,16 @@ module CRask
       stmts[5].should be_a_kind_of(Ast::ReleaseDef)
       stmts[5].name.should eql("a")
     end
+    it "should release a variable before second assignment" do
+      assignments = [ Ast::AssignmentDef.new("a", nil), Ast::AssignmentDef.new("a", nil) ]
+      method = Ast::MethodDef.new(nil, nil, assignments)
+      @gen.update_ast method
+      stmts = method.stmts 
+      stmts[2].should be_a_kind_of(Ast::ReleaseDef)
+      stmts[2].name.should eql("a")
+      stmts[3].should be(assignments[1])
+      stmts[4].should be_a_kind_of(Ast::RetainDef)
+      stmts[4].name.should eql("a")
+    end
   end
 end
