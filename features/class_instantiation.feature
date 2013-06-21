@@ -1,5 +1,5 @@
 Feature: Class instantiation
-
+    @wip
     Scenario: Class instantiation with no arguments
         Given source code:
             """
@@ -11,12 +11,11 @@ Feature: Class instantiation
             class B {
                 def m {
                     instance = A.new
-                    nil
                 }
             }
             """
-        When I translate "classInstantiation.rask" to C into "classInstantiation.c"
-        Then file "classInstantiation.c" should contain:
+        When I translate it to C
+        Then generated C code should contain:
             """
             CRASK_OBJECT M_B_m(CRASK_OBJECT self, ...) {
                 CRASK_OBJECT L_instance;
@@ -24,4 +23,4 @@ Feature: Class instantiation
                 return L_instance;
             }
             """
-        And file "classInstantiation.c" should compile
+        And generated C code should compile
