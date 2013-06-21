@@ -17,5 +17,8 @@ module CRask
     def parse_method_def source
       parse_class_defs(source)[0]
     end
+    def parse_method_stmts source
+      parse_method_def("def a {\n#{source}\n}\n").stmts
+    end
   end
 end

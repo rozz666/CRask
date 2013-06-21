@@ -6,6 +6,7 @@ macro
   PAREN_OPEN \(
   PAREN_CLOSE \)
   COMMA \,
+  DOT \.
   ASSIGN =
 rule
   {BLANK}
@@ -19,6 +20,7 @@ rule
   {PAREN_OPEN}    { [:paren_open, text] }
   {PAREN_CLOSE}   { [:paren_close, text] }
   {COMMA}         { [:comma, text] }
+  {DOT}           { [:dot, text] }
   {ASSIGN}        { [:assign, text] }
 inner
 end

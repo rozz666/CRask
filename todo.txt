@@ -1,0 +1,2 @@
+* fix def suffixes in Ast
+* extract constants

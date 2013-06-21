@@ -3,6 +3,9 @@ require 'crask/ast/method_def'
 require 'crask/ast/ctor_def'
 require 'crask/ast/dtor_def'
 require 'crask/ast/assignment_def'
+require 'crask/ast/retain_def'
+require 'crask/ast/release_def'
+require 'crask/ast/method_call'
 
 module CRask
   module Ast
