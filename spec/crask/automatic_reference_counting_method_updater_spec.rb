@@ -53,5 +53,13 @@ module CRask
       @gen.update_ast method
       method.stmts.should be_empty
     end
+    it "should always release and retain before and after argument assignments" do
+      assignments = [ Ast::AssignmentDef.new("a", nil) ].freeze
+      method = Ast::MethodDef.new(nil, [ "a" ].freeze, assignments)
+      @gen.update_ast method
+      stmts = method.stmts 
+      stmts[1].should be_a_release("a")
+      stmts[3].should be_a_retain("a")
+    end
   end
 end

@@ -105,4 +105,24 @@ Feature: Local variables
             }
             """
         And generated C code should compile
+    @done
+    Scenario: Argument assignment
+        Given source code:
+            """
+            class A {
+                def m(arg) {
+                    arg = nil
+                }
+            }
+            """
+        When I translate it to C
+        Then generated C code should contain:
+            """
+                crask_retain(L_arg);
+                crask_release(L_arg);
+                L_arg = CRASK_NIL;
+                crask_retain(L_arg);
+                crask_release(L_arg);
+                return CRASK_NIL;
+            """
     
