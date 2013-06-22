@@ -28,16 +28,16 @@ module CRask
       @symbol_name_gen = symbol_name_gen
       @method_name_gen = method_name_gen
       @method_gen = method_gen
-      @config = config
+      @config = config #TODO move generators creation here
     end
     def generate_registration_ast class_def
       class_var_name = @symbol_name_gen.get_class_name class_def.name
       [ ClassRegistrationGenerator.new.generate_ast(class_def, class_var_name) ] +
-      class_def.defs.map do |d|
+      class_def.defs.map do |d| #TODO extract into MethodRegistrationGenerator
         d.generate_registration_ast(@symbol_name_gen, @method_name_gen, class_def.name, class_var_name)
       end
     end
-    def generate_declaration_ast class_def
+    def generate_declaration_ast class_def #TODO extract into ClassDeclarationGenerator
       name = @symbol_name_gen.get_class_name class_def.name
       CAst::GlobalVariable.new(@config.class_type, name)
     end
