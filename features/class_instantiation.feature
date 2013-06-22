@@ -1,5 +1,5 @@
 Feature: Class instantiation
-    @wip
+    @done
     Scenario: Class instantiation with no arguments
         Given source code:
             """
