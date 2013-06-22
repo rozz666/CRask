@@ -23,7 +23,7 @@ module CRask
       symbol_name_gen = CRask::SymbolNameGenerator.new arg_ordering_policy
       method_name_generator = CRask::MethodNameGenerator.new arg_ordering_policy
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen
-      assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen
+      assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen, nil
       reference_counting_gen = ReferenceCountingGenerator.new symbol_name_gen
       stmt_gen = CRask::StatementCodeGenerator.new({
         :Assignment => assignment_gen,

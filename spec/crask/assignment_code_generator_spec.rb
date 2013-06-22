@@ -6,7 +6,8 @@ module CRask
   describe :AssignmentCodeGenerator do
     before(:each) do
       @name_gen = double("name generator")
-      @gen = AssignmentCodeGenerator.new @name_gen
+      @method_call_gen = double("method call generator")
+      @gen = AssignmentCodeGenerator.new @name_gen, @method_call_gen
     end
     it "should generate C AST for a nil assignment to a local variable" do
       @name_gen.should_receive(:get_local_name).with("a").and_return("LOCAL")
@@ -31,6 +32,17 @@ module CRask
       assignment.should be_a_kind_of(CAst::Assignment)
       assignment.left.should be_a_C_variable("A")
       assignment.right.should be_a_C_variable("B")
+    end
+    it "should generate C AST for an assignment to a local variable from a method call" do
+      @name_gen.stub(:get_local_name)
+
+      method_call = Ast::MethodCall.new(nil, nil)
+      @method_call_gen.should_receive(:generate_ast).with(method_call).and_return(:call_ast)
+      
+      stmts = @gen.generate_ast(Ast::AssignmentDef.to_var_from("a", method_call).freeze)
+
+      assignment = stmts[0]
+      assignment.right.should be(:call_ast)
     end
   end
 end
