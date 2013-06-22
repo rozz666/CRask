@@ -3,7 +3,10 @@ module CRask
   describe VarArgDeclarator do
     before(:each) do
       @name_gen = double("name generator")
-      @arg_decl = VarArgDeclarator.new @name_gen
+      @config = double("configuration")
+      @config.stub(:object_type).and_return(:OBJECT_TYPE)
+      
+      @arg_decl = VarArgDeclarator.new @name_gen, @config
     end
     it "should generate C AST of calls to va_start and va_end for arg initialization" do
       @name_gen.stub(:get_local_name)
@@ -26,7 +29,7 @@ module CRask
       local1.left.should be_a_C_variable("local1")
       local1.right.should be_a_C_function_call("va_arg").with(2).args
       local1.right.args[0].should be_a_C_variable("rask_args")
-      local1.right.args[1].should be_a_C_variable("CRASK_OBJECT")
+      local1.right.args[1].should be_a_C_variable(:OBJECT_TYPE)
     end
     it "should generate C AST of calls to va_arg for all args during initialization" do
       @name_gen.should_receive(:get_local_name).with("arg1").and_return("local1")
@@ -49,7 +52,7 @@ module CRask
     it "should generate C AST with self and varargs" do
       args = @arg_decl.generate_function_args_ast("selfName")
       args.should have(2).variables
-      args[0].should be_a_local_C_variable("CRASK_OBJECT", "selfName")
+      args[0].should be_a_local_C_variable(:OBJECT_TYPE, "selfName")
       args[1].should be_a_local_C_variable("...")
     end
   end

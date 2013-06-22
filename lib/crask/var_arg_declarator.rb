@@ -3,13 +3,14 @@ require 'crask/cast/call_facade'
 
 module CRask
   class VarArgDeclarator
-    def initialize name_gen
+    def initialize name_gen, config
       @name_gen = name_gen
+      @config = config
     end
     def generate_initialization_ast self_arg, args
       return [] if args.empty?
       rask_args = CAst::Variable.new("rask_args")
-      va_arg = CAst::Call.function("va_arg", [ rask_args, CAst::Variable.new("CRASK_OBJECT") ])
+      va_arg = CAst::Call.function("va_arg", [ rask_args, CAst::Variable.new(@config.object_type) ])
       va_start = CAst::Call.function("va_start", [ rask_args, CAst::Variable.new(self_arg) ])
       local_init = args.map { |arg|
         local_arg = CAst::Variable.new(@name_gen.get_local_name(arg))
@@ -23,7 +24,7 @@ module CRask
       [ CAst::LocalVariable.new("va_list", "rask_args")] #TODO: refactor rask_args
     end
     def generate_function_args_ast self_name
-      [ CAst::LocalVariable.new("CRASK_OBJECT", self_name), CAst::LocalVariable.new("...", nil) ]
+      [ CAst::LocalVariable.new(@config.object_type, self_name), CAst::LocalVariable.new("...", nil) ]
     end
   end
 end

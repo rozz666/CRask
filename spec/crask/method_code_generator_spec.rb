@@ -8,7 +8,9 @@ module CRask
       @stmt_gen = double("stmt generator")
       @local_decl = double("local var declarator")
       @local_detector = double("local variable detector")
-      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector
+      @config = double("configuration")
+      @config.stub(:object_type).and_return(:OBJECT_TYPE)
+      @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector, @config
     end
     it "should generate C AST of an empty method" do
       @arg_decl.should_receive(:generate_initialization_ast).with("SELF", [ :args ]).and_return([])
@@ -23,7 +25,7 @@ module CRask
       
       method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts))
         
-      method.type.should eql("CRASK_OBJECT")
+      method.type.should be(:OBJECT_TYPE)
       method.name.should eql("METHOD_NAME")
       method.should have(1).statements
       method.statements[0].should be_a_kind_of(CAst::Return)
@@ -61,7 +63,7 @@ module CRask
       
       method = @gen.generate_ast("ClassName", Ast::CtorDef.new("ctorName", :args))
         
-      method.type.should eql("CRASK_OBJECT")
+      method.type.should be(:OBJECT_TYPE)
       method.name.should eql("CTOR_NAME")
       method.should have(4).statements
       method.statements[0..1].should eql([ :arg_stmt1, :arg_stmt2 ])
@@ -71,7 +73,7 @@ module CRask
       method.statements[2].right.args[0].should be_a_C_variable("CLASS")
       method.statements[3].should be_a_kind_of(CAst::Return)
       method.statements[3].expression.should be_a_C_variable("SELF")
-      method.local_variables[0].should be_a_local_C_variable("CRASK_OBJECT", "SELF")
+      method.local_variables[0].should be_a_local_C_variable(:OBJECT_TYPE, "SELF")
       method.local_variables[1..4].should eql([ :loc1, :loc2, :loc3, :loc4 ])
       method.arguments.should be(:fargs)
     end
@@ -83,7 +85,7 @@ module CRask
       method.name.should eql("dtorName")
       method.type.should eql("void")
       method.should have(1).arguments
-      method.arguments[0].should be_a_local_C_variable("CRASK_OBJECT", "SELF") #TODO: multiple responsibilities
+      method.arguments[0].should be_a_local_C_variable(:OBJECT_TYPE, "SELF") #TODO: multiple responsibilities
       method.should have(0).local_variables
       method.should have(0).statements
     end
