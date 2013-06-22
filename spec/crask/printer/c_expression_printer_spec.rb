@@ -1,4 +1,4 @@
-require 'crask/c_expression_printer'
+require 'crask/printer/c_expression_printer'
 module CRask
   describe :CExpressionPrinter do
     before(:each) do

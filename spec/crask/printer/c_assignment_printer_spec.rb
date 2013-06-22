@@ -1,4 +1,4 @@
-require 'crask/c_assignment_printer'
+require 'crask/printer/c_assignment_printer'
 
 module CRask
   describe :CAssignmentPrinter do

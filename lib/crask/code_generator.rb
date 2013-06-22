@@ -1,4 +1,3 @@
-require 'crask/c_include_printer'
 require 'crask/cast/module'
 
 module CRask

@@ -1,4 +1,4 @@
-require 'crask/c_module_printer'
+require 'crask/printer/c_module_printer'
 
 module CRask
   describe :CModulePrinter do

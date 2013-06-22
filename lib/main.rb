@@ -1,6 +1,6 @@
 require 'crask/parser'
 require 'crask/code_generator_factory'
-require 'crask/c_module_printer_factory'
+require 'crask/printer/c_module_printer_factory'
 require 'crask/automatic_reference_counting_generator'
 require 'crask/automatic_reference_counting_method_updater'
 

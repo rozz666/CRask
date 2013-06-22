@@ -1,4 +1,4 @@
-require 'crask/c_statement_printer'
+require 'crask/printer/c_statement_printer'
 
 module CRask
   describe :CStatementPrinter do

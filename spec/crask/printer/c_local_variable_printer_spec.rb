@@ -1,4 +1,4 @@
-require 'crask/c_local_variable_printer'
+require 'crask/printer/c_local_variable_printer'
 require 'crask/cast/local_variable'
 
 module CRask

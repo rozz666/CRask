@@ -1,4 +1,4 @@
-require 'crask/c_function_printer'
+require 'crask/printer/c_function_printer'
 require 'crask/c_function_factory'
 
 module CRask

@@ -1,4 +1,4 @@
-require 'crask/c_global_variable_printer'
+require 'crask/printer/c_global_variable_printer'
 
 module CRask
   describe :CGlobalVariablePrinter do

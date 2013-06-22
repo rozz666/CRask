@@ -1,4 +1,4 @@
-require 'crask/c_function_argument_printer'
+require 'crask/printer/c_function_argument_printer'
 module CRask
   describe :CFunctionArgumentPrinter do
     before(:each) do

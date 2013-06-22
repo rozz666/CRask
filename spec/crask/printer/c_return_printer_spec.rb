@@ -1,4 +1,4 @@
-require 'crask/c_return_printer'
+require 'crask/printer/c_return_printer'
 module CRask
   describe :CReturnPrinter do
     before(:each) do

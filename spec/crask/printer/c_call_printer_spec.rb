@@ -1,4 +1,4 @@
-require 'crask/c_call_printer'
+require 'crask/printer/c_call_printer'
 module CRask
   describe :CCallPrinter do
     before(:each) do

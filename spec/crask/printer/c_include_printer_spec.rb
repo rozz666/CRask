@@ -1,4 +1,4 @@
-require 'crask/c_include_printer'
+require 'crask/printer/c_include_printer'
 
 module CRask
   describe :CIncludePrinter do

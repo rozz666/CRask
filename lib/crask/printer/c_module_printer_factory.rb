@@ -1,11 +1,14 @@
-require 'crask/c_module_printer'
-require 'crask/c_global_variable_printer'
-require 'crask/c_function_printer'
-require 'crask/c_function_argument_printer'
-require 'crask/c_local_variable_printer'
-require 'crask/c_expression_printer'
-require 'crask/c_return_printer'
-require 'crask/c_call_printer'
+require 'crask/printer/c_module_printer'
+require 'crask/printer/c_global_variable_printer'
+require 'crask/printer/c_function_printer'
+require 'crask/printer/c_function_argument_printer'
+require 'crask/printer/c_local_variable_printer'
+require 'crask/printer/c_expression_printer'
+require 'crask/printer/c_return_printer'
+require 'crask/printer/c_call_printer'
+require 'crask/printer/c_statement_printer'
+require 'crask/printer/c_assignment_printer'
+require 'crask/printer/c_include_printer'
 
 module CRask
   class CModulePrinterFactory
