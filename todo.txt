@@ -1,3 +1,2 @@
-* fix def suffixes in Ast
 * extract constants
 * split ClassGenerator
