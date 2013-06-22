@@ -20,6 +20,16 @@ module CRask
       stmts[4].should be_a_release("b")
       stmts[5].should be_a_release("a")
     end
+    it "should not retain variables assigned a method call" do
+      assignments = [ Ast::AssignmentDef.to_var_from("a", Ast::MethodCall.new(nil, nil)) ]
+      method = Ast::MethodDef.with_stmts(assignments)
+      @gen.update_ast method
+      method.should have(2).stmts
+      stmts = method.stmts 
+      stmts[0].should be(assignments[0])
+      stmts[1].should be_a_release("a")
+      
+    end
     it "should release a variable before a second assignment and not multiple times at the end" do
       assignments = [ Ast::AssignmentDef.to_var("a"), Ast::AssignmentDef.to_var("a") ]
       method = Ast::MethodDef.with_stmts(assignments)

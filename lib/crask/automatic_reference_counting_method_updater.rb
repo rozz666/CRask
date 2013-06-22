@@ -39,7 +39,8 @@ module CRask
         else
           @vars << var
         end
-        @stmts << a << Ast::RetainDef.new(var)
+        @stmts << a
+        @stmts << Ast::RetainDef.new(var) unless a.right.kind_of?(Ast::MethodCall)
       end
       def add_prolog args
         args.each { |a| @stmts << Ast::RetainDef.new(a) }
