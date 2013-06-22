@@ -11,6 +11,7 @@ module CRask
       @config = double("configuration")
       @config.stub(:object_type).and_return(:OBJECT_TYPE)
       @config.stub(:self_var).and_return(:SELF)
+      @config.stub(:class_self_var).and_return(:CLASS_SELF)
       @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector, @config
     end
     it "should generate C AST of an empty method" do
@@ -51,13 +52,12 @@ module CRask
       method.local_variables.should eql([ :loc1, :loc2, :loc3, :loc4 ])
     end
     it "should generate C AST of an empty constructor" do
-      @arg_decl.should_receive(:generate_initialization_ast).with("CLASS_SELF", :args).and_return([ :arg_stmt1, :arg_stmt2 ])
+      @arg_decl.should_receive(:generate_initialization_ast).with(:CLASS_SELF, :args).and_return([ :arg_stmt1, :arg_stmt2 ])
       @local_decl.should_receive(:generate_ast).with(:args).and_return([ :loc1, :loc2 ])
       @arg_decl.should_receive(:generate_local_vars_ast).with(:args).and_return([ :loc3, :loc4 ])
-      @name_gen.stub(:get_class_self_name).and_return("CLASS_SELF")
       @name_gen.should_receive(:get_class_name).with("ClassName").and_return("CLASS")
       @name_gen.should_receive(:get_ctor_name).with("ClassName", "ctorName", :args).and_return("CTOR_NAME")
-      @arg_decl.should_receive(:generate_function_args_ast).with("CLASS_SELF").and_return(:fargs)
+      @arg_decl.should_receive(:generate_function_args_ast).with(:CLASS_SELF).and_return(:fargs)
       
       method = @gen.generate_ast("ClassName", Ast::CtorDef.new("ctorName", :args))
         

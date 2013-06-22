@@ -41,11 +41,6 @@ module CRask
         @generator.get_local_name("xyz").should eql("L_xyz")
       end
     end
-    context "get_class_self_name" do
-      it "should always return classSelf" do
-        @generator.get_class_self_name.should eql("classSelf")
-      end
-    end
     context "get_nil_name" do
       it "should always return CRASK_NIL" do
         @generator.get_nil_name.should eql("CRASK_NIL")

@@ -20,9 +20,6 @@ module CRask
     def get_local_name var_name
       "L_#{var_name}"
     end
-    def get_class_self_name
-      "classSelf"
-    end
     def get_nil_name
       "CRASK_NIL"
     end
