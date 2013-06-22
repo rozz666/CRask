@@ -1,4 +1,4 @@
-require 'crask/parser_helper'
+require 'crask/parser/parser_helper'
 
 module CRask
   parser = ParserHelper.new

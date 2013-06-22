@@ -1,4 +1,4 @@
-require 'crask/parser'
+require 'crask/parser/parser'
 
 module CRask
   class ParserHelper

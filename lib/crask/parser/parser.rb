@@ -1,5 +1,5 @@
 require 'crask/ast/ast'
-require 'crask/racc_parser.tab'
+require 'crask/parser/racc_parser.tab'
 
 module CRask
   class Parser

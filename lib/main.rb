@@ -1,4 +1,4 @@
-require 'crask/parser'
+require 'crask/parser/parser'
 require 'crask/cgen/code_generator_factory'
 require 'crask/printer/c_module_printer_factory'
 require 'crask/cgen/automatic_reference_counting_generator'

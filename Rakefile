@@ -1,10 +1,10 @@
 require 'libcrask_paths'
 require 'rake/clean'
 
-RACC_PARSER_REX='lib/crask/racc_parser.rex'
-GENERATED_RACC_PARSER_REX='lib/crask/racc_parser.rex.rb'
-RACC_PARSER='lib/crask/racc_parser.racc'
-GENERATED_RACC_PARSER='lib/crask/racc_parser.tab.rb'
+RACC_PARSER_REX='lib/crask/parser/racc_parser.rex'
+GENERATED_RACC_PARSER_REX='lib/crask/parser/racc_parser.rex.rb'
+RACC_PARSER='lib/crask/parser/racc_parser.racc'
+GENERATED_RACC_PARSER='lib/crask/parser/racc_parser.tab.rb'
 
 CLEAN.include(GENERATED_RACC_PARSER_REX)
 CLEAN.include(GENERATED_RACC_PARSER)
