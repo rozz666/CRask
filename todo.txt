@@ -1,2 +1,6 @@
-* extract constants
+* extract self
+* extract classSelf
+* extract CRASK_CLASS
+* extract CRASK_NIL
 * split ClassGenerator
+* split MethodCallGenerator
