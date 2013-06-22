@@ -1,6 +1,11 @@
 require 'crask/cgen/symbol_name_generator'
 require 'crask/cgen/method_code_generator'
 require 'crask/cgen/class_generator'
+require 'crask/cgen/constructor_registration_generator'
+require 'crask/cgen/destructor_registration_generator'
+require 'crask/cgen/method_registration_generator'
+require 'crask/cgen/class_registration_generator'
+require 'crask/cgen/member_registration_generator'
 require 'crask/cgen/class_declaration_generator'
 require 'crask/cgen/default_methods_generator'
 require 'crask/cgen/var_arg_declarator'
@@ -21,7 +26,7 @@ module CRask
       config = GeneratorConfiguration.new
       arg_ordering_policy = ArgumentOrderingPolicy.new
       symbol_name_gen = CRask::SymbolNameGenerator.new arg_ordering_policy
-      method_name_generator = CRask::MethodNameGenerator.new arg_ordering_policy
+      method_name_gen = MethodNameGenerator.new arg_ordering_policy
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen, config
       method_call_gen = MethodCallGenerator.new symbol_name_gen
       assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen, config, method_call_gen
@@ -33,8 +38,14 @@ module CRask
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen, config
       local_var_detector = LocalVariableDetector.new
       method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl, local_var_detector, config
-      class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen, config
       class_decl_gen = ClassDeclarationGenerator.new symbol_name_gen, config
+      class_reg_gen = ClassRegistrationGenerator.new
+      member_reg_gen = MemberRegistrationGenerator.new({
+        :Constructor => ConstructorRegistrationGenerator.new(symbol_name_gen, method_name_gen),
+        :Destructor => DestructorRegistrationGenerator.new(symbol_name_gen),
+        :Method => MethodRegistrationGenerator.new(symbol_name_gen, method_name_gen)
+      })
+      class_gen = CRask::ClassGenerator.new symbol_name_gen, method_code_gen, class_reg_gen, member_reg_gen 
       CRask::CodeGenerator.new(class_gen, class_decl_gen)
     end
   end
