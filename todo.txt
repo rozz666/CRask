@@ -1,3 +1,2 @@
-* clean up directory structure
 * split ClassGenerator
 * split MethodCallGenerator
