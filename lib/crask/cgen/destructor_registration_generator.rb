@@ -1,8 +1,7 @@
 module CRask
   class DestructorRegistrationGenerator
-    def initialize symbol_name_gen, method_name_gen
+    def initialize symbol_name_gen
       @symbol_name_gen = symbol_name_gen
-      @method_name_gen = method_name_gen
     end
     def generate_ast class_name, class_var_name
       func_addr = CAst::VariableAddress.new(@symbol_name_gen.get_dtor_name(class_name))

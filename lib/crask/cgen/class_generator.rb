@@ -13,7 +13,7 @@ module CRask
     end
     class DtorDef
       def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
-        DestructorRegistrationGenerator.new(symbol_name_gen, method_name_gen).generate_ast class_name, class_var_name
+        DestructorRegistrationGenerator.new(symbol_name_gen).generate_ast class_name, class_var_name
       end
     end
     class MethodDef
