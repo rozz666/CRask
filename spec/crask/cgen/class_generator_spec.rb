@@ -70,14 +70,6 @@ module CRask
       method_reg.args[1].should be_a_C_string("fooName")
       method_reg.args[2].should be_a_C_variable("className")
     end
-    it "should generate class variable declaration C AST" do
-      cdef = Ast::ClassDef.with_name "Z"
-      @symbol_name_gen.should_receive(:get_class_name).with("Z").and_return("className")
-      var = @gen.generate_declaration_ast(cdef)
-      var.should be_a_kind_of(CAst::GlobalVariable)
-      var.type.should eql(:CLASS_TYPE)
-      var.name.should eql("className")
-    end
     it "should generate method implementations C AST" do
       cdef = Ast::ClassDef.with_name_and_two_methods("A", "abc", "def")
       @method_gen.should_receive(:generate_ast).with("A", cdef.defs[0]).and_return(:impl1)

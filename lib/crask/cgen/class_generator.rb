@@ -26,9 +26,6 @@ module CRask
       [ @class_reg_gen.generate_ast(class_def, class_var_name) ] +
       @member_reg_gen.generate_ast(class_def.defs, class_def.name, class_var_name)
     end
-    def generate_declaration_ast class_def
-      ClassDeclarationGenerator.new(@symbol_name_gen, @config).generate_declaration_ast class_def
-    end
     def generate_method_definitions_ast class_def
       class_def.defs.map do |d|
         @method_gen.generate_ast class_def.name, d
