@@ -20,7 +20,8 @@ Feature: Class instantiation
             CRASK_OBJECT M_B_m(CRASK_OBJECT self, ...) {
                 CRASK_OBJECT L_instance;
                 L_instance = crask_getMethodImplForObject("new", crask_getClassObject(C_A))(crask_getClassObject(C_A));
-                return L_instance;
+                crask_release(L_instance);
+                return CRASK_NIL;
             }
             """
         And generated C code should compile
