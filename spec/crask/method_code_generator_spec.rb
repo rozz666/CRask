@@ -12,6 +12,7 @@ module CRask
       @config.stub(:object_type).and_return(:OBJECT_TYPE)
       @config.stub(:self_var).and_return(:SELF)
       @config.stub(:class_self_var).and_return(:CLASS_SELF)
+      @config.stub(:nil_var).and_return(:NIL)
       @gen = MethodCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector, @config
     end
     it "should generate C AST of an empty method" do
@@ -20,7 +21,6 @@ module CRask
       @local_detector.stub(:find_local_vars).and_return([])
       @local_decl.should_receive(:generate_ast).with([ :args ]).and_return([])
       @arg_decl.should_receive(:generate_local_vars_ast).with([ :args ]).and_return([])
-      @name_gen.stub(:get_nil_name).and_return("NIL")
       @name_gen.should_receive(:get_method_name).with("ClassName", "methodName", [ :args ]).and_return("METHOD_NAME")
       @arg_decl.should_receive(:generate_function_args_ast).with(:SELF).and_return(:fargs)
       
@@ -30,7 +30,7 @@ module CRask
       method.name.should eql("METHOD_NAME")
       method.should have(1).statements
       method.statements[0].should be_a_kind_of(CAst::Return)
-      method.statements[0].expression.should be_a_C_variable("NIL")
+      method.statements[0].expression.should be_a_C_variable(:NIL)
       method.local_variables.should eql([ ])
       method.arguments.should be(:fargs)
     end
@@ -40,7 +40,6 @@ module CRask
       @local_detector.should_receive(:find_local_vars).with(:stmts).and_return([ :vars ])
       @local_decl.should_receive(:generate_ast).with([ :args, :vars ]).and_return([ :loc1, :loc2 ])
       @arg_decl.should_receive(:generate_local_vars_ast).with([ :args ]).and_return([ :loc3, :loc4 ])
-      @name_gen.stub(:get_nil_name).and_return("NIL")
       @name_gen.stub(:get_method_name)
       @arg_decl.stub(:generate_function_args_ast)
       

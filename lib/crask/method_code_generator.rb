@@ -15,7 +15,7 @@ module CRask
       def generate_stmts_ast name_gen, arg_decl, stmt_gen, config
         arg_decl.generate_initialization_ast(config.self_var, @args) +
         stmt_gen.generate_ast(@stmts) +
-        [ CAst::Return.new(CAst::Variable.new(name_gen.get_nil_name)) ]
+        [ CAst::Return.new(CAst::Variable.new(config.nil_var)) ]
       end
       def generate_local_vars_ast local_decl, arg_decl, local_detector
         local_decl.generate_ast(@args +         local_detector.find_local_vars(@stmts)) +
