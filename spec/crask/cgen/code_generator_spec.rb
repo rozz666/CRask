@@ -5,14 +5,15 @@ module CRask
   describe CodeGenerator do
     before(:each) do
       @class_gen = double("class generator")
-      @cg = CodeGenerator.new(@class_gen)
+      @class_decl_gen = double("class declaration genertor")
+      @cg = CodeGenerator.new(@class_gen, @class_decl_gen)
       @ast = Ast::Ast.new
     end
     context "generate_ast" do
       it "should generate C module AST" do
         ast = Ast::Ast.with_two_classes("A", "B")
-        @class_gen.should_receive(:generate_declaration_ast).with(ast.stmts[0]).and_return(:decl1)
-        @class_gen.should_receive(:generate_declaration_ast).with(ast.stmts[1]).and_return(:decl2)
+        @class_decl_gen.should_receive(:generate_declaration_ast).with(ast.stmts[0]).and_return(:decl1)
+        @class_decl_gen.should_receive(:generate_declaration_ast).with(ast.stmts[1]).and_return(:decl2)
         @class_gen.should_receive(:generate_method_definitions_ast).with(ast.stmts[0]).and_return([ :func1, :func2 ])
         @class_gen.should_receive(:generate_method_definitions_ast).with(ast.stmts[1]).and_return([ :func3, :func4 ])
         @class_gen.should_receive(:generate_registration_ast).with(ast.stmts[0]).and_return([ :reg1, :reg2 ])

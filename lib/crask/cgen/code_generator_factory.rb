@@ -1,6 +1,7 @@
 require 'crask/cgen/symbol_name_generator'
 require 'crask/cgen/method_code_generator'
 require 'crask/cgen/class_generator'
+require 'crask/cgen/class_declaration_generator'
 require 'crask/cgen/default_methods_generator'
 require 'crask/cgen/var_arg_declarator'
 require 'crask/cgen/argument_ordering_policy'
@@ -33,7 +34,8 @@ module CRask
       local_var_detector = LocalVariableDetector.new
       method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl, local_var_detector, config
       class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen, config
-      CRask::CodeGenerator.new(class_gen)
+      class_decl_gen = ClassDeclarationGenerator.new symbol_name_gen, config
+      CRask::CodeGenerator.new(class_gen, class_decl_gen)
     end
   end
 end
