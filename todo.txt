@@ -1,2 +1,5 @@
 * split ClassGenerator
 * split MethodCallGenerator
+* class method calls with args
+* method calls with args
+* return
