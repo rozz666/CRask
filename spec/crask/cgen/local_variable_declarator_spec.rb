@@ -1,4 +1,4 @@
-require 'crask/local_variable_declarator'
+require 'crask/cgen/local_variable_declarator'
 
 module CRask
   describe :LocalVariableDeclarator do

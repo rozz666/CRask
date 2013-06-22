@@ -1,4 +1,4 @@
-require 'crask/statement_code_generator'
+require 'crask/cgen/statement_code_generator'
 require 'crask/ast/retain'
 require 'crask/ast/release'
 

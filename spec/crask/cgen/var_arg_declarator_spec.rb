@@ -1,4 +1,4 @@
-require 'crask/var_arg_declarator'
+require 'crask/cgen/var_arg_declarator'
 module CRask
   describe VarArgDeclarator do
     before(:each) do

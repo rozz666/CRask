@@ -1,4 +1,4 @@
-require 'crask/automatic_reference_counting_generator'
+require 'crask/cgen/automatic_reference_counting_generator'
 module CRask
   describe :AutomaticReferenceCountingGenerator do
     before(:each) do

@@ -1,4 +1,4 @@
-require 'crask/code_generator'
+require 'crask/cgen/code_generator'
 require 'crask/ast_factory'
 
 module CRask

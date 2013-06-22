@@ -1,4 +1,4 @@
-require 'crask/argument_ordering_policy'
+require 'crask/cgen/argument_ordering_policy'
 
 module CRask
   describe ArgumentOrderingPolicy do

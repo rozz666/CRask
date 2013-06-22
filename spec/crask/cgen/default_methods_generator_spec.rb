@@ -1,4 +1,4 @@
-require 'crask/default_methods_generator'
+require 'crask/cgen/default_methods_generator'
 require 'crask/ast_factory'
 
 module CRask

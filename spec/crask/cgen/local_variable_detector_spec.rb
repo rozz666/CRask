@@ -1,4 +1,4 @@
-require 'crask/local_variable_detector'
+require 'crask/cgen/local_variable_detector'
 require 'crask/assignment_factory'
 module CRask
   describe :LocalVariableDetector do

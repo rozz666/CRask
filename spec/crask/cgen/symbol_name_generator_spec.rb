@@ -1,4 +1,4 @@
-require 'crask/symbol_name_generator'
+require 'crask/cgen/symbol_name_generator'
 
 module CRask
   describe SymbolNameGenerator do

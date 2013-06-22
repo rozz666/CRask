@@ -1,4 +1,4 @@
-require 'crask/reference_counting_generator'
+require 'crask/cgen/reference_counting_generator'
 
 module CRask
   describe :ReferenceCountingGenerator do

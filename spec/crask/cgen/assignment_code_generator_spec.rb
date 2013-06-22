@@ -1,4 +1,4 @@
-require 'crask/assignment_code_generator'
+require 'crask/cgen/assignment_code_generator'
 require 'crask/cast_matchers'
 
 module CRask

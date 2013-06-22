@@ -1,8 +1,6 @@
-require 'crask/class_generator'
+require 'crask/cgen/class_generator'
 require 'crask/class_factory'
 require 'crask/cast_matchers'
-
-require 'crask/method_name_generator'
 
 module CRask
   describe ClassGenerator do

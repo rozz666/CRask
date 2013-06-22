@@ -1,4 +1,4 @@
-require 'crask/method_call_generator'
+require 'crask/cgen/method_call_generator'
 module CRask
   describe :MethodCallGenerator do
     before(:each) do

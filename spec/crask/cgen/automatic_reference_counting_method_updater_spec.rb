@@ -1,4 +1,4 @@
-require 'crask/automatic_reference_counting_method_updater'
+require 'crask/cgen/automatic_reference_counting_method_updater'
 require 'crask/ast_matchers'
 require 'crask/method_factory'
 

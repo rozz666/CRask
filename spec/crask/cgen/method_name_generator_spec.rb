@@ -1,4 +1,4 @@
-require 'crask/method_name_generator'
+require 'crask/cgen/method_name_generator'
 
 module CRask
   describe MethodNameGenerator do

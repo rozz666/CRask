@@ -1,8 +1,8 @@
 require 'crask/parser'
-require 'crask/code_generator_factory'
+require 'crask/cgen/code_generator_factory'
 require 'crask/printer/c_module_printer_factory'
-require 'crask/automatic_reference_counting_generator'
-require 'crask/automatic_reference_counting_method_updater'
+require 'crask/cgen/automatic_reference_counting_generator'
+require 'crask/cgen/automatic_reference_counting_method_updater'
 
 parser = CRask::Parser.new
 default_methods_generator = CRask::DefaultMethodsGenerator.new 
