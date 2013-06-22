@@ -5,6 +5,7 @@ require 'crask/cgen/destructor_registration_generator'
 require 'crask/cgen/method_registration_generator'
 require 'crask/cgen/class_registration_generator'
 require 'crask/cgen/member_registration_generator'
+require 'crask/cgen/class_declaration_generator'
 
 module CRask
   class ClassGenerator
@@ -25,9 +26,8 @@ module CRask
       [ @class_reg_gen.generate_ast(class_def, class_var_name) ] +
       @member_reg_gen.generate_ast(class_def.defs, class_def.name, class_var_name)
     end
-    def generate_declaration_ast class_def #TODO extract into ClassDeclarationGenerator
-      name = @symbol_name_gen.get_class_name class_def.name
-      CAst::GlobalVariable.new(@config.class_type, name)
+    def generate_declaration_ast class_def
+      ClassDeclarationGenerator.new(@symbol_name_gen, @config).generate_declaration_ast class_def
     end
     def generate_method_definitions_ast class_def
       class_def.defs.map do |d|
