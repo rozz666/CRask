@@ -1,6 +1,6 @@
 module CRask
   module Ast
-    class AssignmentDef
+    class Assignment
       attr_reader :left, :right
       def initialize left, right
         @left = left

@@ -87,7 +87,7 @@ module CRask
         "}\n")
         
       mdef.stmts.should have(1).item
-      mdef.stmts[0].should be_kind_of(Ast::AssignmentDef)
+      mdef.stmts[0].should be_kind_of(Ast::Assignment)
       mdef.stmts[0].left.should be_an_identifier("var")
       mdef.stmts[0].right.should be_an_identifier("nil")
     end

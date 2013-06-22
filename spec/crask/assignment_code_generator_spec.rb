@@ -13,7 +13,7 @@ module CRask
       @name_gen.should_receive(:get_local_name).with("a").and_return("LOCAL")
       @name_gen.should_receive(:get_nil_name).and_return("NIL")
       
-      stmts = @gen.generate_ast(Ast::AssignmentDef.to_var_from_var("a", "nil"))
+      stmts = @gen.generate_ast(Ast::Assignment.to_var_from_var("a", "nil"))
       
       stmts.should have(1).statement
       assignment = stmts[0]
@@ -25,7 +25,7 @@ module CRask
       @name_gen.should_receive(:get_local_name).with("a").and_return("A")
       @name_gen.should_receive(:get_local_name).with("b").and_return("B")
       
-      stmts = @gen.generate_ast(Ast::AssignmentDef.to_var_from_var("a", "b"))
+      stmts = @gen.generate_ast(Ast::Assignment.to_var_from_var("a", "b"))
       
       stmts.should have(1).statement
       assignment = stmts[0]
@@ -39,7 +39,7 @@ module CRask
       method_call = Ast::MethodCall.new(nil, nil)
       @method_call_gen.should_receive(:generate_ast).with(method_call).and_return(:call_ast)
       
-      stmts = @gen.generate_ast(Ast::AssignmentDef.to_var_from("a", method_call).freeze)
+      stmts = @gen.generate_ast(Ast::Assignment.to_var_from("a", method_call).freeze)
 
       assignment = stmts[0]
       assignment.right.should be(:call_ast)

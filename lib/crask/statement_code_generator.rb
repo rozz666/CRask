@@ -1,6 +1,6 @@
 module CRask
   module Ast
-    class AssignmentDef #TODO: isn't it a dispatcher?
+    class Assignment #TODO: isn't it a dispatcher?
       def generate_ast generators
         generators[:Assignment].generate_ast(self)
       end

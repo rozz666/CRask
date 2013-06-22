@@ -1,6 +1,6 @@
 module CRask
   module Ast
-    class AssignmentDef
+    class Assignment
       def self.to_var name
         self.new Identifier.new(name), nil
       end
