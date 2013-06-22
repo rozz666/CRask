@@ -5,7 +5,7 @@ module CRask
         generators[:Assignment].generate_ast(self)
       end
     end
-    class RetainDef
+    class Retain
       def generate_ast generators
         generators[:ReferenceCounting].generate_retain_ast(self)
       end

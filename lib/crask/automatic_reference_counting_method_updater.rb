@@ -1,4 +1,4 @@
-require 'crask/ast/retain_def'
+require 'crask/ast/retain'
 require 'crask/ast/release'
 
 module CRask
@@ -40,10 +40,10 @@ module CRask
           @vars << var
         end
         @stmts << a
-        @stmts << Ast::RetainDef.new(var) unless a.right.kind_of?(Ast::MethodCall)
+        @stmts << Ast::Retain.new(var) unless a.right.kind_of?(Ast::MethodCall)
       end
       def add_prolog args
-        args.each { |a| @stmts << Ast::RetainDef.new(a) }
+        args.each { |a| @stmts << Ast::Retain.new(a) }
         @vars = args.dup
       end
       def add_epilog

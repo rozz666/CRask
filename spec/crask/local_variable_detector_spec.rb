@@ -17,7 +17,7 @@ module CRask
     end
     it "should only use assignments" do
       stmts = [
-        Ast::RetainDef.new("x"),
+        Ast::Retain.new("x"),
         Ast::Assignment.to_var("b"),
         Ast::Release.new("c") ]
       @detector.find_local_vars(stmts).should eql([ "b" ])

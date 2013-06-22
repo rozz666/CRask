@@ -1,6 +1,6 @@
 module CRask
   module Ast
-    class RetainDef
+    class Retain
       attr_reader :name
       def initialize name
         @name = name
