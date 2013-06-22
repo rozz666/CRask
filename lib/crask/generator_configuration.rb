@@ -18,5 +18,8 @@ module CRask
     def va_list
       "rask_args"
     end
+    def nil_id
+      "nil"
+    end
   end
 end

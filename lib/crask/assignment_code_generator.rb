@@ -2,7 +2,7 @@ module CRask
   module Ast
     class Identifier
       def generate_ast name_gen, config, method_call_gen #TODO: extract variable generator
-        if name == "nil"
+        if name == config.nil_id
           CAst::Variable.new config.nil_var
         else
           CAst::Variable.new name_gen.get_local_name(name)

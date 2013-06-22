@@ -9,12 +9,13 @@ module CRask
       @method_call_gen = double("method call generator")
       @config = double("configuration")
       @config.stub(:nil_var).and_return(:NIL)
+      @config.stub(:nil_id).and_return(:NIL_ID)
       @gen = AssignmentCodeGenerator.new @name_gen, @config, @method_call_gen
     end
     it "should generate C AST for a nil assignment to a local variable" do
       @name_gen.should_receive(:get_local_name).with("a").and_return("LOCAL")
       
-      stmts = @gen.generate_ast(Ast::Assignment.to_var_from_var("a", "nil"))
+      stmts = @gen.generate_ast(Ast::Assignment.to_var_from_var("a", :NIL_ID))
       
       stmts.should have(1).statement
       assignment = stmts[0]
