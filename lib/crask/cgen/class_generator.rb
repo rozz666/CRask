@@ -3,6 +3,7 @@ require 'crask/cast/call_facade'
 require 'crask/cgen/constructor_registration_generator'
 require 'crask/cgen/destructor_registration_generator'
 require 'crask/cgen/method_registration_generator'
+require 'crask/cgen/class_registration_generator'
 
 module CRask
   module Ast
@@ -30,12 +31,10 @@ module CRask
       @config = config
     end
     def generate_registration_ast class_def
-      class_name = @symbol_name_gen.get_class_name class_def.name
-      class_registration_call = CAst::Call.function("crask_registerClass", [ CAst::String.new(class_def.name) ])
-      class_registration = CAst::Assignment.new(CAst::Variable.new(class_name), class_registration_call)
-      [ class_registration ] +
+      class_var_name = @symbol_name_gen.get_class_name class_def.name
+      [ ClassRegistrationGenerator.new.generate_ast(class_def, class_var_name) ] +
       class_def.defs.map do |d|
-        d.generate_registration_ast(@symbol_name_gen, @method_name_gen, class_def.name, class_name)
+        d.generate_registration_ast(@symbol_name_gen, @method_name_gen, class_def.name, class_var_name)
       end
     end
     def generate_declaration_ast class_def
