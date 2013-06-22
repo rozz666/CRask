@@ -6,6 +6,7 @@ require 'crask/ast/assignment_def'
 require 'crask/ast/retain_def'
 require 'crask/ast/release_def'
 require 'crask/ast/method_call'
+require 'crask/ast/identifier'
 
 module CRask
   module Ast

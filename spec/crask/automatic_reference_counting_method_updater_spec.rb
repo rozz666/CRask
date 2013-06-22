@@ -8,7 +8,7 @@ module CRask
       @gen = AutomaticReferenceCountingMethodUpdater.new
     end
     it "should retain variables after assignments and release at the end" do
-      assignments = [ Ast::AssignmentDef.new("a", nil), Ast::AssignmentDef.new("b", nil) ]
+      assignments = [ Ast::AssignmentDef.to_var("a"), Ast::AssignmentDef.to_var("b") ]
       method = Ast::MethodDef.with_stmts(assignments)
       @gen.update_ast method
       method.should have(6).stmts
@@ -21,7 +21,7 @@ module CRask
       stmts[5].should be_a_release("a")
     end
     it "should release a variable before a second assignment and not multiple times at the end" do
-      assignments = [ Ast::AssignmentDef.new("a", nil), Ast::AssignmentDef.new("a", nil) ]
+      assignments = [ Ast::AssignmentDef.to_var("a"), Ast::AssignmentDef.to_var("a") ]
       method = Ast::MethodDef.with_stmts(assignments)
       @gen.update_ast method
       stmts = method.stmts 
@@ -38,7 +38,7 @@ module CRask
       @gen.update_ast Ast::CtorDef.new(nil, nil)
     end
     it "should retain arguments at the beginning and release at the end" do
-      assignments = [ Ast::AssignmentDef.new("xxx", nil) ]
+      assignments = [ Ast::AssignmentDef.to_var("xxx") ]
       method = Ast::MethodDef.new(nil, [ "a", "b" ].freeze, assignments)
       @gen.update_ast method
       stmts = method.stmts 
@@ -54,7 +54,7 @@ module CRask
       method.stmts.should be_empty
     end
     it "should always release and retain before and after argument assignments" do
-      assignments = [ Ast::AssignmentDef.new("a", nil) ].freeze
+      assignments = [ Ast::AssignmentDef.to_var("a") ].freeze
       method = Ast::MethodDef.new(nil, [ "a" ].freeze, assignments)
       @gen.update_ast method
       stmts = method.stmts 

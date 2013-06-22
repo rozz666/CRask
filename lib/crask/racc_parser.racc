@@ -9,9 +9,9 @@ rule
               | method_defs ctor_def { result << val[1] }
               | method_defs dtor_def { result << val[1] }
   method_call : identifier dot identifier { result = Ast::MethodCall.new(val[0], val[2]) }
-  expression : identifier
+  expression : identifier { result = Ast::Identifier.new(val[0]) }
              | method_call
-  statement : identifier assign expression { result = Ast::AssignmentDef.new(val[0], val[2]) }
+  statement : identifier assign expression { result = Ast::AssignmentDef.new(Ast::Identifier.new(val[0]), val[2]) }
   statements : { result = [] }
              | statements statement { result << val[1] }
   method_def : def identifier arguments brace_open statements brace_close { result = Ast::MethodDef.new(val[1], val[2], val[4]) }

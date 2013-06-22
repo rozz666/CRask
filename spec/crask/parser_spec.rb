@@ -88,8 +88,8 @@ module CRask
         
       mdef.stmts.should have(1).item
       mdef.stmts[0].should be_kind_of(Ast::AssignmentDef)
-      mdef.stmts[0].left.should eql("var")
-      mdef.stmts[0].right.should eql("nil")
+      mdef.stmts[0].left.should be_an_identifier("var")
+      mdef.stmts[0].right.should be_an_identifier("nil")
     end
     it "should parse all nil assignments" do
       mdef = parser.parse_method_def(

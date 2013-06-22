@@ -33,7 +33,7 @@ module CRask
         @vars = []
       end
       def add_assignment a
-        var = a.left
+        var = a.left.name
         if @vars.index(var)
           @stmts << Ast::ReleaseDef.new(var)
         else

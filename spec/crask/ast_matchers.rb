@@ -12,4 +12,10 @@ module CRask
     end
   end
 
+  RSpec::Matchers.define :be_an_identifier do |name|
+    match do |expr|
+      expr.kind_of?(Ast::Identifier) and expr.name == name
+    end
+  end
+
 end
