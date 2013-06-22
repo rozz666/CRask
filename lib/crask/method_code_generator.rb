@@ -1,4 +1,5 @@
 require 'crask/cast/function'
+require 'crask/cast/call_facade'
 
 module CRask
   module Ast
@@ -41,7 +42,7 @@ module CRask
         [ CAst::Return.new(CAst::Variable.new(name_gen.get_self_name)) ]        
       end
       def generate_create_instance class_name, name_gen
-        create_instance = CAst::FunctionCall.new("crask_createInstance", [ CAst::Variable.new(name_gen.get_class_name(class_name)) ])
+        create_instance = CAst::Call.function("crask_createInstance", [ CAst::Variable.new(name_gen.get_class_name(class_name)) ])
         CAst::Assignment.new(CAst::Variable.new(name_gen.get_self_name), create_instance)
       end
     end

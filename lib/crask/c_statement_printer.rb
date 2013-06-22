@@ -1,6 +1,6 @@
 require 'crask/cast/assignment'
 require 'crask/cast/return'
-require 'crask/cast/function_call'
+require 'crask/cast/call'
 
 module CRask
   module CAst
@@ -16,9 +16,9 @@ module CRask
       end
     end
     
-    class FunctionCall
+    class Call
       def print_with printers
-        printers[:FunctionCall].print(self) + ";\n"
+        printers[:Call].print(self) + ";\n"
       end
     end
   end

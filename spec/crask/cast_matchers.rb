@@ -17,8 +17,9 @@ module CRask
       @args = "argument"
     end
     match do |actual|
-      r = actual.kind_of?(CAst::FunctionCall)
-      r &&= actual.name == name
+      r = actual.kind_of?(CAst::Call)
+      r &&= actual.expr.kind_of?(CAst::Variable)
+      r &&= actual.expr.name == name
       r &&= !actual.args.nil?
       r &&= actual.args.size == @arg_count unless @arg_count.nil?
       r

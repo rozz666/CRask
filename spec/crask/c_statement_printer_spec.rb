@@ -5,11 +5,11 @@ module CRask
     before(:each) do
       @assignment_printer = double("assignment printer")
       @return_printer = double("return printer")
-      @function_call_printer = double("function call printer")
+      @call_printer = double("call printer")
       @printer = CStatementPrinter.new({
         :Assignment => @assignment_printer,
         :Return => @return_printer,
-        :FunctionCall => @function_call_printer })
+        :Call => @call_printer })
     end
     it "should print nothing for empty list" do
       @printer.print([]).should eql("")
@@ -25,15 +25,15 @@ module CRask
       @printer.print(stmts).should eql("RETURN\n")
     end
     it "should print a function call with semicolon and newline" do
-      stmts = [ CAst::FunctionCall.new(nil, nil) ]
-      @function_call_printer.should_receive(:print).with(stmts[0]).and_return("FCALL")
-      @printer.print(stmts).should eql("FCALL;\n")
+      stmts = [ CAst::Call.new(nil, nil) ]
+      @call_printer.should_receive(:print).with(stmts[0]).and_return("CALL")
+      @printer.print(stmts).should eql("CALL;\n")
     end
     it "should print all statements" do
-      stmts = [ CAst::Assignment.new(nil, nil), CAst::Return.new, CAst::FunctionCall.new(nil, nil) ]
+      stmts = [ CAst::Assignment.new(nil, nil), CAst::Return.new, CAst::Call.new(nil, nil) ]
       @assignment_printer.should_receive(:print).with(stmts[0]).and_return("1")
       @return_printer.should_receive(:print).with(stmts[1]).and_return("2")
-      @function_call_printer.should_receive(:print).with(stmts[2]).and_return("3")
+      @call_printer.should_receive(:print).with(stmts[2]).and_return("3")
       @printer.print(stmts).should eql("123;\n")
     end
   end

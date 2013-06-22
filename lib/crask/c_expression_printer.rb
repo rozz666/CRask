@@ -5,31 +5,31 @@ require 'crask/cast/string'
 module CRask
   module CAst
     class Variable
-      def print function_call_printer
+      def print call_printer
         name
       end
     end
     class VariableAddress
-      def print function_call_printer
+      def print call_printer
         "&#{name}"
       end
     end
     class String
-      def print function_call_printer
+      def print call_printer
         "\"#{value}\""
       end
     end
-    class FunctionCall
-      def print function_call_printer
-        function_call_printer.print self
+    class Call
+      def print call_printer
+        call_printer.print self
       end
     end
   end
   
   class CExpressionPrinter
-    attr_writer :function_call_printer
+    attr_writer :call_printer
     def print expr
-      expr.print @function_call_printer
+      expr.print @call_printer
     end
   end
 end

@@ -2,9 +2,9 @@ require 'crask/c_expression_printer'
 module CRask
   describe :CExpressionPrinter do
     before(:each) do
-      @function_call_printer = double("function call printer")
+      @call_printer = double("call printer")
       @printer = CExpressionPrinter.new
-      @printer.function_call_printer = @function_call_printer
+      @printer.call_printer = @call_printer
     end
     it "should print variable name" do
       @printer.print(CAst::Variable.new("var")).should eql("var")
@@ -16,8 +16,8 @@ module CRask
       @printer.print(CAst::String.new("a string")).should eql("\"a string\"")
     end
     it "should print a function call" do
-      fc = CAst::FunctionCall.new "some", []
-      @function_call_printer.should_receive(:print).with(fc).and_return(:printed)
+      fc = CAst::Call.new :some, []
+      @call_printer.should_receive(:print).with(fc).and_return(:printed)
       @printer.print(fc).should be(:printed)
     end
   end

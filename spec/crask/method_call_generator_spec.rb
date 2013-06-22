@@ -10,8 +10,8 @@ module CRask
       
       ast = @gen.generate_ast Ast::MethodCall.new("Class", "method")
       
-      ast.should be_a_kind_of(CAst::FunctionCall)
-      get_impl = ast.name
+      ast.should be_a_kind_of(CAst::Call)
+      get_impl = ast.expr
       get_impl.should be_a_C_function_call("crask_getMethodImplForObject").with(2).args
       get_impl.args[0].should be_a_C_string("method")
       get_impl.args[1].should be_a_C_function_call("crask_getClassObject").with(1).arg
