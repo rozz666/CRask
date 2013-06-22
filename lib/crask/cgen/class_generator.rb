@@ -2,6 +2,7 @@ require 'crask/cast/global_variable'
 require 'crask/cast/call_facade'
 require 'crask/cgen/constructor_registration_generator'
 require 'crask/cgen/destructor_registration_generator'
+require 'crask/cgen/method_registration_generator'
 
 module CRask
   module Ast
@@ -17,10 +18,7 @@ module CRask
     end
     class MethodDef
       def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
-        func_addr = CAst::VariableAddress.new(symbol_name_gen.get_method_name(class_name, name, args))
-        public_name = CAst::String.new(method_name_gen.generate(name, args))
-        class_var = CAst::Variable.new(class_var_name)
-        CAst::Call.function("crask_addMethodToClass", [ func_addr, public_name, class_var ])
+        MethodRegistrationGenerator.new(symbol_name_gen, method_name_gen).generate_ast self, class_name, class_var_name
       end
     end
   end
