@@ -4,38 +4,26 @@ require 'crask/cgen/constructor_registration_generator'
 require 'crask/cgen/destructor_registration_generator'
 require 'crask/cgen/method_registration_generator'
 require 'crask/cgen/class_registration_generator'
+require 'crask/cgen/member_registration_generator'
 
 module CRask
-  module Ast
-    class CtorDef
-      def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
-        ConstructorRegistrationGenerator.new(symbol_name_gen, method_name_gen).generate_ast self, class_name, class_var_name
-      end
-    end
-    class DtorDef
-      def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
-        DestructorRegistrationGenerator.new(symbol_name_gen).generate_ast class_name, class_var_name
-      end
-    end
-    class MethodDef
-      def generate_registration_ast symbol_name_gen, method_name_gen, class_name, class_var_name
-        MethodRegistrationGenerator.new(symbol_name_gen, method_name_gen).generate_ast self, class_name, class_var_name
-      end
-    end
-  end
   class ClassGenerator
     def initialize symbol_name_gen, method_name_gen, method_gen, config
       @symbol_name_gen = symbol_name_gen
-      @method_name_gen = method_name_gen
       @method_gen = method_gen
-      @config = config #TODO move generators creation here
+      @config = config
+      @generators = {
+        :Constructor => ConstructorRegistrationGenerator.new(symbol_name_gen, method_name_gen),
+        :Destructor => DestructorRegistrationGenerator.new(symbol_name_gen),
+        :Method => MethodRegistrationGenerator.new(symbol_name_gen, method_name_gen)
+      }
+      @class_reg_gen = ClassRegistrationGenerator.new
+      @member_reg_gen = MemberRegistrationGenerator.new @generators
     end
     def generate_registration_ast class_def
       class_var_name = @symbol_name_gen.get_class_name class_def.name
-      [ ClassRegistrationGenerator.new.generate_ast(class_def, class_var_name) ] +
-      class_def.defs.map do |d| #TODO extract into MethodRegistrationGenerator
-        d.generate_registration_ast(@symbol_name_gen, @method_name_gen, class_def.name, class_var_name)
-      end
+      [ @class_reg_gen.generate_ast(class_def, class_var_name) ] +
+      @member_reg_gen.generate_ast(class_def.defs, class_def.name, class_var_name)
     end
     def generate_declaration_ast class_def #TODO extract into ClassDeclarationGenerator
       name = @symbol_name_gen.get_class_name class_def.name
