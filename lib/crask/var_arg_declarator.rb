@@ -9,7 +9,7 @@ module CRask
     end
     def generate_initialization_ast self_arg, args
       return [] if args.empty?
-      rask_args = CAst::Variable.new("rask_args")
+      rask_args = CAst::Variable.new(@config.va_list)
       va_arg = CAst::Call.function("va_arg", [ rask_args, CAst::Variable.new(@config.object_type) ])
       va_start = CAst::Call.function("va_start", [ rask_args, CAst::Variable.new(self_arg) ])
       local_init = args.map { |arg|
@@ -21,7 +21,7 @@ module CRask
     end
     def generate_local_vars_ast args
       return [] if args.empty?
-      [ CAst::LocalVariable.new("va_list", "rask_args")] #TODO: refactor rask_args
+      [ CAst::LocalVariable.new("va_list", @config.va_list)]
     end
     def generate_function_args_ast self_name
       [ CAst::LocalVariable.new(@config.object_type, self_name), CAst::LocalVariable.new("...", nil) ]

@@ -5,6 +5,7 @@ module CRask
       @name_gen = double("name generator")
       @config = double("configuration")
       @config.stub(:object_type).and_return(:OBJECT_TYPE)
+      @config.stub(:va_list).and_return(:VA_LIST)
       
       @arg_decl = VarArgDeclarator.new @name_gen, @config
     end
@@ -14,11 +15,11 @@ module CRask
       stmts.should have(3).element
       va_start = stmts[0]
       va_start.should be_a_C_function_call("va_start").with(2).args
-      va_start.args[0].should be_a_C_variable("rask_args")
+      va_start.args[0].should be_a_C_variable(:VA_LIST)
       va_start.args[1].should be_a_C_variable("selfArg")
       va_end = stmts[2]
       va_end.should be_a_C_function_call("va_end").with(1).arg
-      va_end.args[0].should be_a_C_variable("rask_args")
+      va_end.args[0].should be_a_C_variable(:VA_LIST)
     end
     it "should generate C AST of calls to va_arg for arg initialization" do
       @name_gen.should_receive(:get_local_name).with("arg1").and_return("local1")
@@ -28,7 +29,7 @@ module CRask
       local1.should be_a_kind_of(CAst::Assignment)
       local1.left.should be_a_C_variable("local1")
       local1.right.should be_a_C_function_call("va_arg").with(2).args
-      local1.right.args[0].should be_a_C_variable("rask_args")
+      local1.right.args[0].should be_a_C_variable(:VA_LIST)
       local1.right.args[1].should be_a_C_variable(:OBJECT_TYPE)
     end
     it "should generate C AST of calls to va_arg for all args during initialization" do
@@ -43,7 +44,7 @@ module CRask
       local_args = @arg_decl.generate_local_vars_ast [ "arg1" ]
       local_args.should have(1).item
       rask_args = local_args[0]
-      rask_args.should be_a_local_C_variable("va_list", "rask_args")
+      rask_args.should be_a_local_C_variable("va_list", :VA_LIST)
     end
     it "should initialize nothing for no arguments" do
       @arg_decl.generate_initialization_ast("selfArg", []).should eql([])
