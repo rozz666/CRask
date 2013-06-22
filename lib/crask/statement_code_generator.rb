@@ -10,7 +10,7 @@ module CRask
         generators[:ReferenceCounting].generate_retain_ast(self)
       end
     end
-    class ReleaseDef
+    class Release
       def generate_ast generators
         generators[:ReferenceCounting].generate_release_ast(self)
       end

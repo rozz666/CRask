@@ -19,7 +19,7 @@ module CRask
       stmts = [
         Ast::RetainDef.new("x"),
         Ast::Assignment.to_var("b"),
-        Ast::ReleaseDef.new("c") ]
+        Ast::Release.new("c") ]
       @detector.find_local_vars(stmts).should eql([ "b" ])
     end
     it "should ignore repeated variables" do

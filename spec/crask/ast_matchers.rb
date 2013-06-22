@@ -8,7 +8,7 @@ module CRask
 
   RSpec::Matchers.define :be_a_release do |name|
     match do |expr|
-      expr.kind_of?(Ast::ReleaseDef) and expr.name == name
+      expr.kind_of?(Ast::Release) and expr.name == name
     end
   end
 

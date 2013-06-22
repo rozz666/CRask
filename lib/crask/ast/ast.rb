@@ -4,7 +4,7 @@ require 'crask/ast/ctor_def'
 require 'crask/ast/dtor_def'
 require 'crask/ast/assignment'
 require 'crask/ast/retain_def'
-require 'crask/ast/release_def'
+require 'crask/ast/release'
 require 'crask/ast/method_call'
 require 'crask/ast/identifier'
 

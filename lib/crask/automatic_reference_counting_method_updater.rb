@@ -1,5 +1,5 @@
 require 'crask/ast/retain_def'
-require 'crask/ast/release_def'
+require 'crask/ast/release'
 
 module CRask
   module Ast
@@ -35,7 +35,7 @@ module CRask
       def add_assignment a
         var = a.left.name
         if @vars.index(var)
-          @stmts << Ast::ReleaseDef.new(var)
+          @stmts << Ast::Release.new(var)
         else
           @vars << var
         end
@@ -47,7 +47,7 @@ module CRask
         @vars = args.dup
       end
       def add_epilog
-        @vars.reverse.each { |v| @stmts << Ast::ReleaseDef.new(v) }
+        @vars.reverse.each { |v| @stmts << Ast::Release.new(v) }
       end
     end
   end

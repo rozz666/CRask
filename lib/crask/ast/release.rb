@@ -1,6 +1,6 @@
 module CRask
   module Ast
-    class ReleaseDef
+    class Release
       attr_reader :name
       def initialize name
         @name = name
