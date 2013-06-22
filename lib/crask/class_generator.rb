@@ -28,10 +28,11 @@ module CRask
     end
   end
   class ClassGenerator
-    def initialize symbol_name_gen, method_name_gen, method_gen
+    def initialize symbol_name_gen, method_name_gen, method_gen, config
       @symbol_name_gen = symbol_name_gen
       @method_name_gen = method_name_gen
       @method_gen = method_gen
+      @config = config
     end
     def generate_registration_ast class_def
       class_name = @symbol_name_gen.get_class_name class_def.name
@@ -44,7 +45,7 @@ module CRask
     end
     def generate_declaration_ast class_def
       name = @symbol_name_gen.get_class_name class_def.name
-      CAst::GlobalVariable.new("CRASK_CLASS", name)
+      CAst::GlobalVariable.new(@config.class_type, name)
     end
     def generate_method_definitions_ast class_def
       class_def.defs.map do |d|

@@ -10,7 +10,10 @@ module CRask
       @symbol_name_gen = double("symbol name generator")
       @method_name_gen = double("method name generator")
       @method_gen = double("method code generator")
-      @gen = ClassGenerator.new @symbol_name_gen, @method_name_gen, @method_gen
+      @config = double("configuration")
+      @config.stub(:class_type).and_return(:CLASS_TYPE)
+
+      @gen = ClassGenerator.new @symbol_name_gen, @method_name_gen, @method_gen, @config
     end
     it "should generate C AST of class registration using libcrask" do
       cdef = Ast::ClassDef.with_name "A"
@@ -74,7 +77,7 @@ module CRask
       @symbol_name_gen.should_receive(:get_class_name).with("Z").and_return("className")
       var = @gen.generate_declaration_ast(cdef)
       var.should be_a_kind_of(CAst::GlobalVariable)
-      var.type.should eql("CRASK_CLASS")
+      var.type.should eql(:CLASS_TYPE)
       var.name.should eql("className")
     end
     it "should generate method implementations C AST" do

@@ -3,6 +3,9 @@ module CRask
     def object_type
       "CRASK_OBJECT"
     end
+    def class_type
+      "CRASK_CLASS"
+    end
     def self_var
       "self"
     end

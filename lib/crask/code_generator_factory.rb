@@ -36,7 +36,7 @@ module CRask
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen, config
       local_var_detector = LocalVariableDetector.new
       method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl, local_var_detector, config
-      class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen
+      class_gen = CRask::ClassGenerator.new symbol_name_gen, method_name_generator, method_code_gen, config
       CRask::CodeGenerator.new(class_gen)
     end
   end
