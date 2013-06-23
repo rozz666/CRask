@@ -2,6 +2,7 @@ require 'crask/cast/function'
 require 'crask/cast/call_facade'
 require 'crask/cgen/method_code_generator'
 require 'crask/cgen/constructor_code_generator'
+require 'crask/cgen/destructor_code_generator'
 
 module CRask
   module Ast
@@ -17,9 +18,7 @@ module CRask
     end
     class DtorDef
       def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl, local_detector, config
-        return CAst::Function.new(
-          "void", name_gen.get_dtor_name(class_name),
-          [ CAst::LocalVariable.new(config.object_type, config.self_var) ], [], [])
+        DestructorCodeGenerator.new(config, name_gen).generate_ast(class_name)
       end
     end
   end
