@@ -8,7 +8,9 @@ rule
               | method_defs method_def { result << val[1] }
               | method_defs ctor_def { result << val[1] }
               | method_defs dtor_def { result << val[1] }
-  method_call : identifier dot identifier { result = Ast::MethodCall.new(val[0], val[2]) }
+  optional_parens :
+                  | paren_open paren_close
+  method_call : identifier dot identifier optional_parens { result = Ast::MethodCall.new(val[0], val[2]) }
   expression : identifier { result = Ast::Identifier.new(val[0]) }
              | method_call
   statement : identifier assign expression { result = Ast::Assignment.new(Ast::Identifier.new(val[0]), val[2]) }

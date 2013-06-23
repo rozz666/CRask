@@ -100,13 +100,18 @@ module CRask
         
       mdef.stmts.should have(2).items
     end
-    it "should parse assignments from method calls" do
+    it "should parse assignments from method calls with no arguments" do
       stmts = parser.parse_method_stmts("var = Class.method")
       stmts.should have(1).item
       call = stmts[0].right
       call.should be_a_kind_of(Ast::MethodCall)
       call.object.should eql("Class")
       call.method.should eql("method")
+    end
+    it "should parse assignments from method calls with no arguments and empty parentheses" do
+      stmts = parser.parse_method_stmts("var = Class.method()")
+      stmts.should have(1).item
+      stmts[0].right.should be_a_kind_of(Ast::MethodCall)
     end
   end
 end
