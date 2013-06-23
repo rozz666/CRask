@@ -23,8 +23,8 @@ module CRask
     def initialize generators
       @generators = generators
     end
-    def generate_ast class_name, method_def
-      method_def.generate_ast class_name, @generators
+    def generate_ast class_name, member_def
+      member_def.generate_ast class_name, @generators
     end
   end
 end
