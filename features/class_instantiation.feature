@@ -26,7 +26,7 @@ Feature: Class instantiation
             """
         And generated C code should compile
 
-    @wip
+    @done
     Scenario: Class instantiation with no arguments with parentheses
         Given source code:
             """
@@ -45,7 +45,6 @@ Feature: Class instantiation
         Then generated C code should contain:
             """
             L_instance = crask_getMethodImplForObject("new", crask_getClassObject(C_A))(crask_getClassObject(C_A));
-            }
             """
         And generated C code should compile
 

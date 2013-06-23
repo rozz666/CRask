@@ -113,5 +113,12 @@ module CRask
       stmts.should have(1).item
       stmts[0].right.should be_a_kind_of(Ast::MethodCall)
     end
+    it "should parse assignments from method calls with arguments" do
+      stmts = parser.parse_method_stmts("var = Class.method(a, b, c)")
+      stmts.should have(1).item
+      call = stmts[0].right
+      call.should be_a_kind_of(Ast::MethodCall)
+      call.should have(3).args
+    end
   end
 end
