@@ -1,3 +1,4 @@
+* add ast_type to generators for autodection of handled AST
 * class method calls with args
 * method calls with args
 * return
