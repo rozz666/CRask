@@ -1,4 +1,7 @@
 require 'crask/cgen/member_code_generator'
+require 'crask/cgen/method_code_generator'
+require 'crask/cgen/constructor_code_generator'
+require 'crask/cgen/destructor_code_generator'
 
 module CRask
   describe MemberCodeGenerator do
@@ -13,7 +16,11 @@ module CRask
       @config.stub(:self_var).and_return(:SELF)
       @config.stub(:class_self_var).and_return(:CLASS_SELF)
       @config.stub(:nil_var).and_return(:NIL)
-      @gen = MemberCodeGenerator.new @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector, @config
+      @gen = MemberCodeGenerator.new({
+        :Constructor => ConstructorCodeGenerator.new(@config, @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector),
+        :Destructor => DestructorCodeGenerator.new(@config, @name_gen),
+        :Method => MethodCodeGenerator.new(@config, @name_gen, @arg_decl, @stmt_gen, @local_decl, @local_detector)
+      })
     end
     it "should generate C AST of an empty method" do
       @arg_decl.should_receive(:generate_initialization_ast).with(:SELF, [ :args ]).and_return([])
