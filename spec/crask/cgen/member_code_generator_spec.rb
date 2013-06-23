@@ -24,7 +24,7 @@ module CRask
       @name_gen.should_receive(:get_method_name).with("ClassName", "methodName", [ :args ]).and_return("METHOD_NAME")
       @arg_decl.should_receive(:generate_function_args_ast).with(:SELF).and_return(:fargs)
       
-      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts))
+      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts).freeze)
         
       method.type.should be(:OBJECT_TYPE)
       method.name.should eql("METHOD_NAME")
@@ -43,7 +43,7 @@ module CRask
       @name_gen.stub(:get_method_name)
       @arg_decl.stub(:generate_function_args_ast)
       
-      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts))
+      method = @gen.generate_ast("ClassName", Ast::MethodDef.new("methodName", [ :args ], :stmts).freeze)
         
       method.should have(5).statements
       method.statements[0..3].should eql([ :arg_stmt1, :arg_stmt2, :stmt3, :stmt4 ])
@@ -58,7 +58,7 @@ module CRask
       @name_gen.should_receive(:get_ctor_name).with("ClassName", "ctorName", :args).and_return("CTOR_NAME")
       @arg_decl.should_receive(:generate_function_args_ast).with(:CLASS_SELF).and_return(:fargs)
       
-      method = @gen.generate_ast("ClassName", Ast::CtorDef.new("ctorName", :args))
+      method = @gen.generate_ast("ClassName", Ast::CtorDef.new("ctorName", :args).freeze)
         
       method.type.should be(:OBJECT_TYPE)
       method.name.should eql("CTOR_NAME")

@@ -12,7 +12,7 @@ module CRask
       @member_reg_gen.generate_ast(class_def.defs, class_def.name, class_var_name)
     end
     def generate_method_definitions_ast class_def
-      class_def.defs.map do |d|
+      class_def.defs.map do |d| #TODO move the loop inside MemberCodeGenerator
         @member_gen.generate_ast class_def.name, d
       end.flatten
     end

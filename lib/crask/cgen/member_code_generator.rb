@@ -1,25 +1,12 @@
 require 'crask/cast/function'
 require 'crask/cast/call_facade'
+require 'crask/cgen/method_code_generator'
 
 module CRask
   module Ast
     class MethodDef
       def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl, local_detector, config
-        name = name_gen.get_method_name(class_name, @name, @args)
-        args = arg_decl.generate_function_args_ast(config.self_var)
-        local_vars = generate_local_vars_ast(local_decl, arg_decl, local_detector)
-        stmts = generate_stmts_ast(name_gen, arg_decl, stmt_gen, config)
-        CAst::Function.new(config.object_type, name, args, local_vars, stmts)
-      end
-      private
-      def generate_stmts_ast name_gen, arg_decl, stmt_gen, config
-        arg_decl.generate_initialization_ast(config.self_var, @args) +
-        stmt_gen.generate_ast(@stmts) +
-        [ CAst::Return.new(CAst::Variable.new(config.nil_var)) ]
-      end
-      def generate_local_vars_ast local_decl, arg_decl, local_detector
-        local_decl.generate_ast(@args +         local_detector.find_local_vars(@stmts)) +
-        arg_decl.generate_local_vars_ast(@args)
+        MethodCodeGenerator.new(config, name_gen, arg_decl, stmt_gen, local_decl, local_detector).generate_ast(self, class_name)
       end
     end
     class CtorDef
