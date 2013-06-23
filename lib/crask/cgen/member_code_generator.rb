@@ -1,6 +1,7 @@
 require 'crask/cast/function'
 require 'crask/cast/call_facade'
 require 'crask/cgen/method_code_generator'
+require 'crask/cgen/constructor_code_generator'
 
 module CRask
   module Ast
@@ -11,26 +12,7 @@ module CRask
     end
     class CtorDef
       def generate_ast class_name, name_gen, arg_decl, stmt_gen, local_decl, local_detector, config
-        name = name_gen.get_ctor_name(class_name, @name, @args)
-        args = arg_decl.generate_function_args_ast(config.class_self_var)
-        local_vars = generate_local_vars_ast(local_decl, arg_decl, config.self_var, config)
-        stmts = generate_stmts_ast(class_name, name_gen, arg_decl, stmt_gen, config)
-        CAst::Function.new(config.object_type, name, args, local_vars, stmts)
-      end
-      private
-      def generate_local_vars_ast local_decl, arg_decl, self_name, config
-        [ CAst::LocalVariable.new(config.object_type, self_name) ] +
-        local_decl.generate_ast(@args) +
-        arg_decl.generate_local_vars_ast(@args)
-      end   
-      def generate_stmts_ast class_name, name_gen, arg_decl, stmt_gen, config
-        arg_decl.generate_initialization_ast(config.class_self_var, @args) +
-        [ generate_create_instance(class_name, name_gen, config) ] +
-        [ CAst::Return.new(CAst::Variable.new(config.self_var)) ]        
-      end
-      def generate_create_instance class_name, name_gen, config
-        create_instance = CAst::Call.function("crask_createInstance", [ CAst::Variable.new(name_gen.get_class_name(class_name)) ])
-        CAst::Assignment.new(CAst::Variable.new(config.self_var), create_instance)
+        ConstructorCodeGenerator.new(config, name_gen, arg_decl, stmt_gen, local_decl, local_detector).generate_ast self, class_name
       end
     end
     class DtorDef
