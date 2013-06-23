@@ -47,7 +47,7 @@ Feature: Class instantiation
             L_instance = crask_getMethodImplForObject("new", crask_getClassObject(C_A))(crask_getClassObject(C_A));
             """
         And generated C code should compile
-
+    @wip
     Scenario: Class instantiation with nil's as arguments
         Given source code:
             """
