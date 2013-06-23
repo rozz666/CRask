@@ -1,5 +1,5 @@
 module CRask
-  class MethodCodeGenerator
+  class MethodCodeGenerator #TODO remove duplication between this class and ConstructorCodeGenerator
     def initialize config, name_gen, arg_decl, stmt_gen, local_decl, local_detector
       @config = config
       @name_gen = name_gen

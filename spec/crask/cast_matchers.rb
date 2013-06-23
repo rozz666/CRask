@@ -33,6 +33,34 @@ module CRask
       "expected #{actual.inspect} to " + description
     end
   end
+
+  RSpec::Matchers.define :be_a_C_function do |type, name|
+    chain :with do |n|
+      @arg_count = n
+    end
+    chain :args do
+      @args = "arguments"
+    end
+    chain :arg do
+      @args = "argument"
+    end
+    match do |actual|
+      r = actual.kind_of?(CAst::Function)
+      r &&= actual.type == type
+      r &&= actual.name == name
+      r &&= !actual.arguments.nil?
+      r &&= actual.arguments.size == @arg_count unless @arg_count.nil?
+      r
+    end
+    description do
+      d = "be a C function #{name.inspect} of type #{type.inspect}"
+      d += " with #{@arg_count} #{@args}" unless @arg_count.nil?
+      d
+    end
+    failure_message_for_should do |actual|
+      "expected #{actual.inspect} to " + description
+    end
+  end
   
   RSpec::Matchers.define :be_a_local_C_variable do |type, name|
     match do |actual|
