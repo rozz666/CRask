@@ -1,5 +1,5 @@
 require 'crask/cgen/symbol_name_generator'
-require 'crask/cgen/method_code_generator'
+require 'crask/cgen/member_code_generator'
 require 'crask/cgen/class_generator'
 require 'crask/cgen/constructor_registration_generator'
 require 'crask/cgen/destructor_registration_generator'
@@ -37,7 +37,7 @@ module CRask
       })
       local_var_decl = LocalVariableDeclarator.new symbol_name_gen, config
       local_var_detector = LocalVariableDetector.new
-      method_code_gen = CRask::MethodCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl, local_var_detector, config
+      member_code_gen = MemberCodeGenerator.new symbol_name_gen, arg_decl, stmt_gen, local_var_decl, local_var_detector, config
       class_decl_gen = ClassDeclarationGenerator.new symbol_name_gen, config
       class_reg_gen = ClassRegistrationGenerator.new
       member_reg_gen = MemberRegistrationGenerator.new({
@@ -45,7 +45,7 @@ module CRask
         :Destructor => DestructorRegistrationGenerator.new(symbol_name_gen),
         :Method => MethodRegistrationGenerator.new(symbol_name_gen, method_name_gen)
       })
-      class_gen = CRask::ClassGenerator.new symbol_name_gen, method_code_gen, class_reg_gen, member_reg_gen 
+      class_gen = CRask::ClassGenerator.new symbol_name_gen, member_code_gen, class_reg_gen, member_reg_gen 
       CRask::CodeGenerator.new(class_gen, class_decl_gen)
     end
   end

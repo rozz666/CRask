@@ -1,8 +1,8 @@
 module CRask
   class ClassGenerator
-    def initialize symbol_name_gen, method_gen, class_reg_gen, member_reg_gen
+    def initialize symbol_name_gen, member_gen, class_reg_gen, member_reg_gen
       @symbol_name_gen = symbol_name_gen
-      @method_gen = method_gen
+      @member_gen = member_gen
       @class_reg_gen = class_reg_gen
       @member_reg_gen = member_reg_gen
     end
@@ -13,7 +13,7 @@ module CRask
     end
     def generate_method_definitions_ast class_def
       class_def.defs.map do |d|
-        @method_gen.generate_ast class_def.name, d
+        @member_gen.generate_ast class_def.name, d
       end.flatten
     end
   end

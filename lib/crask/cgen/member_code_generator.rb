@@ -54,7 +54,7 @@ module CRask
       end
     end
   end
-  class MethodCodeGenerator
+  class MemberCodeGenerator
     def initialize name_gen, arg_decl, stmt_gen, local_decl, local_detector, config
       @name_gen = name_gen
       @arg_decl = arg_decl
