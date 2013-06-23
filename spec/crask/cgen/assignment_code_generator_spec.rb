@@ -1,5 +1,6 @@
 require 'crask/cgen/assignment_code_generator'
 require 'crask/cast_matchers'
+require 'crask/method_call_factory'
 
 module CRask
  
@@ -38,7 +39,7 @@ module CRask
     it "should generate C AST for an assignment to a local variable from a method call" do
       @name_gen.stub(:get_local_name)
 
-      method_call = Ast::MethodCall.new(nil, nil)
+      method_call = Ast::MethodCall.instance
       @method_call_gen.should_receive(:generate_ast).with(method_call).and_return(:call_ast)
       
       stmts = @gen.generate_ast(Ast::Assignment.to_var_from("a", method_call).freeze)

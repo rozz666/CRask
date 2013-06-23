@@ -8,7 +8,7 @@ module CRask
     it "should generate C AST for a class method call" do
       @name_gen.should_receive(:get_class_name).with("Class").and_return(:Class)
       
-      ast = @gen.generate_ast Ast::MethodCall.new("Class", "method")
+      ast = @gen.generate_ast Ast::MethodCall.new("Class", "method", [])
       
       ast.should be_a_kind_of(CAst::Call)
       get_impl = ast.expr

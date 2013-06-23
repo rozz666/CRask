@@ -21,7 +21,7 @@ module CRask
       stmts[5].should be_a_release("a")
     end
     it "should not retain variables assigned a method call" do
-      assignments = [ Ast::Assignment.to_var_from("a", Ast::MethodCall.new(nil, nil)) ]
+      assignments = [ Ast::Assignment.to_var_from("a", Ast::MethodCall.instance) ]
       method = Ast::MethodDef.with_stmts(assignments)
       @gen.update_ast method
       method.should have(2).stmts
