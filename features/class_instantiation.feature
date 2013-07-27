@@ -47,7 +47,7 @@ Feature: Class instantiation
             L_instance = crask_getMethodImplForObject("new", crask_getClassObject(C_A))(crask_getClassObject(C_A));
             """
         And generated C code should compile
-    @wip
+    @done
     Scenario: Class instantiation with nil's as arguments
         Given source code:
             """
@@ -65,12 +65,7 @@ Feature: Class instantiation
         When I translate it to C
         Then generated C code should contain:
             """
-            CRASK_OBJECT M_B_m(CRASK_OBJECT self, ...) {
-                CRASK_OBJECT L_instance;
-                L_instance = crask_getMethodImplForObject("new", crask_getClassObject(C_A))(crask_getClassObject(C_A), CRASK_NIL, CRASK_NIL, CRASK_NIL);
-                crask_release(L_instance);
-                return CRASK_NIL;
-            }
+            L_instance = crask_getMethodImplForObject("new", crask_getClassObject(C_A))(crask_getClassObject(C_A), CRASK_NIL, CRASK_NIL, CRASK_NIL);
             """
         And generated C code should compile
         
