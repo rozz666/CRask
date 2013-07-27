@@ -38,9 +38,7 @@ module CRask
       defs = parser.parse_class_defs("def foo(a, b, c) {\n}")
       
       defs[0].args.should have(3).items
-      defs[0].args[0].should be_an_identifier("a")
-      defs[0].args[1].should be_an_identifier("b")
-      defs[0].args[2].should be_an_identifier("c")
+      defs[0].args.should be_identifiers("a", "b", "c")
     end
     it "should parse empty ctor definition" do
       defs = parser.parse_class_defs("ctor foo {\n}")
@@ -58,9 +56,7 @@ module CRask
       defs = parser.parse_class_defs("ctor foo(a, b, c) {\n}")
       
       defs[0].args.should have(3).items
-      defs[0].args[0].should be_an_identifier("a")
-      defs[0].args[1].should be_an_identifier("b")
-      defs[0].args[2].should be_an_identifier("c")
+      defs[0].args.should be_identifiers("a", "b", "c")
     end
     it "should parse empty dtor definition" do
       defs = parser.parse_class_defs("dtor {\n}")
