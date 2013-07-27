@@ -28,6 +28,16 @@ Given /^source code:$/ do |source|
     $filesToRemove << $DEFAULT_RASK_SOURCE
 end
 
+Given /^method body:$/ do |body|
+  step "source code:", %Q{
+    class Class {
+      def method {
+        #{body}
+      }
+    }
+  }
+end
+
 When /^I translate it to C$/ do
   system "./bin/craskc -C #{$DEFAULT_RASK_SOURCE} #{$DEFAULT_C_OUTPUT}"
   $filesToRemove << $DEFAULT_C_OUTPUT

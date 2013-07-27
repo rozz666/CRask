@@ -1,18 +1,14 @@
 Feature: Method call
-
+    @wip
     Scenario: Method call with no arguments
-        Given a file named "methodCall.rask" with:
+        Given method body:
             """
             object = nil
-            [object aMethod]
+            object.aMethod
             """
-        When I translate "methodCall.rask" to C into "methodCall.c"
-        Then file "methodCall.c" should contain:
+        When I translate it to C
+        Then generated C code should contain:
             """
-            int main() {
-                CRASK_OBJECT local_object = CRASK_NIL
-                crask_sendMessageToObject(crask_getMethod("aMethod"), object);
-            }
-            
+            crask_release(crask_getMethodImplForObject("aMethod", L_object)(L_object));
             """
-        And file "methodCall.c" should compile
+        And generated C code should compile
