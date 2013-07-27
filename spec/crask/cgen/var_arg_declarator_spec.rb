@@ -11,7 +11,7 @@ module CRask
     end
     it "should generate C AST of calls to va_start and va_end for arg initialization" do
       @name_gen.stub(:get_local_name)
-      stmts = @arg_decl.generate_initialization_ast("selfArg", [ "arg1" ])
+      stmts = @arg_decl.generate_initialization_ast("selfArg", [ Ast.id("arg1") ])
       stmts.should have(3).element
       va_start = stmts[0]
       va_start.should be_a_C_function_call("va_start").with(2).args
@@ -23,7 +23,7 @@ module CRask
     end
     it "should generate C AST of calls to va_arg for arg initialization" do
       @name_gen.should_receive(:get_local_name).with("arg1").and_return("local1")
-      stmts = @arg_decl.generate_initialization_ast("selfArg", [ "arg1" ])
+      stmts = @arg_decl.generate_initialization_ast("selfArg", [ Ast.id("arg1") ])
       stmts.should have(3).element
       local1 = stmts[1]
       local1.should be_a_kind_of(CAst::Assignment)
@@ -35,13 +35,13 @@ module CRask
     it "should generate C AST of calls to va_arg for all args during initialization" do
       @name_gen.should_receive(:get_local_name).with("arg1").and_return("local1")
       @name_gen.should_receive(:get_local_name).with("arg2").and_return("local2")
-      stmts = @arg_decl.generate_initialization_ast("selfArg", [ "arg1", "arg2" ])
+      stmts = @arg_decl.generate_initialization_ast("selfArg", [ Ast.id("arg1"), Ast.id("arg2") ] )
       stmts.should have(4).element
       stmts[1].left.should be_a_C_variable("local1")
       stmts[2].left.should be_a_C_variable("local2")
     end
     it "should generate C AST of rask_args declaration" do
-      local_args = @arg_decl.generate_local_vars_ast [ "arg1" ]
+      local_args = @arg_decl.generate_local_vars_ast [ Ast.id("arg1") ]
       local_args.should have(1).item
       rask_args = local_args[0]
       rask_args.should be_a_local_C_variable("va_list", :VA_LIST)

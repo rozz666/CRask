@@ -26,7 +26,7 @@ module CRask
     it "should generate C AST for nil call parameters" do
       @name_gen.should_receive(:get_class_name).with("Class").and_return(:Class)
       
-      ast = @gen.generate_ast Ast::MethodCall.new("Class", "method", [ :NIL_ID, :NIL_ID ])
+      ast = @gen.generate_ast Ast::MethodCall.new("Class", "method", [ Ast.id(:NIL_ID), Ast.id(:NIL_ID) ])
       
       ast.should be_a_kind_of(CAst::Call)
       ast.should have(3).args

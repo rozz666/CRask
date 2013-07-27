@@ -49,7 +49,7 @@ module CRask
     end
     it "should retain arguments at the beginning and release at the end" do
       assignments = [ Ast::Assignment.to_var("xxx") ]
-      method = Ast::MethodDef.new(nil, [ "a", "b" ].freeze, assignments)
+      method = Ast::MethodDef.new(nil, Ast.ids("a", "b").freeze, assignments)
       @gen.update_ast method
       stmts = method.stmts 
       stmts[0].should be_a_retain("a")
@@ -59,13 +59,13 @@ module CRask
       method.should have(7).stmts
     end
     it "should not retain or release arguments when there are no statements" do
-      method = Ast::MethodDef.new(nil, [ "a", "b" ], [] )
+      method = Ast::MethodDef.new(nil, Ast.ids("a", "b"), [] )
       @gen.update_ast method
       method.stmts.should be_empty
     end
     it "should always release and retain before and after argument assignments" do
       assignments = [ Ast::Assignment.to_var("a") ].freeze
-      method = Ast::MethodDef.new(nil, [ "a" ].freeze, assignments)
+      method = Ast::MethodDef.new(nil, Ast.ids("a").freeze, assignments)
       @gen.update_ast method
       stmts = method.stmts 
       stmts[1].should be_a_release("a")

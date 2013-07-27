@@ -14,7 +14,7 @@ module CRask
     it "should generate AST for all variables" do
       @name_gen.should_receive(:get_local_name).with("x").and_return("X")
       @name_gen.should_receive(:get_local_name).with("y").and_return("Y")
-      vars = @decl.generate_ast([ "x", "y" ])
+      vars = @decl.generate_ast([ Ast.id("x"), Ast.id("y") ])
       vars.should have(2).variables
       vars[0].should be_a_local_C_variable(:OBJECT_TYPE, "X")
       vars[1].should be_a_local_C_variable(:OBJECT_TYPE, "Y")

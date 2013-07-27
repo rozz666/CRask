@@ -5,7 +5,7 @@ module CRask
     end
     def generate name, args
       return name if args.empty?
-      args = @arg_ordering_policy.get_ordered_arguments args
+      args = @arg_ordering_policy.get_ordered_arguments args.map(&:name)
       "#{name}:#{args.join(",")}"
     end
   end

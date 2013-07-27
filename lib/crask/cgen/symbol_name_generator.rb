@@ -7,11 +7,11 @@ module CRask
       "C_#{name}"
     end
     def get_method_name class_name, name, args
-      args = @arg_ordering_policy.get_ordered_arguments args unless args.empty?
+      args = @arg_ordering_policy.get_ordered_arguments args.map(&:name) unless args.empty?
       "M_#{class_name}_#{name}" + args.map { |a| "_#{a}" }.join
     end
     def get_ctor_name class_name, name, args
-      args = @arg_ordering_policy.get_ordered_arguments args unless args.empty?
+      args = @arg_ordering_policy.get_ordered_arguments args.map(&:name) unless args.empty?
       "CT_#{class_name}_#{name}" + args.map { |a| "_#{a}" }.join
     end
     def get_dtor_name class_name

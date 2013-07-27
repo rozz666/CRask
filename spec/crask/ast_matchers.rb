@@ -18,4 +18,12 @@ module CRask
     end
   end
 
+  RSpec::Matchers.define :be_identifiers do |*names|
+    match do |exprs|
+      ok = exprs.count == names.count
+      exprs.each { |expr| ok &&= expr.kind_of?(Ast::Identifier) and expr.name == name }
+      ok
+    end
+  end
+
 end

@@ -19,7 +19,7 @@ module CRask
       end
       it "should append ordered arg names to generated name" do
         @arg_ordering_policy.should_receive(:get_ordered_arguments).with([ "b", "a", "c"]).and_return([ "a", "b", "c"])
-        @generator.get_method_name("X", "Y", [ "b", "a", "c" ]).should eql("M_X_Y_a_b_c")
+        @generator.get_method_name("X", "Y", Ast.ids("b", "a", "c")).should eql("M_X_Y_a_b_c")
       end
     end
     context "get_ctor_name" do
@@ -28,7 +28,7 @@ module CRask
       end
       it "should append ordered arg names to generated name" do
         @arg_ordering_policy.should_receive(:get_ordered_arguments).with([ "b", "a", "c"]).and_return([ "a", "b", "c"])
-        @generator.get_ctor_name("X", "Y", [ "b", "a", "c" ]).should eql("CT_X_Y_a_b_c")
+        @generator.get_ctor_name("X", "Y", Ast.ids("b", "a", "c")).should eql("CT_X_Y_a_b_c")
       end
     end
     context "get_dtor_name" do

@@ -13,7 +13,7 @@ module CRask
       va_arg = CAst::Call.function("va_arg", [ rask_args, CAst::Variable.new(@config.object_type) ])
       va_start = CAst::Call.function("va_start", [ rask_args, CAst::Variable.new(self_arg) ])
       local_init = args.map { |arg|
-        local_arg = CAst::Variable.new(@name_gen.get_local_name(arg))
+        local_arg = CAst::Variable.new(@name_gen.get_local_name(arg.name))
         CAst::Assignment.new(local_arg, va_arg) 
       }
       va_end =CAst::Call.function("va_end", [ rask_args ])

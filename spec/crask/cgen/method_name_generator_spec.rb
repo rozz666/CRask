@@ -11,7 +11,7 @@ module CRask
     end
     it "should append ordered arg list to the name" do
       @arg_ordering_policy.should_receive(:get_ordered_arguments).with([ "y", "x"]).and_return([ "x", "y" ])
-      @gen.generate("bar", [ "y", "x" ]).should eql("bar:x,y")
+      @gen.generate("bar", [ Ast.id("y"), Ast.id("x") ]).should eql("bar:x,y")
     end
   end
 end

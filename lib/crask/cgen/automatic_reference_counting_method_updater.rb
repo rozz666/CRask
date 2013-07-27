@@ -43,8 +43,8 @@ module CRask
         @stmts << Ast::Retain.new(var) unless a.right.kind_of?(Ast::MethodCall)
       end
       def add_prolog args
-        args.each { |a| @stmts << Ast::Retain.new(a) }
-        @vars = args.dup
+        args.each { |a| @stmts << Ast::Retain.new(a.name) }
+        @vars = args.map(&:name)
       end
       def add_epilog
         @vars.reverse.each { |v| @stmts << Ast::Release.new(v) }
