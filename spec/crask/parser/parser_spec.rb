@@ -122,9 +122,7 @@ module CRask
       call = stmts[0].right
       call.should be_a_kind_of(Ast::MethodCall)
       call.should have(3).args
-      call.args[0].should eql("a")
-      call.args[1].should eql("b")
-      call.args[2].should eql("c")
+      call.args.should be_identifiers("a", "b", "c")
     end
   end
 end

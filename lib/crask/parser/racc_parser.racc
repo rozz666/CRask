@@ -10,7 +10,7 @@ rule
               | method_defs dtor_def { result << val[1] }
   call_arguments : { result = [] }
                  | paren_open paren_close { result = [] }
-                 | paren_open comma_separated_simple_identifiers paren_close { result = val[1] }
+                 | paren_open comma_separated_identifiers paren_close { result = val[1] }
   method_call : identifier dot identifier call_arguments { result = Ast::MethodCall.new(val[0], val[2], val[3]) }
   expression : identifier { result = Ast::Identifier.new(val[0]) }
              | method_call
@@ -22,8 +22,6 @@ rule
   dtor_def : dtor brace_open brace_close { result = Ast::DtorDef.new }
   comma_separated_identifiers : identifier { result = [ Ast.id(val[0]) ] }
                               | comma_separated_identifiers comma identifier { result << Ast.id(val[2]) }
-  comma_separated_simple_identifiers : identifier { result = [ val[0] ] }
-                                     | comma_separated_simple_identifiers comma identifier { result << val[2] }
   arguments : { result = [] }
        | paren_open comma_separated_identifiers paren_close { result = val[1] }
 end
