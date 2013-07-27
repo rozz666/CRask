@@ -8,8 +8,8 @@ rule
               | method_defs method_def { result << val[1] }
               | method_defs ctor_def { result << val[1] }
               | method_defs dtor_def { result << val[1] }
-  call_arguments :
-                 | paren_open paren_close
+  call_arguments : { result = [] }
+                 | paren_open paren_close { result = [] }
                  | paren_open comma_separated_identifiers paren_close { result = val[1] }
   method_call : identifier dot identifier call_arguments { result = Ast::MethodCall.new(val[0], val[2], val[3]) }
   expression : identifier { result = Ast::Identifier.new(val[0]) }

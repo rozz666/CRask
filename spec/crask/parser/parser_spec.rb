@@ -107,11 +107,14 @@ module CRask
       call.should be_a_kind_of(Ast::MethodCall)
       call.object.should eql("Class")
       call.method.should eql("method")
+      call.should have(0).args, "args: " + call.args.inspect
     end
     it "should parse assignments from method calls with no arguments and empty parentheses" do
       stmts = parser.parse_method_stmts("var = Class.method()")
       stmts.should have(1).item
-      stmts[0].right.should be_a_kind_of(Ast::MethodCall)
+      call = stmts[0].right
+      call.should be_a_kind_of(Ast::MethodCall)
+      call.should have(0).args, "args: " + call.args.inspect
     end
     it "should parse assignments from method calls with arguments" do
       stmts = parser.parse_method_stmts("var = Class.method(a, b, c)")
@@ -119,6 +122,9 @@ module CRask
       call = stmts[0].right
       call.should be_a_kind_of(Ast::MethodCall)
       call.should have(3).args
+      call.args[0].should eql("a")
+      call.args[1].should eql("b")
+      call.args[2].should eql("c")
     end
   end
 end

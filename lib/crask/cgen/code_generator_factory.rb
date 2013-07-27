@@ -31,7 +31,7 @@ module CRask
       symbol_name_gen = CRask::SymbolNameGenerator.new arg_ordering_policy
       method_name_gen = MethodNameGenerator.new arg_ordering_policy
       arg_decl = CRask::VarArgDeclarator.new symbol_name_gen, config
-      method_call_gen = MethodCallGenerator.new symbol_name_gen
+      method_call_gen = MethodCallGenerator.new config, symbol_name_gen
       assignment_gen = CRask::AssignmentCodeGenerator.new symbol_name_gen, config, method_call_gen
       reference_counting_gen = ReferenceCountingGenerator.new symbol_name_gen
       stmt_gen = CRask::StatementCodeGenerator.new({
